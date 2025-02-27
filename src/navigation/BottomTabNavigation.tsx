@@ -2,17 +2,23 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AccountScreen, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
 import { useAppSelector } from '../hooks';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
     const { theme } = useAppSelector((state) => state.cache)
+
+    const scrollY = useSharedValue(0);
+
     return (
         <Tab.Navigator
             screenOptions={{
                 headerTitleStyle: { color: theme.color, fontFamily: 'R700' },
                 headerStyle: { backgroundColor: theme.background, elevation: 3 },
-                tabBarStyle: { backgroundColor: theme.background },
-                tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700' },
+                tabBarStyle: [{ backgroundColor: theme.background, bottom: 0, height: 60 }],
+                tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },
                 tabBarActiveTintColor: theme.color
             }}
         >

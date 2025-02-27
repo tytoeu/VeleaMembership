@@ -2,7 +2,7 @@ const themeConfig = {
     light: {
         color: 'black',
         background: 'white',
-        bgDark: '#FFF'
+        bgDark: '#FFFFFF'
     },
     dark: {
         color: 'white',
