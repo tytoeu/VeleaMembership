@@ -2,12 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { initialStateInferface } from "./interface";
 import i18n from "../../localization";
 import themeConfig from "../../util/theme";
+import { IUser } from "../../hooks/interface/ISignin";
 
 const initialState: initialStateInferface = {
     locale: 'kh',
     mode: false,
-    currentTheme: 'light',
-    theme: themeConfig.light
+    currentTheme: 'dark',
+    theme: themeConfig.dark,
+    onBoading: false,
+    auth: null
 }
 const createCacheSlice = createSlice({
     name: 'cache',
@@ -20,11 +23,17 @@ const createCacheSlice = createSlice({
         changeDarkModeAction: (state) => {
             state.currentTheme = state.currentTheme === 'light' ? 'dark' : 'light';
             state.theme = themeConfig[state.currentTheme];
+        },
+        loginAction: (state, action: PayloadAction<IUser | null>) => {
+            state.auth = action.payload
+        },
+        onBoardingDoneAction: (state, action: PayloadAction<boolean>) => {
+            state.onBoading = action.payload
         }
     }
 });
 
-export const { changeLanguageAction, changeDarkModeAction } = createCacheSlice.actions
+export const { changeLanguageAction, changeDarkModeAction, loginAction, onBoardingDoneAction } = createCacheSlice.actions
 
 export default createCacheSlice.reducer
 

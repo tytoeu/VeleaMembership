@@ -1,23 +1,24 @@
 import { View, Text, ActivityIndicator, RefreshControl } from 'react-native'
-import React, { useCallback, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useAppSelector } from '../hooks'
 import { StatusBar } from 'expo-status-bar'
 import HomeStyle from '../util/style/HomeStyle'
-import useGetPost from '../hooks/useGetPost'
 import menuStyle from '../util/style/MenuStyle'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useFocusEffect } from '@react-navigation/native'
+import useMenu from '../hooks/useMenu'
+import { IMenu } from '../hooks/interface/IMenu'
 
 const MenuScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
-    const { infiniteQuery } = useGetPost()
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page) || [];
+    const { infiniteQuery } = useMenu()
+    const daraArr = infiniteQuery.data?.pages.flatMap(page => page);
     const [refreshed, setRefreshed] = useState(false)
     const scrollY = useSharedValue(0);
 
     useFocusEffect(
         useCallback(() => {
-            scrollY.value = 0; // Reset scroll position when navigating to this screen
+            scrollY.value = 0;
         }, [])
     );
 
@@ -57,9 +58,9 @@ const MenuScreen = () => {
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
                 contentContainerStyle={{ paddingTop: 10 }}
-                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: theme.background }]} >
+                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: '#000' }]} >
                     <Text style={[menuStyle.textTitle, { color: theme.color }]}>{item.title}</Text>
-                    <Text style={[menuStyle.text, { color: theme.color }]}>{item.body}</Text>
+                    <Text style={[menuStyle.text, { color: theme.color }]}>{item.title}</Text>
                 </View>)}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshed} />}
