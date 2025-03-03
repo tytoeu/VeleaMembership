@@ -2,8 +2,13 @@ export const assets = {
     logo: {
         login: require('./logo/logo_login.png')
     },
+    img: {
+        loading: require('./img/loading.png')
+    },
     config: {
         api: 'https://velea.asia/api/v1/',
-        token: ''
+        token: '',
+        imagePath: 'http://pos.velea.asia/uploads/',
+        prxxy: 'https://velea.asia/image-proxy?url='
     }
 }

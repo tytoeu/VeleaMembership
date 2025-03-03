@@ -1,7 +1,7 @@
 const themeConfig = {
     light: {
         color: 'black',
-        background: 'white',
+        background: '#f1f1f1',
         bgDark: '#FFFFFF',
         colorText: '#DDD',
         btnColor: '#1b2631',

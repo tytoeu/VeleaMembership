@@ -2,7 +2,7 @@ import { IUser } from "../../hooks/interface/ISignin";
 import themeConfig from "../../util/theme";
 
 export interface initialStateInferface {
-    locale: string;
+    locale: 'kh' | 'en' | string;
     mode: boolean,
     currentTheme: keyof typeof themeConfig;
     theme: typeof themeConfig.light | typeof themeConfig.dark;

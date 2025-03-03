@@ -33,18 +33,19 @@ const useAuth = () => {
         mutationFn: signin,
         onSuccess: (data) => {
             if (data.success === 1) {
-                dispatch(loginAction({
+                const user = {
                     access_token: data.access_token,
                     name: data.user.name,
                     email: data.user.email,
                     id: data.user.id,
-                }));
+                }
+                dispatch(loginAction(user));
             } else {
                 Alert.alert('Warning', data.message);
             }
         },
         onError: (error) => {
-            Alert.alert('Error', 'Something went wrong');
+            Alert.alert('Error', 'Something went wrong! ' + error?.message);
         }
     });
 

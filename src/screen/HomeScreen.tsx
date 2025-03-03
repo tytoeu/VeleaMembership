@@ -1,4 +1,4 @@
-import { View, Text, Button, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, Button, ActivityIndicator, FlatList, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import HomeStyle from '../util/style/HomeStyle'
 import { useAppSelector } from '../hooks'

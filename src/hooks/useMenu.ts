@@ -1,31 +1,27 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { assets } from "../../assets";
+import { useAppSelector } from ".";
 
 const apiConfig = assets.config
 
-const headerOptions = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': apiConfig.token
-};
-
-const fetchMenu = async (page: number = 1) => {
-    const url = `https://jsonplaceholder.typicode.com/photos?_page=${page}`;
-
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: headerOptions
-    });
-
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-
-    return await response.json();
-};
-
 const useMenu = () => {
     const queryClient = useQueryClient();
+    const { auth } = useAppSelector((state) => state.cache)
+    const headerOptions = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth?.access_token!}`
+    };
+
+    const fetchMenu = async (page: number = 1) => {
+        const url = `${apiConfig.api}fetch-menu-list?cateId=3&cateId=&subId=&page=${page}&search=`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: headerOptions
+        });
+        return await response.json();
+    };
 
     // Infinite Query for Pagination
     const infiniteQuery = useInfiniteQuery({

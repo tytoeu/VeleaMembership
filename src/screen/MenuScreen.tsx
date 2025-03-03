@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, RefreshControl } from 'react-native'
+import { View, Text, ActivityIndicator, RefreshControl, ListRenderItem } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppSelector } from '../hooks'
 import { StatusBar } from 'expo-status-bar'
@@ -8,11 +8,12 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { useFocusEffect } from '@react-navigation/native'
 import useMenu from '../hooks/useMenu'
 import { IMenu } from '../hooks/interface/IMenu'
+import { ItemCard } from '../components'
 
 const MenuScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
     const { infiniteQuery } = useMenu()
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page);
+    const daraArr = infiniteQuery.data?.pages.flatMap(page => page.response?.data) ?? [];
     const [refreshed, setRefreshed] = useState(false)
     const scrollY = useSharedValue(0);
 
@@ -29,7 +30,7 @@ const MenuScreen = () => {
     });
 
     const onEndReached = () => {
-        if (infiniteQuery.hasNextPage && !infiniteQuery.isLoading) {
+        if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()
         }
     }
@@ -58,12 +59,11 @@ const MenuScreen = () => {
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
                 contentContainerStyle={{ paddingTop: 10 }}
-                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: '#000' }]} >
-                    <Text style={[menuStyle.textTitle, { color: theme.color }]}>{item.title}</Text>
-                    <Text style={[menuStyle.text, { color: theme.color }]}>{item.title}</Text>
-                </View>)}
+                renderItem={({ item, index }) => (<ItemCard items={item} />)}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshed} />}
+                numColumns={2}
+                columnWrapperStyle={{ gap: 12, justifyContent: 'center' }}
             />
         </View>
     )
