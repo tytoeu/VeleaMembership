@@ -3,7 +3,8 @@ export const assets = {
         login: require('./logo/logo_login.png')
     },
     img: {
-        loading: require('./img/loading.png')
+        loading: require('./img/loading.png'),
+        profile: require('./img/profile.jpg')
     },
     config: {
         api: 'https://velea.asia/api/v1/',

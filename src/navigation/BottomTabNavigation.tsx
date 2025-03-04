@@ -2,16 +2,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AccountScreen, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
 import { useAppSelector } from '../hooks';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useCallback, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import i18n from '../localization';
+import { HeaderLeft, HeaderLeftProfile } from '../components';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
-    const { theme } = useAppSelector((state) => state.cache)
-
-    const scrollY = useSharedValue(0);
-
+    const { theme, locale } = useAppSelector((state) => state.cache)
     return (
         <Tab.Navigator
             screenOptions={{
@@ -19,27 +15,34 @@ const BottomTabNavigation = () => {
                 headerStyle: { backgroundColor: theme.background, elevation: 3 },
                 tabBarStyle: [{ backgroundColor: theme.background, bottom: 0, height: 60 }],
                 tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },
-                tabBarActiveTintColor: theme.color
+                tabBarActiveTintColor: theme.color,
+                headerRight: () => <HeaderLeft />
             }}
         >
             <Tab.Screen name="Home" component={HomeScreen}
                 options={{
-                    tabBarIcon: ({ focused, color }) => (<Ionicons name='home-outline' color={color} size={22} />)
+                    tabBarIcon: ({ focused, color }) => (<Ionicons name='home-outline' color={color} size={18} />),
+                    title: i18n.t('Home'),
+                    headerTitle: '',
+                    headerLeft: () => <HeaderLeftProfile />
                 }}
             />
             <Tab.Screen name="Menu" component={MenuScreen}
                 options={{
-                    tabBarIcon: ({ focused, color }) => (<Ionicons name='list-outline' color={color} size={24} />)
+                    tabBarIcon: ({ focused, color }) => (<Ionicons name='list-outline' color={color} size={22} />),
+                    title: i18n.t('Menu'),
                 }}
             />
             <Tab.Screen name="History" component={HistoryScreen}
                 options={{
-                    tabBarIcon: ({ focused, color }) => (<Ionicons name='repeat-outline' color={color} size={26} />)
+                    tabBarIcon: ({ focused, color }) => (<Ionicons name='repeat-outline' color={color} size={24} />),
+                    title: i18n.t('History')
                 }}
             />
             <Tab.Screen name="Account" component={AccountScreen}
                 options={{
-                    tabBarIcon: ({ focused, color }) => (<Ionicons name='person-outline' color={color} size={22} />)
+                    tabBarIcon: ({ focused, color }) => (<Ionicons name='person-outline' color={color} size={20} />),
+                    title: i18n.t('Account')
                 }}
             />
 

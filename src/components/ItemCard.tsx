@@ -32,10 +32,15 @@ const ItemCard = (prop: IProp) => {
                 <View style={[menuStyle.feature, { backgroundColor: bgColor }]}>
                     <Text style={menuStyle.featureText}>{prop.items.feature}</Text>
                 </View>}
-            <Image
+            {prop.items.image ? <Image
                 source={{ uri: image }}
                 style={{ width: '100%', height: 150, resizeMode: 'cover' }}
-            />
+            /> :
+                <Image
+                    source={assets.logo.login}
+                    style={{ width: '90%', height: 150, resizeMode: 'contain', alignSelf: 'center' }}
+                    blurRadius={8}
+                />}
             <View style={menuStyle.contextText}>
                 <Text style={[menuStyle.subText, { color: theme.color }]}>{prop.items.categoryName}</Text>
                 <View style={menuStyle.priceContent}>

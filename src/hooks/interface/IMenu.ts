@@ -20,3 +20,16 @@ export interface IMenu {
     subCategoryName: string
     feature: string
 }
+
+export interface ICategory {
+    categoryId: number;
+    name: string;
+    image: string | null;
+    itemCount: number
+}
+export interface ISubCategory {
+    subId: number;
+    name: string;
+    image: string | null;
+    itemCount: number
+}

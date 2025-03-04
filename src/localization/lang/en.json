@@ -1,3 +1,10 @@
 {
-    "Wellcome": "Wellcome"
+    "Wellcome": "Wellcome",
+    "Account": "Account",
+    "Logout": "Logout",
+    "Khmer": "Khmer",
+    "English": "English",
+    "Home": "Home",
+    "Menu": "Menu",
+    "History": "History"
 }

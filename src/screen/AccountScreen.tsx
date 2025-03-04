@@ -3,7 +3,8 @@ import React from 'react'
 import HomeStyle from '../util/style/HomeStyle'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { StatusBar } from 'expo-status-bar'
-import { changeDarkModeAction, loginAction } from '../redux/cache'
+import { changeDarkModeAction, changeLanguageAction, loginAction } from '../redux/cache'
+import i18n from '../localization'
 
 const AccountScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
@@ -16,7 +17,11 @@ const AccountScreen = () => {
             <View style={{ height: 16 }} />
             <Button title='Change mode' onPress={() => dispatch(changeDarkModeAction())} />
             <View style={{ height: 16 }} />
-            <Button title='Logout' onPress={() => dispatch(loginAction(null))} />
+            <Button title={i18n.t('Logout')} onPress={() => dispatch(loginAction(null))} />
+            <View style={{ height: 16 }} />
+            <Button title={i18n.t('Khmer')} onPress={() => dispatch(changeLanguageAction('kh'))} />
+            <View style={{ height: 16 }} />
+            <Button title={i18n.t('English')} onPress={() => dispatch(changeLanguageAction('en'))} />
         </View>
     )
 }

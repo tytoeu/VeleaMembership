@@ -65,6 +65,18 @@ const menuStyle = StyleSheet.create({
         fontFamily: 'R700',
         fontSize: 12,
         color: '#fff'
+    },
+    category: {
+        marginRight: 8,
+        height: 30,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5
+    },
+    cate_text: {
+        fontFamily: 'R700',
+        fontSize: 14
     }
 })
 

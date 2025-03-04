@@ -1,6 +1,5 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { HomeScreen } from '../screen'
 import { useAppSelector } from '../hooks'
 import BottomTabNavigation from './BottomTabNavigation'
 
@@ -17,7 +16,7 @@ const StackNavigation = () => {
             }}
         >
             <Stack.Screen name='BottomTab' component={BottomTabNavigation} options={{ headerShown: false }} />
-            <Stack.Screen name='Home' component={HomeScreen} />
+
         </Stack.Navigator>
     )
 }

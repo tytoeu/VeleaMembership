@@ -5,7 +5,7 @@ import { useAppSelector } from "../hooks";
 const Stack = createStackNavigator()
 
 const AuthNavigation = () => {
-    const { theme, currentTheme, onBoading } = useAppSelector((state) => state.cache)
+    const { theme, onBoading } = useAppSelector((state) => state.cache)
 
     return (<Stack.Navigator screenOptions={{
         headerTintColor: theme.color

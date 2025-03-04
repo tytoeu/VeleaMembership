@@ -8,6 +8,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 8,
     },
+    searchStyle: {
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        borderRadius: 8,
+        marginBottom: 0,
+        height: 35,
+        width: '100%'
+    },
     container: {
         flexDirection: 'column',
         justifyContent: 'center',
