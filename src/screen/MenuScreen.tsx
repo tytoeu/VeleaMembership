@@ -20,7 +20,7 @@ const MenuScreen = () => {
     const all = { categoryId: '', name: "All", image: null, itemCount: 0 };
 
     // app one object to array
-    const appendAllToCategories = [all, ...categoryQuery.data?.data || []];
+    const appendAllToCategories = !categoryQuery.isFetching ? [all, ...categoryQuery.data?.data || []] : []
 
     // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()

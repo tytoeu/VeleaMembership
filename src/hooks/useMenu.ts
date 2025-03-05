@@ -3,6 +3,7 @@ import { assets } from "../../assets";
 import { useAppSelector } from ".";
 
 const apiConfig = assets.config
+const STALE_TIME = 1000 * 60 * 5 // 5mn
 
 const useMenu = () => {
     const queryClient = useQueryClient();
@@ -39,19 +40,19 @@ const useMenu = () => {
         initialPageParam: 1,
         queryFn: async ({ pageParam = 1 }) => await fetchMenu({ cateId: cateId, subId: subCateId, page: pageParam }),
         getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage.length === 0) ? undefined : allPages.length + 1),
-        staleTime: 1000 * 60 * 5,
+        staleTime: STALE_TIME,
     });
 
     const categoryQuery = useQuery({
         queryKey: ["category"],
         queryFn: fetchCategory,
-        staleTime: 1000 * 60 * 5
+        staleTime: STALE_TIME
     });
 
     const subCategoryQuery = useQuery({
         queryKey: ["subcategory", cateId],
         queryFn: () => fetchSubCategory(cateId),
-        staleTime: 1000 * 60 * 5,
+        staleTime: STALE_TIME,
         enabled: !!cateId
     });
 

@@ -6,6 +6,7 @@ const themeConfig = {
         colorText: '#DDD',
         btnColor: '#1b2631',
         brInput: 'rgba(0,0,0,0.1)',
+        border: 'rgba(0,0,0,0.05)'
     },
     dark: {
         color: 'white',
@@ -14,6 +15,7 @@ const themeConfig = {
         colorText: '#839192',
         btnColor: '#839192',
         brInput: '#839192',
+        border: 'rgba(254,254,254,0.1)'
     }
 }
 
