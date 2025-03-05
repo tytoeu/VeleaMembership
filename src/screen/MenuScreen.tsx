@@ -1,54 +1,36 @@
-import { View, Text, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
-import React, { useCallback, useState } from 'react'
-import { useAppSelector } from '../hooks'
-import { StatusBar } from 'expo-status-bar'
-import HomeStyle from '../util/style/HomeStyle'
-import useMenu from '../hooks/useMenu'
+import { View, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
 import { CategoryCard, ItemCard, SubCategoryCard } from '../components'
+import HomeStyle from '../util/style/HomeStyle'
+import { StatusBar } from 'expo-status-bar'
+import React, { useCallback } from 'react'
+import { useAppSelector } from '../hooks'
+import useMenu from '../hooks/useMenu'
 
 const MenuScreen = () => {
-    const {
-        infiniteQuery,
-        categoryQuery,
-        subCategoryQuery,
-        setSelectedCategoryId,
-        setSelectedSubCategoryId,
-        setSelectedCategory,
-        selectedCategoryId,
-        selectedSubCategoryId
-    } = useMenu()
+    // use custom hook for data action state
+    const { infiniteQuery, categoryQuery, subCategoryQuery } = useMenu()
 
-    const all = {
-        categoryId: '',
-        name: "All",
-        image: null,
-        itemCount: 0
-    };
-
+    // use redux
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page.response?.data) ?? [];
-    const [refreshed, setRefreshed] = useState(false)
 
-    const categories = categoryQuery.data?.data || [];
+    // Extracts all data arrays from pages and merges them into a single array
+    const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.response?.data) ?? [];
 
-    const appendAllToCategories = [all, ...categories];
+    // data declearation object
+    const all = { categoryId: '', name: "All", image: null, itemCount: 0 };
 
-    const onEndReached = () => {
-        if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
-            infiniteQuery.fetchNextPage()
-        }
-    }
+    // app one object to array
+    const appendAllToCategories = [all, ...categoryQuery.data?.data || []];
 
-    const onRefresh = useCallback(() => {
-        setRefreshed(true)
-        infiniteQuery.refetch().finally(() => setRefreshed(false))
-    }, []);
+    // load pagination page
+    const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
+
+    // reload data
+    const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
 
     const ListFooterComponent = () => {
-        if (infiniteQuery.isFetchingNextPage) {
-            return <ActivityIndicator size={'small'} color={'#ddd'} />;
-        }
-        return null
+        if (!infiniteQuery.isFetchingNextPage) return null;
+        return <ActivityIndicator size={'small'} color={'#ddd'} />;
     }
 
     return (
@@ -58,13 +40,7 @@ const MenuScreen = () => {
             <FlatList
                 data={appendAllToCategories}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (<CategoryCard
-                    item={item}
-                    setSelectedCategoryId={setSelectedCategoryId}
-                    setSelectedCategory={setSelectedCategory}
-                    setSelectedSubCategoryId={setSelectedSubCategoryId}
-                    seleted={selectedCategoryId == item.categoryId?.toString()}
-                />)}
+                renderItem={({ item }) => (<CategoryCard item={item} />)}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ marginBottom: 16, paddingHorizontal: 10 }}
@@ -73,15 +49,10 @@ const MenuScreen = () => {
             <FlatList
                 data={subCategoryQuery.data?.data}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (<SubCategoryCard
-                    item={item}
-                    setSelectedSubCategoryId={setSelectedSubCategoryId}
-                    selected={selectedSubCategoryId == item.subId?.toString()}
-                />)}
+                renderItem={({ item, index }) => (<SubCategoryCard item={item} />)}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ marginBottom: 8, paddingHorizontal: 10 }}
-
             />
 
             <FlatList
@@ -95,9 +66,9 @@ const MenuScreen = () => {
                 renderItem={({ item, index }) => (<ItemCard items={item} />)}
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
-                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshed} />}
+                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
                 numColumns={2}
-                columnWrapperStyle={{ gap: 12, justifyContent: 'center' }}
+                columnWrapperStyle={{ gap: 12, justifyContent: "center" }}
                 showsVerticalScrollIndicator={false}
             />
         </View>

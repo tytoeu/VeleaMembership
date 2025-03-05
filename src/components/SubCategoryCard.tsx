@@ -1,22 +1,23 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../hooks'
 import menuStyle from '../util/style/MenuStyle'
 import { ISubCategory } from '../hooks/interface/IMenu'
-import useMenu from '../hooks/useMenu'
+import { subCategorySeleted } from '../redux/menu'
 
 interface IProp {
-    item: ISubCategory,
-    setSelectedSubCategoryId: (subId: string) => void,
-    selected: boolean
+    item: ISubCategory
 }
 
 const SubCategoryCard = (prop: IProp) => {
     const { theme } = useAppSelector((state) => state.cache)
+    const { subCateId } = useAppSelector(state => state.menu)
+    const dispatch = useAppDispatch()
 
+    const selected = subCateId == prop.item.subId.toString()
     return (
-        <TouchableOpacity style={[menuStyle.category]} onPress={() => prop.setSelectedSubCategoryId(prop.item.subId.toString())}>
-            <Text style={[menuStyle.cate_text, { color: prop.selected ? 'red' : theme.color }]}>{prop.item.name}</Text>
+        <TouchableOpacity style={[menuStyle.category]} onPress={() => dispatch(subCategorySeleted(prop.item.subId.toString()))}>
+            <Text style={[menuStyle.cate_text, { color: selected ? 'red' : theme.color }]}>{prop.item.name}</Text>
         </TouchableOpacity>
     )
 }

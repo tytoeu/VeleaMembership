@@ -59,9 +59,9 @@ const HistoryScreen = () => {
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
                 contentContainerStyle={{ paddingTop: 10 }}
-                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: theme.background, width: '98%' }]} >
+                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: theme.background, width: '98%', alignSelf: 'center', padding: 10 }]} >
                     <Text style={[menuStyle.textTitle, { color: theme.color }]}>{item.title}</Text>
-                    <Text style={[menuStyle.text, { color: theme.color }]}>{item.body}</Text>
+                    <Text style={[menuStyle.text, { color: theme.colorText }]}>{item.body}</Text>
                 </View>)}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshed} />}

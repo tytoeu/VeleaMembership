@@ -1,15 +1,13 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { assets } from "../../assets";
 import { useAppSelector } from ".";
-import { useState } from "react";
 
 const apiConfig = assets.config
 
 const useMenu = () => {
     const queryClient = useQueryClient();
     const { auth } = useAppSelector((state) => state.cache);
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-    const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>('');
+    const { cateId, subCateId } = useAppSelector(state => state.menu)
 
     const headerOptions = {
         Accept: 'application/json',
@@ -19,7 +17,6 @@ const useMenu = () => {
 
     const fetchMenu = async ({ cateId, subId, page = 1 }: { cateId?: string; subId?: string; page?: number }) => {
         const url = `${apiConfig.api}fetch-menu-list?cateId=${cateId ?? ""}&subId=${subId ?? ""}&page=${page}&search=`;
-        console.log(url)
         const response = await fetch(url, { method: 'GET', headers: headerOptions });
         return await response.json();
     };
@@ -38,9 +35,9 @@ const useMenu = () => {
     };
 
     const infiniteQuery = useInfiniteQuery({
-        queryKey: ['menu', selectedCategoryId, selectedSubCategoryId],
+        queryKey: ['menu', cateId, subCateId],
         initialPageParam: 1,
-        queryFn: async ({ pageParam = 1 }) => await fetchMenu({ cateId: selectedCategoryId, subId: selectedSubCategoryId, page: pageParam }),
+        queryFn: async ({ pageParam = 1 }) => await fetchMenu({ cateId: cateId, subId: subCateId, page: pageParam }),
         getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage.length === 0) ? undefined : allPages.length + 1),
         staleTime: 1000 * 60 * 5,
     });
@@ -52,10 +49,10 @@ const useMenu = () => {
     });
 
     const subCategoryQuery = useQuery({
-        queryKey: ["subcategory", selectedCategoryId],
-        queryFn: () => fetchSubCategory(selectedCategoryId),
+        queryKey: ["subcategory", cateId],
+        queryFn: () => fetchSubCategory(cateId),
         staleTime: 1000 * 60 * 5,
-        enabled: !!selectedCategoryId
+        enabled: !!cateId
     });
 
     const setSelectedCategory = (categoryId: string) => {
@@ -66,12 +63,7 @@ const useMenu = () => {
     return {
         infiniteQuery,
         categoryQuery,
-        subCategoryQuery,
-        setSelectedCategoryId,
-        setSelectedSubCategoryId,
-        setSelectedCategory,
-        selectedCategoryId,
-        selectedSubCategoryId
+        subCategoryQuery
     };
 };
 
