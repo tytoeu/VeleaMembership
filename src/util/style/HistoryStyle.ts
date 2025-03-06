@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native";
 
 const history_style = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingHorizontal: 16
     },
     profile: {
         width: 60,

@@ -26,7 +26,7 @@ const menuStyle = StyleSheet.create({
         opacity: 0.9,
         fontFamily: 'R700',
         lineHeight: 22,
-        fontSize: 15
+        fontSize: 14
     },
     subText: {
         fontSize: 12,

@@ -12,19 +12,8 @@ const HomeScreen = () => {
     return (
         <View style={[home_style.container, { backgroundColor: theme.background }]}>
             <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
-            <CriditCard code='5555 7777 9999 333' balance={'$12,500.00'} />
+            <CriditCard code='5555 3333 555 777' balance={'$12,500.00'} />
             <MenuTransaction />
-            <Text style={[home_style.tran_history_text, { color: theme.color }]}>Transaction History</Text>
-            <FlatList
-                data={Array.from({ length: 10 })}
-                renderItem={({ item, index }) => <TransactionHistory index={index} />}
-                onEndReachedThreshold={0.5}
-                scrollEventThrottle={50}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                style={{ width: '90%', marginTop: 16 }}
-                ListFooterComponent={Footer}
-            />
         </View>
     )
 }

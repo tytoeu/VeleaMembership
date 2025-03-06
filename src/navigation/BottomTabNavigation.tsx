@@ -11,7 +11,7 @@ const BottomTabNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={{
-                headerTitleStyle: { color: theme.color, fontFamily: 'R700' },
+                headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 18 },
                 headerStyle: { backgroundColor: theme.background, elevation: 3 },
                 tabBarStyle: [{ backgroundColor: theme.background, bottom: 0, height: 60 }],
                 tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },

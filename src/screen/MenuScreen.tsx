@@ -10,7 +10,7 @@ const MenuScreen = () => {
     // use custom hook for data action state
     const { infiniteQuery, categoryQuery, subCategoryQuery } = useMenu()
 
-    // use redux
+    // use redux for action state
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
 
     // Extracts all data arrays from pages and merges them into a single array

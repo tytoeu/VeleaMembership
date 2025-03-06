@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const home_style = StyleSheet.create({
     container: {
@@ -8,7 +8,7 @@ const home_style = StyleSheet.create({
     },
     credit_card: {
         width: '90%',
-        minHeight: 150,
+        minHeight: 180,
         marginTop: 20,
         borderRadius: 8,
         paddingHorizontal: 22,

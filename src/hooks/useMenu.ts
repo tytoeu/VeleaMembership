@@ -61,11 +61,7 @@ const useMenu = () => {
         queryClient.invalidateQueries({ queryKey: ['subcategory'] });
     };
 
-    return {
-        infiniteQuery,
-        categoryQuery,
-        subCategoryQuery
-    };
+    return { infiniteQuery, categoryQuery, subCategoryQuery };
 };
 
 export default useMenu;

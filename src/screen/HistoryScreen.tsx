@@ -1,14 +1,12 @@
-import { View, Text, TextInput, Button, Alert, ActivityIndicator, RefreshControl } from 'react-native'
+import { View, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { useAppSelector } from '../hooks'
-import HomeStyle from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
-import useInputText from '../hooks/useInputText'
-import HistoryStyle from '../util/style/HistoryStyle'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import useGetPost from '../hooks/useGetPost'
 import { useFocusEffect } from '@react-navigation/native'
-import menuStyle from '../util/style/MenuStyle'
+import { TransactionHistory } from '../components'
+import history_style from '../util/style/HistoryStyle'
 
 const HistoryScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
@@ -48,7 +46,7 @@ const HistoryScreen = () => {
     }
 
     return (
-        <View style={[HomeStyle.container, { backgroundColor: theme.background }]}>
+        <View style={[history_style.container, { backgroundColor: theme.background }]}>
             <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
             <Animated.FlatList
                 data={daraArr}
@@ -58,11 +56,7 @@ const HistoryScreen = () => {
                 scrollEventThrottle={50}
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
-                contentContainerStyle={{ paddingTop: 10 }}
-                renderItem={({ item, index }) => (<View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: theme.background, width: '98%', alignSelf: 'center', padding: 10 }]} >
-                    <Text style={[menuStyle.textTitle, { color: theme.color }]}>{item.title}</Text>
-                    <Text style={[menuStyle.text, { color: theme.colorText }]}>{item.body}</Text>
-                </View>)}
+                renderItem={({ item, index }) => <TransactionHistory index={index} />}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshed} />}
             />

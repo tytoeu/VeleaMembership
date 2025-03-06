@@ -3,6 +3,7 @@ import BottomTabNavigation from './BottomTabNavigation'
 import { DarkMode, Language } from '../screen/setting'
 import { useAppSelector } from '../hooks'
 import React from 'react'
+import { QRScannerScreen } from '../screen'
 
 const Stack = createStackNavigator()
 
@@ -12,8 +13,8 @@ const StackNavigation = () => {
         <Stack.Navigator
             initialRouteName='BottomTab'
             screenOptions={{
-                headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 16 },
-                headerStyle: { backgroundColor: theme.background, elevation: 5 },
+                headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 18 },
+                headerStyle: { backgroundColor: theme.background, elevation: 0 },
                 headerTintColor: theme.color,
             }}
         >
@@ -23,6 +24,9 @@ const StackNavigation = () => {
             }} />
             <Stack.Screen name='Language' component={Language} options={{
                 title: 'Language'
+            }} />
+            <Stack.Screen name='qr-scanner' component={QRScannerScreen} options={{
+                title: 'QR Scanner'
             }} />
         </Stack.Navigator>
     )
