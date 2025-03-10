@@ -4,6 +4,7 @@ import home_style from '../util/style/HomeStyle'
 import { assets } from '../../assets'
 import { useAppSelector } from '../hooks'
 import { Ionicons } from '@expo/vector-icons'
+import DonutCart from './DonutCart'
 
 const logo = assets.logo
 
@@ -29,10 +30,11 @@ const CriditCard = (prop: IProp) => {
                         </Pressable>
                     </View>
                 </>
-                <Text style={[home_style.code, { color: theme.color }]}>{prop.code}</Text>
+                <Text style={[home_style.code, { color: theme.color, marginTop: 12 }]}>{prop.code}</Text>
             </View>
             <View style={home_style.code_card}>
-
+                <Text style={[home_style.text_balance, { color: theme.color, marginBottom: 8 }]}>Score</Text>
+                <DonutCart max={1000} percentag={340} />
             </View>
         </View>
     )

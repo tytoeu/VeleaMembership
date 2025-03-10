@@ -38,7 +38,8 @@
     "react-native-tab-view": "^4.0.5",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
-    "react-native-pager-view": "6.5.1"
+    "react-native-pager-view": "6.5.1",
+    "react-native-svg": "15.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

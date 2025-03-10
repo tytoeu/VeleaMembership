@@ -27,7 +27,8 @@ const StackNavigation = () => {
             }} />
             <Stack.Screen name='qr-scanner' component={QRScannerScreen} options={{
                 title: 'QR Scanner',
-                headerStyle: { backgroundColor: '#000' }
+                headerStyle: { backgroundColor: '#000' },
+                headerTintColor: '#fff'
             }} />
         </Stack.Navigator>
     )

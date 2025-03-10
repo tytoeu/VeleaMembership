@@ -14,7 +14,7 @@ const home_style = StyleSheet.create({
         paddingHorizontal: 22,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingVertical: 12,
+        paddingVertical: 25,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -35,8 +35,9 @@ const home_style = StyleSheet.create({
         resizeMode: 'contain'
     },
     code_card: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     text_balance: {
         fontFamily: 'R700',
