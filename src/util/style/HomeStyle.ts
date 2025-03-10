@@ -12,8 +12,8 @@ const home_style = StyleSheet.create({
         marginTop: 20,
         borderRadius: 8,
         paddingHorizontal: 22,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         paddingVertical: 12,
         shadowColor: "#000",
         shadowOffset: {

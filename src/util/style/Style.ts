@@ -84,7 +84,80 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 1,
         padding: 14
-    }
+    },
+    tabContainer: {
+        padding: 3,
+        borderRadius: 20,
+        marginHorizontal: 16,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+    tabBar: {
+        borderRadius: 20,
+        overflow: 'hidden',
+        backgroundColor: 'transparent',
+        shadowColor: 'transparent'
+    },
+    indicator: {
+        backgroundColor: '#b9770e',
+        height: '80%',
+        borderRadius: 20,
+        marginVertical: 5
+    },
+    cameraContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingVertical: 10,
+        backgroundColor: '#222',
+    },
+    iconButton: {
+        alignItems: 'center',
+    },
+    iconText: {
+        color: 'white',
+        marginTop: 8,
+        fontSize: 14,
+    },
+    topOverlay: {
+        position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        width: '100%',
+        height: '25%',
+        top: 0,
+        left: 0
+    },
+    bottomOverlay: {
+        position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        width: '100%',
+        height: '40%',
+        bottom: 0,
+        left: 0
+    },
+    leftOverlay: {
+        position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        width: '12%',
+        height: '35%',
+        bottom: '40%',
+        left: 0
+    },
+    rightOverlay: {
+        position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        width: '12%',
+        height: '35%',
+        bottom: '40%',
+        right: 0
+    },
 })
 
 export default styles

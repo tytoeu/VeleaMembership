@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { Purchase, Topup, EearnCorn } from './tab_history'
 import history_style from '../util/style/HistoryStyle'
 import { StatusBar } from 'expo-status-bar'
 import { useAppSelector } from '../hooks'
 import { useState } from 'react'
+import styles from '../util/style/Style'
 
 const renderScene = SceneMap({
     Purchase: Purchase,
@@ -54,27 +55,3 @@ const HistoryScreen = () => {
 
 export default HistoryScreen
 
-const styles = StyleSheet.create({
-    tabContainer: {
-        padding: 3,
-        borderRadius: 20,
-        marginHorizontal: 16,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-    },
-    tabBar: {
-        borderRadius: 20,
-        overflow: 'hidden',
-        backgroundColor: 'transparent',
-        shadowColor: 'transparent'
-    },
-    indicator: {
-        backgroundColor: '#b9770e',
-        height: '80%',
-        borderRadius: 20,
-        marginVertical: 5
-    }
-});

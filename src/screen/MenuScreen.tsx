@@ -24,7 +24,6 @@ const MenuScreen = () => {
 
     // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
-
     // reload data
     const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
 

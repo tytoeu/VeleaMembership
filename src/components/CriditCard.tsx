@@ -20,17 +20,19 @@ const CriditCard = (prop: IProp) => {
     return (
         <View style={[home_style.credit_card, { backgroundColor: theme.bgDark }]}>
             <View>
-                <Text style={[home_style.text_balance, { color: theme.color }]}>Balance</Text>
-                <View style={home_style.balance_container}>
-                    <Text style={[home_style.balance_number, { color: theme.color }]}>{hide ? '**********' : prop.balance}</Text>
-                    <Pressable style={home_style.hide_button} onPress={action_show_hide}>
-                        <Ionicons name={hide ? 'eye-off-outline' : 'eye-outline'} size={22} color={theme.colorText} />
-                    </Pressable>
-                </View>
+                <>
+                    <Text style={[home_style.text_balance, { color: theme.color }]}>Balance</Text>
+                    <View style={home_style.balance_container}>
+                        <Text style={[home_style.balance_number, { color: theme.color }]}>{hide ? '**********' : prop.balance}</Text>
+                        <Pressable style={home_style.hide_button} onPress={action_show_hide}>
+                            <Ionicons name={hide ? 'eye-off-outline' : 'eye-outline'} size={22} color={theme.colorText} />
+                        </Pressable>
+                    </View>
+                </>
+                <Text style={[home_style.code, { color: theme.color }]}>{prop.code}</Text>
             </View>
             <View style={home_style.code_card}>
-                <Text style={[home_style.code, { color: theme.color }]}>{prop.code}</Text>
-                <Image source={logo.login} style={home_style.logo} />
+
             </View>
         </View>
     )

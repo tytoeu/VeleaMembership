@@ -39,8 +39,8 @@ const useMenu = () => {
         queryKey: ['menu', cateId, subCateId],
         initialPageParam: 1,
         queryFn: async ({ pageParam = 1 }) => await fetchMenu({ cateId: cateId, subId: subCateId, page: pageParam }),
-        getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage.length === 0) ? undefined : allPages.length + 1),
-        staleTime: STALE_TIME,
+        getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage?.response?.data?.length === 0) ? undefined : allPages.length + 1),
+        staleTime: STALE_TIME
     });
 
     const categoryQuery = useQuery({
