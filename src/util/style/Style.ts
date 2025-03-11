@@ -158,6 +158,67 @@ const styles = StyleSheet.create({
         bottom: '40%',
         right: 0
     },
+    item_card: {
+        width: '92%',
+        backgroundColor: 'red',
+        marginHorizontal: 'auto',
+        marginBottom: 16,
+        borderRadius: 8,
+        height: 90,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
+        alignItems: 'center'
+    },
+    image: {
+        width: 100,
+        height: 80,
+        resizeMode: 'cover',
+        overflow: 'hidden',
+        borderRadius: 5
+    },
+    content_text: {
+        width: '70%',
+        height: '100%',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    footer_cart: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: "center"
+    },
+    action: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: "center"
+    },
+    btn_action: {
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: "center",
+        borderRadius: 50,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+    cart_title: {
+        opacity: 0.9,
+        fontFamily: 'R900',
+        fontSize: 14
+    },
+    sub_title: {
+        opacity: 0.7,
+        fontFamily: 'R500',
+        fontSize: 10
+    }
 })
 
 export default styles

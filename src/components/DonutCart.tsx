@@ -4,6 +4,7 @@ import Svg, { G, Circle } from 'react-native-svg'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+
 const DonutCart = ({
     percentag = 700,
     radius = 40,

@@ -1,15 +1,17 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { IMenu } from '../hooks/interface/IMenu'
 import menuStyle from '../util/style/MenuStyle'
-import { useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../hooks'
 import { assets } from '../../assets'
+import { addToCartAction } from '../redux/cache'
 
 interface IProp {
     items: IMenu
 }
 
 const ItemCard = (prop: IProp) => {
+    const dispatch = useAppDispatch()
     const { theme, locale } = useAppSelector((state) => state.cache)
     const image = prop.items?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${prop.items.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${prop.items.image}`
     let bgColor = ''
@@ -27,7 +29,7 @@ const ItemCard = (prop: IProp) => {
         }
     }
     return (
-        <View style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: '#000' }]}>
+        <TouchableOpacity style={[menuStyle.card, { backgroundColor: theme.bgDark, shadowColor: '#000' }]} onPress={() => dispatch(addToCartAction(prop.items))}>
             {prop.items.feature &&
                 <View style={[menuStyle.feature, { backgroundColor: bgColor }]}>
                     <Text style={menuStyle.featureText}>{prop.items.feature}</Text>
@@ -51,7 +53,7 @@ const ItemCard = (prop: IProp) => {
                 </View>
                 <Text style={[menuStyle.text, { color: theme.color }]}>{locale == 'kh' ? prop.items.itemNameKh : prop.items.itemNameEn}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

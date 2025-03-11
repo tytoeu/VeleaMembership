@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomTabNavigation from './BottomTabNavigation'
 import { DarkMode, Language } from '../screen/setting'
+import { CartListScreen, QRScannerScreen } from '../screen'
 import { useAppSelector } from '../hooks'
 import React from 'react'
-import { QRScannerScreen } from '../screen'
 
 const Stack = createStackNavigator()
 
@@ -28,7 +28,12 @@ const StackNavigation = () => {
             <Stack.Screen name='qr-scanner' component={QRScannerScreen} options={{
                 title: 'QR Scanner',
                 headerStyle: { backgroundColor: '#000' },
-                headerTintColor: '#fff'
+                headerTintColor: '#fff',
+                headerBackTitle: '#fff',
+                headerTitleStyle: { color: '#fff', fontFamily: 'R700', fontSize: 18 },
+            }} />
+            <Stack.Screen name='cart-list' component={CartListScreen} options={{
+                title: 'Cart'
             }} />
         </Stack.Navigator>
     )

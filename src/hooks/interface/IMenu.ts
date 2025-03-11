@@ -18,7 +18,9 @@ export interface IMenu {
     priceId: number
     categoryName: string
     subCategoryName: string
-    feature: string
+    feature: string,
+    qty: number;
+    increaseKey: number;
 }
 
 export interface ICategory {

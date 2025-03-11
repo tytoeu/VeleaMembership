@@ -1,12 +1,13 @@
 import { View, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
-import { CategoryCard, ItemCard, SubCategoryCard } from '../components'
+import { AddToCard, CategoryCard, ItemCard, SubCategoryCard } from '../components'
+import { useAppNavigation, useAppSelector } from '../hooks'
 import HomeStyle from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
-import { useAppSelector } from '../hooks'
 import useMenu from '../hooks/useMenu'
 
 const MenuScreen = () => {
+    const nav = useAppNavigation()
     // use custom hook for data action state
     const { infiniteQuery, categoryQuery, subCategoryQuery } = useMenu()
 
@@ -24,6 +25,7 @@ const MenuScreen = () => {
 
     // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
+
     // reload data
     const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
 
@@ -67,9 +69,16 @@ const MenuScreen = () => {
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
                 numColumns={2}
+                key={2}
                 columnWrapperStyle={{ gap: 12, justifyContent: "center" }}
                 showsVerticalScrollIndicator={false}
+                removeClippedSubviews={true}
+                keyboardShouldPersistTaps="handled"
+                initialNumToRender={10}
+                windowSize={4}
             />
+
+            <AddToCard onPress={() => nav.navigate('cart-list')} />
         </View>
     )
 }

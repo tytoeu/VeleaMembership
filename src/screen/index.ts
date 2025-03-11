@@ -1,5 +1,6 @@
 export { default as OnBoardingScreen } from './OnBoardingScreen'
 export { default as QRScannerScreen } from './QRScannerScreen'
+export { default as CartListScreen } from './CartListScreen'
 export { default as AccountScreen } from './AccountScreen'
 export { default as HistoryScreen } from './HistoryScreen'
 export { default as SignupScreen } from './SignupScreen'

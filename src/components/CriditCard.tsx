@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import home_style from '../util/style/HomeStyle'
 import { assets } from '../../assets'
@@ -34,7 +34,7 @@ const CriditCard = (prop: IProp) => {
             </View>
             <View style={home_style.code_card}>
                 <Text style={[home_style.text_balance, { color: theme.color, marginBottom: 8 }]}>Score</Text>
-                <DonutCart max={1000} percentag={340} />
+                <DonutCart max={1000} percentag={140} />
             </View>
         </View>
     )
