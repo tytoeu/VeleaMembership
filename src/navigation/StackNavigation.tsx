@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
+import { CartListScreen, PaymentScreen, QRScannerScreen } from '../screen'
 import BottomTabNavigation from './BottomTabNavigation'
 import { DarkMode, Language } from '../screen/setting'
-import { CartListScreen, QRScannerScreen } from '../screen'
 import { useAppSelector } from '../hooks'
 import React from 'react'
 
@@ -34,6 +34,9 @@ const StackNavigation = () => {
             }} />
             <Stack.Screen name='cart-list' component={CartListScreen} options={{
                 title: 'Cart'
+            }} />
+            <Stack.Screen name='payment' component={PaymentScreen} options={{
+                title: 'Payment'
             }} />
         </Stack.Navigator>
     )

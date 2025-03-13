@@ -1,16 +1,16 @@
 import { View, Text, Button, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
-import { StatusBar } from 'expo-status-bar'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import LoginStyle from '../util/style/LoginStyle'
 import { TextInput } from 'react-native-gesture-handler'
-import styles from '../util/style/Style'
-import useInputText from '../hooks/useInputText'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
+import LoginStyle from '../util/style/LoginStyle'
+import useInputText from '../hooks/useInputText'
+import { StatusBar } from 'expo-status-bar'
+import styles from '../util/style/Style'
+import React, { useState } from 'react'
 import { assets } from './../../assets'
+import useAuth from '../hooks/useAuth'
 import { Layout } from '../components'
 import Checkbox from 'expo-checkbox'
-import useAuth from '../hooks/useAuth'
 
 const logo = assets.logo
 

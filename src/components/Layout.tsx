@@ -1,6 +1,6 @@
 import { KeyboardAvoidingView, ScrollView, ScrollViewProps } from 'react-native'
-import React, { ReactNode } from 'react'
 import { useAppSelector } from '../hooks'
+import React, { ReactNode } from 'react'
 
 interface LayoutProps extends ScrollViewProps {
     children: ReactNode

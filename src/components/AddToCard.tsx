@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppSelector } from '../hooks'
+import React from 'react'
 
 type IProp = {
     onPress?: () => void

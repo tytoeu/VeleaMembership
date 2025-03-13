@@ -1,8 +1,8 @@
-import React from 'react'
-import i18n from '../localization'
-import { useAppSelector } from '../hooks'
 import StackNavigation from './StackNavigation'
 import AuthNavigation from './AuthNavigation';
+import { useAppSelector } from '../hooks'
+import i18n from '../localization'
+import React from 'react'
 
 const AppNavigation = () => {
 

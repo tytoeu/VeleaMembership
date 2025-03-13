@@ -1,12 +1,12 @@
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { CartList } from '../components'
+import React from 'react'
 
 const CartListScreen = () => {
     const { cartList, theme } = useAppSelector(state => state.cache)
     return (
-        <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={[{ backgroundColor: theme.background, flex: 1 }]}>
             <FlatList
                 data={cartList}
                 keyExtractor={(item, index) => index.toString()}
@@ -23,9 +23,3 @@ const CartListScreen = () => {
 }
 
 export default CartListScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})

@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import history_style from '../../util/style/HistoryStyle'
-import { BottomComponent } from '../../components'
 import { changeDarkModeAction } from '../../redux/cache'
+import { View, Text, StyleSheet } from 'react-native'
+import { BottomComponent } from '../../components'
 import i18n from '../../localization'
+import React from 'react'
 
 const DarkMode = () => {
     const { theme, currentTheme } = useAppSelector(state => state.cache)

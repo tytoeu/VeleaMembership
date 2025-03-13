@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { useAppSelector } from '../hooks'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { View, Text, StyleSheet } from 'react-native'
+import { useAppSelector } from '../hooks'
+import React from 'react'
 
 const TransactionHistory = ({ index }: { index: number }) => {
     const { theme } = useAppSelector(state => state.cache)

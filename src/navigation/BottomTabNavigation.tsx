@@ -1,9 +1,9 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AccountScreen, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
-import { useAppSelector } from '../hooks';
-import { Ionicons } from '@expo/vector-icons';
-import i18n from '../localization';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HeaderLeft, HeaderLeftProfile } from '../components';
+import { Ionicons } from '@expo/vector-icons';
+import { useAppSelector } from '../hooks';
+import i18n from '../localization';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {

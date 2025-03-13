@@ -1,12 +1,9 @@
 import { View, Text, Pressable } from 'react-native'
-import React, { useState } from 'react'
 import home_style from '../util/style/HomeStyle'
-import { assets } from '../../assets'
-import { useAppSelector } from '../hooks'
 import { Ionicons } from '@expo/vector-icons'
+import { useAppSelector } from '../hooks'
+import React, { useState } from 'react'
 import DonutCart from './DonutCart'
-
-const logo = assets.logo
 
 interface IProp {
     balance: string;
@@ -34,7 +31,7 @@ const CriditCard = (prop: IProp) => {
             </View>
             <View style={home_style.code_card}>
                 <Text style={[home_style.text_balance, { color: theme.color, marginBottom: 8 }]}>Score</Text>
-                <DonutCart max={1000} percentag={140} />
+                <DonutCart max={1000} percentag={540} />
             </View>
         </View>
     )

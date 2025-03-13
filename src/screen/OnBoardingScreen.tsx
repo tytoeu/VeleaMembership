@@ -1,9 +1,9 @@
 import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
-import React from 'react'
-import Onboarding from 'react-native-onboarding-swiper';
-import styles from '../util/style/Style';
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks';
+import Onboarding from 'react-native-onboarding-swiper';
 import { onBoardingDoneAction } from '../redux/cache';
+import styles from '../util/style/Style';
+import React from 'react'
 
 const pages = [
 

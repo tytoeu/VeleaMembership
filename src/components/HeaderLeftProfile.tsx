@@ -1,8 +1,8 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
-import { assets } from '../../assets'
-import { useAppSelector } from '../hooks'
 import { NavigateStyle } from '../util/style/NavigateStyle'
+import { View, Text, Image } from 'react-native'
+import { useAppSelector } from '../hooks'
+import { assets } from '../../assets'
+import React from 'react'
 
 const image = assets.img
 const HeaderLeftProfile = () => {

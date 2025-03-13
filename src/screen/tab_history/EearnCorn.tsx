@@ -1,8 +1,8 @@
 import { View, Text, ActivityIndicator, FlatList, RefreshControl } from 'react-native'
-import React, { useCallback } from 'react'
-import { useAppSelector } from '../../hooks'
-import useGetPost from '../../hooks/useGetPost'
 import { TransactionHistory } from '../../components'
+import useGetPost from '../../hooks/useGetPost'
+import { useAppSelector } from '../../hooks'
+import React, { useCallback } from 'react'
 
 const EearnCorn = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)

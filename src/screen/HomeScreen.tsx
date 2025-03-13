@@ -1,14 +1,13 @@
-import { ActivityIndicator, FlatList, Text, View } from 'react-native'
-import React from 'react'
+import { CriditCard, MenuTransaction } from '../components'
 import home_style from '../util/style/HomeStyle'
-import { useAppSelector } from '../hooks'
 import { StatusBar } from 'expo-status-bar'
-import { CriditCard, MenuTransaction, TransactionHistory } from '../components'
+import { useAppSelector } from '../hooks'
+import { View } from 'react-native'
+import React from 'react'
 
 const HomeScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
 
-    const Footer = () => (<ActivityIndicator style={{ paddingBottom: 10 }} color={theme.color} />)
     return (
         <View style={[home_style.container, { backgroundColor: theme.background }]}>
             <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />

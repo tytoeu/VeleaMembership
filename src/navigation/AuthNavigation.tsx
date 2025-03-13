@@ -1,5 +1,5 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen, OnBoardingScreen, SignupScreen } from "../screen";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useAppSelector } from "../hooks";
 
 const Stack = createStackNavigator()

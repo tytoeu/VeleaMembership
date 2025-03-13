@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { addToCartAction } from '../redux/cache'
 import { IMenu } from '../hooks/interface/IMenu'
 import menuStyle from '../util/style/MenuStyle'
-import { useAppDispatch, useAppSelector } from '../hooks'
 import { assets } from '../../assets'
-import { addToCartAction } from '../redux/cache'
+import React from 'react'
 
 interface IProp {
     items: IMenu

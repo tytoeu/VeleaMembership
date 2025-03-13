@@ -1,7 +1,8 @@
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
 import { View, Text, ScrollView, Image } from 'react-native'
-import { useAppNavigation, useAppSelector } from '../hooks'
 import history_style from '../util/style/HistoryStyle'
 import { MenuNavigation } from '../components'
+import { loginAction } from '../redux/cache'
 import { StatusBar } from 'expo-status-bar'
 import { assets } from '../../assets'
 import i18n from '../localization'
@@ -11,6 +12,7 @@ const profile = assets.img.profile
 const AccountScreen = () => {
     const { theme, currentTheme, locale } = useAppSelector((state) => state.cache)
     const navigation = useAppNavigation()
+    const dispatch = useAppDispatch()
 
     return (
         <ScrollView style={[history_style.container, { backgroundColor: theme.background }]}>
@@ -47,6 +49,10 @@ const AccountScreen = () => {
 
                 <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
                     <MenuNavigation text='Battery charging' icon='battery-charging-outline' disabledborderBottom={true} />
+                </View>
+
+                <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
+                    <MenuNavigation text='Logout' icon='exit-outline' disabledborderBottom={true} onPress={() => dispatch(loginAction(null))} />
                 </View>
             </View>
         </ScrollView>

@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../hooks'
-import { Camera, CameraView } from 'expo-camera'
 import { MaterialIcons } from '@expo/vector-icons'
+import { Camera, CameraView } from 'expo-camera'
+import { useAppSelector } from '../hooks'
 import styles from '../util/style/Style'
 
 const QRScannerScreen = () => {

@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import React from 'react'
-import { useAppSelector } from '../hooks'
-import Checkbox from 'expo-checkbox'
 import { Ionicons } from '@expo/vector-icons'
+import { useAppSelector } from '../hooks'
 import styles from '../util/style/Style'
+import Checkbox from 'expo-checkbox'
+import React from 'react'
 
 interface IProp {
     disabledborderBottom?: boolean,

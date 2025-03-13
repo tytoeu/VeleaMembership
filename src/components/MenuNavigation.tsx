@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import React from 'react'
-import { Ionicons } from '@expo/vector-icons'
-import { useAppSelector } from '../hooks'
 import MyIconComponent from './MyIconComponent ';
+import { Ionicons } from '@expo/vector-icons'
 import styles from '../util/style/Style';
+import { useAppSelector } from '../hooks'
+import React from 'react'
 
 interface IProp {
     icon?: string;

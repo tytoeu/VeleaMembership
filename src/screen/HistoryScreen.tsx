@@ -1,11 +1,11 @@
-import { View, useWindowDimensions } from 'react-native'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { Purchase, Topup, EearnCorn } from './tab_history'
+import { View, useWindowDimensions } from 'react-native'
 import history_style from '../util/style/HistoryStyle'
 import { StatusBar } from 'expo-status-bar'
 import { useAppSelector } from '../hooks'
-import { useState } from 'react'
 import styles from '../util/style/Style'
+import { useState } from 'react'
 
 const renderScene = SceneMap({
     Purchase: Purchase,

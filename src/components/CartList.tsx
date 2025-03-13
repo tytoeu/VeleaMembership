@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { IMenu } from '../hooks/interface/IMenu'
 import { useAppDispatch, useAppSelector } from '../hooks'
+import { updateQualityAction } from '../redux/cache'
+import { IMenu } from '../hooks/interface/IMenu'
+import { Ionicons } from '@expo/vector-icons'
+import styles from '../util/style/Style'
 import { assets } from '../../assets'
 import React from 'react'
-import { Ionicons } from '@expo/vector-icons'
-import { updateQualityAction } from '../redux/cache'
-import styles from '../util/style/Style'
 
 type IProp = {
     item: IMenu,

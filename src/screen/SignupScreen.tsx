@@ -1,16 +1,16 @@
-import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import LoginStyle from '../util/style/LoginStyle'
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { TextInput } from 'react-native-gesture-handler'
-import styles from '../util/style/Style'
+import LoginStyle from '../util/style/LoginStyle'
 import useInputText from '../hooks/useInputText'
 import { loginAction } from '../redux/cache'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
-import { assets } from '../../assets'
+import { StatusBar } from 'expo-status-bar'
+import styles from '../util/style/Style'
 import { Layout } from '../components'
+import { assets } from '../../assets'
 import Checkbox from 'expo-checkbox'
+import React from 'react'
 
 const logo = assets.logo
 

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { initialStateInferface } from "./interface";
 import { IUser } from "../../hooks/interface/ISignin";
+import { initialStateInferface } from "./interface";
+import { IMenu } from "../../hooks/interface/IMenu";
 import themeConfig from "../../util/theme";
 import i18n from "../../localization";
-import { IMenu } from "../../hooks/interface/IMenu";
 import { Alert } from "react-native";
 
 interface IUpdateQuality {

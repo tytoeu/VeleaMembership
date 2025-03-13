@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import menuStyle from '../util/style/MenuStyle'
-import { ICategory } from '../hooks/interface/IMenu'
 import { categorySeleted, subCategorySeleted } from '../redux/menu'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { ICategory } from '../hooks/interface/IMenu'
+import menuStyle from '../util/style/MenuStyle'
+import React from 'react'
 
 interface IProp {
     item: ICategory;
