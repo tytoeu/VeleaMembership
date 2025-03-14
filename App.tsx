@@ -13,8 +13,6 @@ import {
   Roboto_700Bold as R700,
   Roboto_900Black as R900
 } from '@expo-google-fonts/roboto'
-import { useEffect } from 'react';
-
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {

@@ -1,26 +1,38 @@
 import { payment_style } from '../util/style/PaymenStyle'
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Modal, Dimensions } from 'react-native'
 import { useAppNavigation, useAppSelector } from '../hooks'
 import React, { useState } from 'react'
 import { assets } from '../../assets'
 import { Ionicons } from '@expo/vector-icons'
-import { PanGestureHandler } from 'react-native-gesture-handler'
+import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Extrapolation, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import { DailPad } from '../components'
 
+const WIDTH = Dimensions.get('screen').width
 const delPaid = [1, 2, 3, 4, 5, 6, 7, 8, 9, '.', 0, 'del'];
+const PIN_LENGTH = 4
+const PIN_CONTAINER_SIZE = WIDTH / 2
+const PIN_MAX_SIZE = PIN_CONTAINER_SIZE / PIN_LENGTH
+const _PIN_SPACING = 10
+const PIN_SIZE = PIN_MAX_SIZE - _PIN_SPACING * 2
+const _SPACING = 20
+
+const pinString = "1234";
 
 const PaymentScreen = () => {
     const { theme } = useAppSelector(state => state.cache)
     const nav = useAppNavigation()
     const X = useSharedValue(0)
     const [toggled, setToggled] = useState(false)
+    const [show, setShow] = useState(false)
+    const [code, setCode] = useState<number[]>([])
     const handlComplete = (isToggled: boolean) => {
         if (isToggled !== toggled) {
             setToggled(isToggled)
         }
-        nav.goBack()
+
         setTimeout(() => {
-            alert('Pay successfully.')
+            setShow(true)
         }, 500);
     }
 
@@ -143,6 +155,54 @@ const PaymentScreen = () => {
                 }, animatedStyle.swipTextStyle]}>Swipe to pay</Animated.Text>
             </View>
 
+            <GestureHandlerRootView style={{ position: 'absolute' }}>
+                <Modal
+                    animationType="fade"
+                    visible={show}
+                    onRequestClose={() => setShow(false)}
+                    transparent={false}>
+                    <View style={{ flex: 1, backgroundColor: theme.background, alignItems: 'center', justifyContent: "center" }}>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                gap: _PIN_SPACING / 2 * 2,
+                                marginBottom: _SPACING * 2,
+                                height: PIN_SIZE * 2,
+                                alignItems: 'flex-end'
+                            }}
+                        >
+                            {[...Array(PIN_LENGTH).keys()].map(i => {
+                                const isSelected = code[i] !== undefined
+                                return (<View
+                                    key={i}
+                                    style={{
+                                        width: PIN_SIZE,
+                                        height: isSelected ? PIN_SIZE : 2,
+                                        borderRadius: PIN_SIZE,
+                                        backgroundColor: theme.colorText
+                                    }}
+                                />)
+                            })}
+                        </View>
+                        <DailPad onPress={(item) => {
+                            if (item === 'del') {
+                                setCode(preCode => preCode.slice(0, preCode.length - 1))
+                            } else if (typeof item === 'number') {
+                                const isMatch = [...code, item].join("").trim() == pinString
+
+                                if (code.length == PIN_LENGTH) return
+                                setCode(pre => [...pre, item])
+
+                                if (isMatch) {
+                                    alert('Pay success')
+                                } else if (!isMatch && code.length == PIN_LENGTH - 1) {
+                                    alert('Incorrect your password')
+                                }
+                            }
+                        }} />
+                    </View>
+                </Modal>
+            </GestureHandlerRootView>
         </View>
     )
 }

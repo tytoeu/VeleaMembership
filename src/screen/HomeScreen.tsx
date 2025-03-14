@@ -2,7 +2,7 @@ import { CriditCard, MenuTransaction } from '../components'
 import home_style from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
 import { useAppSelector } from '../hooks'
-import { View } from 'react-native'
+import { Modal, View } from 'react-native'
 import React from 'react'
 
 const HomeScreen = () => {
