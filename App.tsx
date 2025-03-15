@@ -7,6 +7,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppNavigation from './src/navigation/AppNavigation';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
+
 import {
   Roboto_400Regular as R400,
   Roboto_500Medium as R500m,

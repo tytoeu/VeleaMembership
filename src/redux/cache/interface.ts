@@ -10,5 +10,6 @@ export interface initialStateInferface {
     onBoading: boolean,
     auth: IUser | null,
     cartList: IMenu[],
-    keyIncrease: number
+    keyIncrease: number,
+    incorrectCode: number
 }

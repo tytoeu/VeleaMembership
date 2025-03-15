@@ -19,7 +19,8 @@ const initialState: initialStateInferface = {
     onBoading: false,
     auth: null,
     cartList: [],
-    keyIncrease: 0
+    keyIncrease: 0,
+    incorrectCode: 0
 }
 const createCacheSlice = createSlice({
     name: 'cache',
@@ -73,6 +74,9 @@ const createCacheSlice = createSlice({
             foods.length == 0 ? state.keyIncrease = 0 : undefined
 
             state.cartList = foods
+        },
+        setIncorrectCodeAction: (state, action: PayloadAction<number>) => {
+            state.incorrectCode = action.payload
         }
     }
 });
@@ -83,7 +87,8 @@ export const {
     loginAction,
     onBoardingDoneAction,
     addToCartAction,
-    updateQualityAction } = createCacheSlice.actions
+    updateQualityAction,
+    setIncorrectCodeAction } = createCacheSlice.actions
 
 export default createCacheSlice.reducer
 
