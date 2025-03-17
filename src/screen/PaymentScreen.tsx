@@ -6,7 +6,7 @@ import { payment_style } from '../util/style/PaymenStyle'
 import { setIncorrectCodeAction } from '../redux/cache'
 import { AnimatePresence, MotiView } from 'moti'
 import { Ionicons } from '@expo/vector-icons'
-import { formCurrent } from '../helpers'
+import { formCurrency } from '../helpers'
 import React, { useState } from 'react'
 import { DailPad } from '../components'
 import { assets } from '../../assets'
@@ -49,6 +49,12 @@ const PaymentScreen = () => {
         setTimeout(() => {
             setShow(true)
         }, 100);
+    }
+
+    const closeCodeModal = () => {
+        setShow(false)
+        setToggled(false)
+        X.value = 0
     }
 
     const onGestureEvent = useAnimatedGestureHandler({
@@ -122,15 +128,11 @@ const PaymentScreen = () => {
         }
     }
 
-    // return jsx
+    // return tsx
     const OnTouchCode = () => {
         return (<>
             <TouchableOpacity
-                onPress={() => {
-                    setShow(false)
-                    setToggled(false)
-                    X.value = 0
-                }}
+                onPress={closeCodeModal}
                 style={{
                     position: 'absolute',
                     top: _SPACING * 1.5,
@@ -233,6 +235,9 @@ const PaymentScreen = () => {
                         if (isMatch) {
                             dispatch(setIncorrectCodeAction(0))
                             isSetPending(true)
+                            setTimeout(() => {
+                                nav.navigate('pay-success')
+                            }, 1000)
                         } else if (!isMatch && code.length == PIN_LENGTH - 1) {
                             setTimeout(() => {
                                 alert('Incorrect your password')
@@ -305,7 +310,7 @@ const PaymentScreen = () => {
             }}>VELEA Gastropub</Text>
 
             <View style={[pay_style.pay_content]}>
-                <Text style={[pay_style.pay_text, { color: theme.color }]}>{values.length ? formCurrent(values.join("")) : '0'} </Text>
+                <Text style={[pay_style.pay_text, { color: theme.color }]}>{values.length ? formCurrency(values.join("")) : '0'} </Text>
                 <Text style={[pay_style.pay_value]}>{i18n.t('USD')}</Text>
             </View>
 
@@ -344,7 +349,7 @@ const PaymentScreen = () => {
                 <Modal
                     animationType="slide"
                     visible={show}
-                    onRequestClose={() => setShow(false)}
+                    onRequestClose={closeCodeModal}
                     transparent={false}>
                     <View style={{
                         flex: 1,

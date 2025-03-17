@@ -1,13 +1,13 @@
 import { CriditCard, MenuTransaction } from '../components'
 import home_style from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
-import { useAppSelector } from '../hooks'
+import { useAppSelector, useBackHandler } from '../hooks'
 import { Modal, View } from 'react-native'
 import React from 'react'
 
 const HomeScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
-
+    const backAction = useBackHandler()
     return (
         <View style={[home_style.container, { backgroundColor: theme.background }]}>
             <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
