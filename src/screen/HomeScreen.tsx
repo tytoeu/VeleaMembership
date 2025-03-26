@@ -1,7 +1,7 @@
 import { CriditCard, MenuTransaction } from '../components'
+import { useAppSelector, useBackHandler } from '../hooks'
 import home_style from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
-import { useAppSelector, useBackHandler } from '../hooks'
 import { Modal, View } from 'react-native'
 import React from 'react'
 

@@ -1,6 +1,7 @@
-import { LoginScreen, OnBoardingScreen, SignupScreen } from "../screen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useAppSelector } from "../hooks";
+import { OnBoardingScreen } from "../screen";
+import { Login, Signup, VerifyCode } from "../screen/auth";
 
 const Stack = createStackNavigator()
 
@@ -17,13 +18,17 @@ const AuthNavigation = () => {
                 headerShown: false
             }} />}
 
-        <Stack.Screen name="Login" component={LoginScreen} options={{
+        <Stack.Screen name="Login" component={Login} options={{
             headerStyle: { backgroundColor: theme.background, elevation: 0 },
             title: ''
         }} />
-        <Stack.Screen name="sign-up" component={SignupScreen} options={{
+        <Stack.Screen name="sign-up" component={Signup} options={{
             headerStyle: { backgroundColor: theme.background, elevation: 0 },
             title: ''
+        }} />
+        <Stack.Screen name="verify-conde" component={VerifyCode} options={{
+            headerStyle: { backgroundColor: theme.background, elevation: 0 },
+            title: 'Verification Code'
         }} />
 
     </Stack.Navigator>)

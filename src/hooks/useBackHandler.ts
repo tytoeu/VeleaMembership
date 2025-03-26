@@ -1,15 +1,12 @@
 import { BackHandler, Alert, AppState } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import i18n from '../localization';
-import { useAppDispatch } from '.';
 
 const useBackHandler = () => {
     const [appState, setAppState] = useState(AppState.currentState);
     useEffect(() => {
         const onBackPress = () => {
             Alert.alert(
-                'Exit App',
-                'Are you sure you want to exit?',
+                'Exit App', 'Are you sure you want to exit?',
                 [
                     {
                         text: ('Cancel'),

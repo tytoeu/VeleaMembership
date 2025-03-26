@@ -1,28 +1,26 @@
-import { View, Text, Button, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
-import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import { TextInput } from 'react-native-gesture-handler'
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../../hooks'
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
-import LoginStyle from '../util/style/LoginStyle'
-import useInputText from '../hooks/useInputText'
+import { TextInput } from 'react-native-gesture-handler'
+import LoginStyle from '../../util/style/LoginStyle'
+import useInputText from '../../hooks/useInputText'
 import { StatusBar } from 'expo-status-bar'
-import styles from '../util/style/Style'
-import React, { useState } from 'react'
-import { assets } from './../../assets'
-import useAuth from '../hooks/useAuth'
-import { Layout } from '../components'
+import styles from '../../util/style/Style'
+import { Layout } from '../../components'
+import { assets } from '../../../assets'
 import Checkbox from 'expo-checkbox'
+import React from 'react'
 
 const logo = assets.logo
 
-const LoginScreen = () => {
+const SignupScreen = () => {
 
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
     const { handleErrorChange, handleTextChange, input, error, setChecked, isChecked } = useInputText()
-    const { signinMutation } = useAuth()
     const dispatch = useAppDispatch()
     const navigation = useAppNavigation()
 
-    const validation = async () => {
+    const validation = () => {
         let isValid = true
         if (!input?.phone) {
             handleErrorChange('phone', 'Phone is required')
@@ -32,15 +30,13 @@ const LoginScreen = () => {
             handleErrorChange('password', 'Password is required')
             isValid = false
         }
-
-        (isValid) && signinMutation.mutate({ email: input?.phone!, password: input?.password! })
-    }
-
-    if (signinMutation.isPending) {
-        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
-            <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
-            <ActivityIndicator color={theme.color} size={'large'} />
-        </View>
+        if (!input?.fullname) {
+            handleErrorChange('fullname', 'Full-Fame is required')
+            isValid = false
+        }
+        if (isValid) {
+            navigation.navigate('verify-conde', input)
+        }
     }
 
     return (
@@ -59,13 +55,23 @@ const LoginScreen = () => {
                 </View>
 
                 <TextInput
+                    style={[styles.inputStyle, { color: theme.color, borderColor: error?.fullname ? 'red' : theme.brInput }]}
+                    placeholder='Type your full-name'
+                    placeholderTextColor={theme.colorText}
+                    onChangeText={text => handleTextChange('fullname', text)}
+                    onFocus={() => handleErrorChange('fullname', '')}
+                    onBlur={() => handleErrorChange('fullname', input?.fullname ? '' : 'full-name is required')}
+                />
+
+                <TextInput
                     style={[styles.inputStyle, { color: theme.color, borderColor: error?.phone ? 'red' : theme.brInput }]}
                     placeholder='Type your phone'
                     placeholderTextColor={theme.colorText}
                     onChangeText={text => handleTextChange('phone', text)}
                     onFocus={() => handleErrorChange('phone', '')}
                     onBlur={() => handleErrorChange('phone', input?.phone ? '' : 'Phone is required')}
-                    value={input?.phone}
+                    returnKeyType='next'
+                    keyboardType='number-pad'
                 />
 
                 <TextInput
@@ -76,7 +82,6 @@ const LoginScreen = () => {
                     onChangeText={text => handleTextChange('password', text)}
                     onFocus={() => handleErrorChange('password', '')}
                     onBlur={() => handleErrorChange('password', input?.password ? '' : 'Password is required')}
-                    value={input?.password}
                 />
 
                 <TouchableOpacity style={styles.section} onPress={() => setChecked(!isChecked)}>
@@ -92,7 +97,7 @@ const LoginScreen = () => {
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: theme.btnColor }]}
                     onPress={validation}>
-                    <Text style={[styles.buttonText, { color: theme.background }]}>Sign-In</Text>
+                    <Text style={[styles.buttonText, { color: theme.background }]}>Continue</Text>
                 </TouchableOpacity>
 
                 <Text style={[LoginStyle.text, { color: theme.color }]}>Or signin with</Text>
@@ -109,9 +114,9 @@ const LoginScreen = () => {
                 </View>
 
                 <View style={LoginStyle.bottomText}>
-                    <Text style={[{ color: theme.color }]}>Don't have account?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('sign-up')}>
-                        <Text style={[{ color: theme.color }]}> Signup Here</Text>
+                    <Text style={[{ color: theme.color }]}>Have an account?</Text>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Text style={[{ color: theme.color }]}> Sign-In Here</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -119,4 +124,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen
+export default SignupScreen
