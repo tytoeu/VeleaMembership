@@ -6,7 +6,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
 
 const DonutCart = ({
-    percentag = 700,
+    percentag = 0,
     radius = 40,
     strokeWidth = 10,
     duration = 500,

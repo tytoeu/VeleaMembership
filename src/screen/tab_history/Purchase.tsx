@@ -1,13 +1,14 @@
 import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
 import { TransactionHistory } from '../../components'
-import useGetPost from '../../hooks/useGetPost'
 import { useAppSelector } from '../../hooks'
 import React, { useCallback } from 'react'
+import useHistoryTransaction from '../../hooks/useHistoryTransaction'
+import i18n from '../../localization'
 
 const Purchase = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
-    const { infiniteQuery } = useGetPost()
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page) || [];
+    const { infiniteQuery } = useHistoryTransaction('purchase')
+    const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.data) || [];
 
     const onEndReached = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isLoading) {
@@ -24,7 +25,12 @@ const Purchase = () => {
         return null
     }
 
-
+    const ListEmptyComponent = () => {
+        if (infiniteQuery.data?.pages?.length) {
+            return <Text style={{ color: theme.color, textAlign: 'center', opacity: 0.7, marginTop: '10%' }}>{i18n.t('No avaliable data')}</Text>
+        }
+        return null
+    }
     return (
         <FlatList
             data={daraArr}
@@ -33,8 +39,8 @@ const Purchase = () => {
             scrollEventThrottle={50}
             ListFooterComponent={ListFooterComponent}
             ListFooterComponentStyle={{ padding: 10 }}
-            renderItem={({ item, index }) => <TransactionHistory index={index} />}
-            ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
+            renderItem={({ item, index }) => <TransactionHistory item={item} index={index} data={daraArr} />}
+            ListEmptyComponent={() => (<ListEmptyComponent />)}
             refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
             contentContainerStyle={{ paddingHorizontal: 16 }}
         />

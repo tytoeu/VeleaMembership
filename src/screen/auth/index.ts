@@ -1,3 +1,7 @@
 export { default as Login } from './LoginScreen'
 export { default as Signup } from './SignupScreen'
 export { default as VerifyCode } from './VerifyCodeScreen'
+export { default as VerifyPhone } from './VerifyPhoneScreen'
+export { default as ResetPassword } from './ResetPassword'
+export { default as ChangePassword } from './ChangePassword'
+export { default as PersonalInfor } from './PersonalInfor'

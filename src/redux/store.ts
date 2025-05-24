@@ -3,6 +3,7 @@ import storage from '@react-native-async-storage/async-storage'
 import { persistStore, persistReducer } from 'redux-persist'
 import createCacheSlice from '../redux/cache'
 import createMenuSlice from '../redux/menu'
+import createTempSlice from '../redux/temp'
 
 const persistConfig = {
     key: 'root',
@@ -15,7 +16,8 @@ const cachePersistReducers = persistReducer(persistConfig, createCacheSlice)
 export const store = configureStore({
     reducer: {
         cache: cachePersistReducers,
-        menu: createMenuSlice
+        menu: createMenuSlice,
+        temp: createTempSlice
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware({ immutableCheck: false, serializableCheck: false })
 })

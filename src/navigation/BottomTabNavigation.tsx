@@ -1,6 +1,6 @@
 import { AccountScreen, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HeaderLeft, HeaderLeftProfile } from '../components';
+import { HeaderRight, HeaderLeftProfile } from '../components';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppSelector } from '../hooks';
 import i18n from '../localization';
@@ -16,7 +16,7 @@ const BottomTabNavigation = () => {
                 tabBarStyle: [{ backgroundColor: theme.background, bottom: 0, height: 60 }],
                 tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },
                 tabBarActiveTintColor: theme.color,
-                headerRight: () => <HeaderLeft />
+                headerRight: () => <HeaderRight />
             }}
         >
             <Tab.Screen name="Home" component={HomeScreen}
@@ -36,7 +36,7 @@ const BottomTabNavigation = () => {
             <Tab.Screen name="History" component={HistoryScreen}
                 options={{
                     tabBarIcon: ({ focused, color }) => (<Ionicons name='repeat-outline' color={color} size={24} />),
-                    title: i18n.t('History')
+                    title: i18n.t('Transaction History')
                 }}
             />
             <Tab.Screen name="Account" component={AccountScreen}

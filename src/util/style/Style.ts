@@ -4,10 +4,7 @@ const styles = StyleSheet.create({
     inputStyle: {
         width: '90%',
         height: 45,
-        borderWidth: 1,
-        marginBottom: 24,
-        paddingHorizontal: 10,
-        borderRadius: 8,
+        marginBottom: 20,
     },
     searchStyle: {
         borderWidth: 1,
@@ -24,7 +21,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '90%',
-        height: 40,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
@@ -37,9 +34,6 @@ const styles = StyleSheet.create({
     section: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: -15,
-        marginBottom: 20,
-        width: '94%'
     },
     paragraph: {
         fontSize: 15,
@@ -56,8 +50,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingTop: 12,
-        paddingBottom: 0
+        paddingTop: 14,
+        paddingBottom: 5,
+        paddingRight: 12
     },
     menu_text_content: {
         flexDirection: 'row',
@@ -65,8 +60,7 @@ const styles = StyleSheet.create({
         width: '85%',
         alignItems: "center",
         borderBottomWidth: 1,
-        paddingBottom: 12,
-        paddingRight: 12
+        paddingBottom: 12
     },
     menu_icon_content: {
         flexDirection: 'row',
@@ -95,6 +89,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
+        marginBottom: 10
     },
     tabBar: {
         borderRadius: 20,
@@ -219,6 +214,19 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         fontFamily: 'R500',
         fontSize: 10
+    },
+    section_container: {
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '90%',
+        marginTop: -10,
+        marginBottom: 20
+    },
+    textError: {
+        fontSize: 12,
+        marginTop: -20,
+        marginBottom: 10
     }
 })
 

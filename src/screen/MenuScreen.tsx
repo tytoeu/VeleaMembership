@@ -5,6 +5,7 @@ import HomeStyle from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
 import useMenu from '../hooks/useMenu'
+import { IMenu } from '../hooks/interface/IMenu'
 
 const MenuScreen = () => {
     const nav = useAppNavigation()
@@ -15,7 +16,7 @@ const MenuScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
 
     // Extracts all data arrays from pages and merges them into a single array
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.response?.data) ?? [];
+    const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.response?.data as IMenu[]) || [];
 
     // data declearation object
     const all = { categoryId: '', name: "All", image: null, itemCount: 0 };

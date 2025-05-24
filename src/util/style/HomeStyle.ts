@@ -12,9 +12,10 @@ const home_style = StyleSheet.create({
         marginTop: 20,
         borderRadius: 8,
         paddingHorizontal: 22,
+        alignSelf: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingVertical: 25,
+        paddingTop: 25,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -45,7 +46,8 @@ const home_style = StyleSheet.create({
     },
     balance_number: {
         fontFamily: 'R900',
-        fontSize: 18,
+        fontSize: 22,
+        marginTop: 8
     },
     code: {
         fontFamily: 'R700',
@@ -61,7 +63,8 @@ const home_style = StyleSheet.create({
         alignItems: 'center',
         width: '90%',
         marginTop: 16,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        alignSelf: 'center'
     },
     menu_button: {
         flexDirection: 'row',
@@ -94,6 +97,21 @@ const home_style = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
         opacity: 0.8
+    },
+    redom: {
+        marginTop: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
     }
 })
 

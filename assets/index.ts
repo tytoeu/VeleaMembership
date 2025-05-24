@@ -1,6 +1,6 @@
 export const assets = {
     logo: {
-        login: require('./logo/logo_login.png')
+        login: require('./logo/velea_gastropub.png')
     },
     img: {
         loading: require('./img/loading.png'),
@@ -8,8 +8,11 @@ export const assets = {
     },
     config: {
         api: 'https://velea.asia/api/v1/',
-        token: '',
         imagePath: 'http://pos.velea.asia/uploads/',
-        prxxy: 'https://velea.asia/image-proxy?url='
+        // api: 'http://172.31.122.126/menu-degital/public/api/v1/',
+        // imagePath: 'http://172.31.122.126/menu-degital/public/',
+        token: '',
+        prxxy: 'https://velea.asia/image-proxy?url=',
+        originImage: 'https://velea.asia/'
     }
 }

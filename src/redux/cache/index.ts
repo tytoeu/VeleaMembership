@@ -88,7 +88,8 @@ export const {
     onBoardingDoneAction,
     addToCartAction,
     updateQualityAction,
-    setIncorrectCodeAction } = createCacheSlice.actions
+    setIncorrectCodeAction
+} = createCacheSlice.actions
 
 export default createCacheSlice.reducer
 

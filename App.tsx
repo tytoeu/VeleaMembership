@@ -1,24 +1,30 @@
-
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { persistor, store } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppNavigation from './src/navigation/AppNavigation';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
-import 'react-native-reanimated'
-import 'react-native-gesture-handler'
-
-import {
-  Roboto_400Regular as R400,
-  Roboto_500Medium as R500m,
-  Roboto_700Bold as R700,
-  Roboto_900Black as R900
-} from '@expo-google-fonts/roboto'
-SplashScreen.preventAutoHideAsync();
+import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    R400: require('./assets/fonts/roboto-regular.ttf'),
+    R500: require('./assets/fonts/roboto-500.ttf'),
+    R700: require('./assets/fonts/roboto-700.ttf'),
+    R900: require('./assets/fonts/roboto-900.ttf')
+  });
+
+  useEffect(() => { SplashScreen.preventAutoHideAsync(); }, []);
+
+  useEffect(() => { fontsLoaded && SplashScreen.hideAsync(); }, [fontsLoaded])
+
+  if (!fontsLoaded) return null;
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -27,23 +33,24 @@ export default function App() {
     },
   });
 
-  const [fontsLoaded] = useFonts({ R400, R500m, R700, R900 });
-  fontsLoaded && SplashScreen.hide();
-
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
+    <PaperProvider>
+      <RootSiblingParent>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
 
-        <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
 
-          <NavigationContainer>
-            <AppNavigation />
-          </NavigationContainer>
+              <NavigationContainer>
+                <AppNavigation />
+              </NavigationContainer>
 
-        </QueryClientProvider>
+            </QueryClientProvider>
 
-      </PersistGate>
-    </Provider>
+          </PersistGate>
+        </Provider>
+      </RootSiblingParent>
+    </PaperProvider>
   );
 }
 

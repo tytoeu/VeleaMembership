@@ -1,37 +1,22 @@
-import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StatusBar, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks';
 import Onboarding from 'react-native-onboarding-swiper';
 import { onBoardingDoneAction } from '../redux/cache';
 import styles from '../util/style/Style';
-import React from 'react'
+import React, { useEffect } from 'react'
+import useDashbaord from '../hooks/useDashbaord';
+import { assets } from '../../assets';
+import { IOnboard } from '../hooks/interface/IDashboard';
 
-const pages = [
-
-    {
-        backgroundColor: '#fff',
-        image: <Image
-            source={{ uri: 'https://img.freepik.com/premium-photo/chinese-woman-glasses-is-seng-bard-0cebe_1233959-46219.jpg?uid=R103809456&ga=GA1.1.925930140.1715152431&semt=ais_hybrid' }}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-        />,
-        title: 'Onboarding',
-        subtitle: 'Done with React Native Onboarding Swiper'
-    },
-    {
-        backgroundColor: '#fff',
-        image: <Image
-            source={{ uri: 'https://img.freepik.com/free-photo/medium-shot-young-man-having-fun_23-2151194050.jpg?uid=R103809456&ga=GA1.1.925930140.1715152431&semt=ais_hybrid' }}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-        />,
-        title: 'Onboarding',
-        subtitle: 'Done with React Native Onboarding Swiper'
-    },
-
-]
+const asset = assets.config
 
 const OnBoardingScreen = () => {
-    const { theme } = useAppSelector((state) => state.cache)
+    const { theme, currentTheme } = useAppSelector((state) => state.cache)
     const navigation = useAppNavigation()
     const dispatch = useAppDispatch()
+    const { onboard } = useDashbaord()
+
+    const data: IOnboard[] = onboard.data || [];
 
     const DoneButton = ({ ...props }) => (
         <TouchableOpacity style={{ marginRight: 20 }} {...props}>
@@ -68,23 +53,46 @@ const OnBoardingScreen = () => {
         />
     );
 
+    useEffect(() => {
+        onboard.mutate()
+    }, [])
+
+    const onboardingData = data.map(item => ({
+        backgroundColor: '#fff',
+        title: item.title,
+        subtitle: item.description,
+        image: (
+            <Image
+                source={{ uri: asset.originImage + item.image }}
+                style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
+            />
+        )
+    }))
+
+    if (onboard.isPending) {
+        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
+            <StatusBar barStyle={currentTheme == 'light' ? 'dark-content' : 'light-content'} translucent />
+            <ActivityIndicator color={theme.color} size={'large'} />
+        </View>
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <StatusBar barStyle={'light-content'} translucent />
-            <Onboarding
-                pages={pages}
+            {onboardingData.length && <Onboarding
+                pages={onboardingData}
                 onDone={() => { navigation.navigate('Login'); dispatch(onBoardingDoneAction(true)) }}
                 onSkip={() => navigation.navigate('Login')}
                 imageContainerStyles={{ width: '100%', height: '85%', paddingBottom: 20 }}
                 containerStyles={{ flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', backgroundColor: theme.background }}
                 titleStyles={{ color: theme.color }}
-                subTitleStyles={{ color: theme.color, textAlign: 'left' }}
+                subTitleStyles={{ color: theme.colorText, textAlign: 'left' }}
                 bottomBarColor={theme.background}
                 DoneButtonComponent={DoneButton}
                 SkipButtonComponent={SkipButton}
                 DotComponent={DotComponent}
                 NextButtonComponent={NexButton}
-            />
+            />}
         </View>
     )
 }

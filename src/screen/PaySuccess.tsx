@@ -22,7 +22,7 @@ const PaySuccess = () => {
             <View style={[styles.icon_wrap]}>
                 <Ionicons name='checkmark-outline' color={theme.color} size={SPACING * 3.2} />
             </View>
-            <Text style={[styles.text_suc, { color: theme.color }]}>Successed</Text>
+            <Text style={[styles.text_suc, { color: theme.color }]}>Thank you</Text>
 
             <View style={[styles.card_wrap, { backgroundColor: theme.rgba }]} >
                 <View style={[styles.card_top, { borderBottomColor: theme.colorText }]}>
@@ -81,7 +81,8 @@ const styles = StyleSheet.create({
     text_suc: {
         fontSize: FONT_SIZE * 1.2,
         fontFamily: 'R700',
-        marginTop: SPACING * 0.5
+        marginTop: SPACING * 0.5,
+        textTransform: 'uppercase'
     },
     icon_wrap: {
         width: WIDTH * 0.13,

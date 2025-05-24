@@ -44,9 +44,23 @@ const LoginStyle = StyleSheet.create({
     },
     bottomText: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: '10%'
+        alignSelf: 'flex-end',
+        paddingTop: 0,
+        marginRight: 25
+    },
+    calender: {
+        borderWidth: 2,
+        borderRadius: 20,
+        position: 'absolute',
+        left: '6%',
+        padding: 20,
+        width: '88%',
+        top: 170
+    },
+    modal: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        position: 'relative'
     }
 });
 

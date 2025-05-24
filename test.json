@@ -1,47 +1,13 @@
 {
-    "data": undefined,
-    "dataUpdatedAt": 0,
-    "error": null,
-    "errorUpdateCount": 0,
-    "errorUpdatedAt": 0,
-    "failureCount": 0,
-    "failureReason": null,
-    "fetchNextPage": [Function bound fetchNextPage
-    ],
-    "fetchPreviousPage": [Function bound fetchPreviousPage
-    ],
-    "fetchStatus": "fetching",
-    "hasNextPage": false,
-    "hasPreviousPage": false,
-    "isError": false,
-    "isFetchNextPageError": false,
-    "isFetchPreviousPageError": false,
-    "isFetched": false,
-    "isFetchedAfterMount": false,
-    "isFetching": true,
-    "isFetchingNextPage": false,
-    "isFetchingPreviousPage": false,
-    "isInitialLoading": true,
-    "isLoading": true,
-    "isLoadingError": false,
-    "isPaused": false,
-    "isPending": true,
-    "isPlaceholderData": false,
-    "isRefetchError": false,
-    "isRefetching": false,
-    "isStale": true,
-    "isSuccess": false,
-    "promise": {
-        "_h": 1,
-        "_i": 2,
-        "_j": [Error: experimental_prefetchInRender feature flag is not enabled
-        ],
-        "_k": null,
-        "reason": [Error: experimental_prefetchInRender feature flag is not enabled
-        ],
-        "status": "rejected"
+    "balance": {
+        "balance": "0.00",
+        "id": 1,
+        "point": "0.00"
     },
-    "refetch": [Function bound refetch
-    ],
-    "status": "pending"
+    "membership": {
+        "dob": "05-11-1998",
+        "id": 11,
+        "name": "Toeu Ty",
+        "phone": "0886508240"
+    }
 }

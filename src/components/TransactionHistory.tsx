@@ -1,33 +1,55 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { View, Text, StyleSheet } from 'react-native'
 import { useAppSelector } from '../hooks'
 import React from 'react'
 
-const TransactionHistory = ({ index }: { index: number }) => {
+interface historyInterface {
+    id: number,
+    title: string,
+    sub_title: string,
+    type: string,
+    date: string,
+    amount: number,
+}
+
+interface prop {
+    item: historyInterface
+    index: number,
+    data: any
+}
+const formatDate = (datetime: string) => datetime.split(' ')[0];
+
+const TransactionHistory = (prop: prop) => {
     const { theme } = useAppSelector(state => state.cache)
-    const operate = index % 2
+
+    const symbol = prop.item.type == 'earn-point' ? 'Point' : '$'
+    const color = prop.item.type == 'earn-point' ? '#138d75' : '#de0101'
+    const _symbol = prop.item.type == 'purchase' ? '-' : '+'
+
+    const currentDate = formatDate(prop.item.date);
+
+    const prevDate = prop.index > 0 ? formatDate(prop.data[prop.index - 1].date) : null;
+    const showDate = currentDate !== prevDate;
+
     return (
         <>
-            {operate == 0 && <View style={home_style.tran_date_content}>
+            {showDate && <View style={home_style.tran_date_content}>
                 <View style={[home_style.tran_border, { borderBottomColor: theme.colorText }]} />
-                <Text style={[home_style.tran_date, { color: theme.color }]}>0{index + 3}-03-2025</Text>
+                <Text style={[home_style.tran_date, { color: theme.color }]}>{prop.item.date}</Text>
                 <View style={[home_style.tran_border, { borderBottomColor: theme.colorText }]} />
             </View>}
 
             <View style={[home_style.tran_card, { backgroundColor: theme.bgDark }]}>
                 <View style={home_style.icon_content}>
-                    <View style={[home_style.tran_icon, { backgroundColor: operate ? '#b9770e' : '#5b2c6f' }]}>
-                        {operate == 0 ?
-                            <Ionicons name='swap-horizontal-outline' size={20} color={'white'} /> :
-                            <MaterialCommunityIcons name="bank" size={20} color={'white'} />}
-
+                    <View style={[home_style.tran_icon, { backgroundColor: '#b9770e' }]}>
+                        {prop.item.type == 'earn-point' ? <FontAwesome name="star" size={20} color={'white'} /> : <FontAwesome name="dollar" size={20} color={'white'} />}
                     </View>
                     <View>
-                        <Text style={[home_style.tran_text, { color: theme.color }]}>Quick Transfer</Text>
-                        <Text style={[home_style.tran_name_text, { color: theme.color }]}>Mr. Mannet</Text>
+                        <Text style={[home_style.tran_text, { color: theme.color }]}>{prop.item.title}</Text>
+                        <Text style={[home_style.tran_name_text, { color: theme.color }]}>Velea gastropub</Text>
                     </View>
                 </View>
-                <Text style={[home_style.tran_text_balance, { color: operate ? '#138d75' : 'red' }]}>{operate ? '+' : '-'}${index + 1}0.00</Text>
+                <Text style={[home_style.tran_text_balance, { color }]}>{_symbol}{prop.item.amount} {symbol}</Text>
             </View>
         </>
     )

@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useAppSelector } from '../hooks'
 import styles from '../util/style/Style'
 import { useState } from 'react'
+import i18n from '../localization'
 
 const renderScene = SceneMap({
     Purchase: Purchase,
@@ -13,16 +14,16 @@ const renderScene = SceneMap({
     Topup: Topup
 });
 
-const routes = [
-    { key: 'Purchase', title: 'Purchase' },
-    { key: 'EearnCorn', title: 'Eearn-corn' },
-    { key: 'Topup', title: 'Top-up' }
-];
-
 const HistoryScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
+
+    const routes = [
+        { key: 'Purchase', title: i18n.t('Purchase') },
+        { key: 'EearnCorn', title: i18n.t('Eearn-corn') },
+        { key: 'Topup', title: i18n.t('Top-up') }
+    ];
 
     const renderTabBar = (props: any) => (
         <View style={[styles.tabContainer, { backgroundColor: theme.bgDark }]}>

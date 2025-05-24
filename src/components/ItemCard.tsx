@@ -15,6 +15,7 @@ const ItemCard = (prop: IProp) => {
     const { theme, locale } = useAppSelector((state) => state.cache)
     const image = prop.items?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${prop.items.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${prop.items.image}`
     let bgColor = ''
+    console.log(image)
     if (prop.items.feature) {
         switch (prop.items.feature) {
             case 'Best selling':
@@ -34,7 +35,7 @@ const ItemCard = (prop: IProp) => {
                 <View style={[menuStyle.feature, { backgroundColor: bgColor }]}>
                     <Text style={menuStyle.featureText}>{prop.items.feature}</Text>
                 </View>}
-            {prop.items.image ? <Image
+            {prop.items?.image ? <Image
                 source={{ uri: image }}
                 style={{ width: '100%', height: 150, resizeMode: 'cover' }}
             /> :
