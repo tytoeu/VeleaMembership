@@ -9,7 +9,8 @@ const themeConfig = {
         border: 'rgba(0,0,0,0.05)',
         rgba: 'rgba(0,0,0,0.1)',
         bgInput: '#f1f1f1',
-        main: '#955440'
+        main: '#955440',
+        modal: 'white'
     },
     dark: {
         color: 'white',
@@ -21,7 +22,8 @@ const themeConfig = {
         border: 'rgba(254,254,254,0.1)',
         rgba: 'rgba(254,254,254,0.1)',
         bgInput: '#121212',
-        main: '#955440'
+        main: '#955440',
+        modal: '#2c3e50'
     }
 }
 

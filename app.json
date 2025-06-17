@@ -12,31 +12,38 @@
     ],
     "splash": {
       "image": "./assets/flashscreen.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#323232"
+      "resizeMode": "cover",
+      "backgroundColor": "#975542"
     },
     "ios": {
-      "buildNumber": "1",
       "supportsTablet": false,
       "bundleIdentifier": "kh.velea.com",
       "icon": "./assets/velea_ios.png",
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Our app need to use the camera to scan card membership qr"
+      }
     },
     "android": {
-      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/velea_andiord.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "kh.velea.com"
+      "package": "kh.velea.com",
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "CAMERA"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-font",
       "expo-localization",
-      "expo-asset"
+      "expo-asset",
+      "expo-notifications"
     ],
     "extra": {
       "eas": {

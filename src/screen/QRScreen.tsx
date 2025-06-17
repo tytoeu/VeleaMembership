@@ -6,7 +6,7 @@ const WIDTH = Dimensions.get('screen').width
 
 const QRScreen = () => {
     const { theme } = useAppSelector(state => state.cache)
-
+    const { tempAuth } = useAppSelector((state) => state.temp)
     return (
         <View style={[{ backgroundColor: theme.background }, _styles.concontainer]}>
             <View style={[_styles.qr_container, { backgroundColor: theme.bgDark }]}>
@@ -14,11 +14,11 @@ const QRScreen = () => {
                     <Text style={{ fontSize: 16, fontFamily: 'R700', color: 'white' }}>QR Code</Text>
                 </View>
                 <View style={{ borderBottomWidth: 1, borderStyle: 'dashed', paddingHorizontal: 16, paddingVertical: 20, borderBottomColor: theme.colorText }}>
-                    <Text style={{ fontFamily: 'R700', color: theme.color }}>TOEU TY</Text>
+                    <Text style={{ fontFamily: 'R700', color: theme.color }}>{tempAuth?.name}</Text>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: 'center', flex: 1 }}>
                     <View style={{ width: '80%', height: '80%', borderRadius: 8, alignSelf: 'center', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-                        <QRCode value={`PTC-0886508240`} size={200} logoBackgroundColor='transparent' />
+                        <QRCode value={JSON.stringify(tempAuth)} size={200} logoBackgroundColor='transparent' />
                     </View>
                 </View>
             </View>

@@ -26,7 +26,7 @@ const useHistoryTransaction = (type?: string) => {
         staleTime: STALE_TIME,
         queryKey: ['history-transaction', auth?.id, type],
         queryFn: async ({ pageParam = 1 }) => await fetcHistory({ id: auth?.id, type, page: pageParam }),
-        getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage?.data.length === 0) ? undefined : allPages.length + 1)
+        getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage?.data?.length === 0) ? undefined : allPages?.length + 1)
     });
 
     return {

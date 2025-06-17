@@ -20,7 +20,7 @@ const Topup = () => {
 
     const ListFooterComponent = () => {
         if (infiniteQuery.isFetchingNextPage) {
-            return <ActivityIndicator size={'small'} color={'#ddd'} />;
+            return <View style={{ paddingBottom: 20 }}><ActivityIndicator size={'small'} color={'#ddd'} /></View>;
         }
         return null
     }

@@ -4,6 +4,8 @@ import { useAppSelector } from '../../hooks'
 import React, { useCallback } from 'react'
 import useHistoryTransaction from '../../hooks/useHistoryTransaction'
 import i18n from '../../localization'
+import { StatusBar } from 'expo-status-bar'
+import styles from '../../util/style/Style'
 
 const Purchase = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
@@ -20,7 +22,7 @@ const Purchase = () => {
 
     const ListFooterComponent = () => {
         if (infiniteQuery.isFetchingNextPage) {
-            return <ActivityIndicator size={'small'} color={'#ddd'} />;
+            return <View style={{ paddingBottom: 20 }}><ActivityIndicator size={'small'} color={'#ddd'} /></View>;
         }
         return null
     }
@@ -31,6 +33,14 @@ const Purchase = () => {
         }
         return null
     }
+
+    if (infiniteQuery.isLoading) {
+        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
+            <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
+            <ActivityIndicator color={theme.color} size={'large'} />
+        </View>
+    }
+
     return (
         <FlatList
             data={daraArr}

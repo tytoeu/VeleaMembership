@@ -11,12 +11,27 @@ const BottomTabNavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={{
+                headerTitleAlign: 'left',
                 headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 18 },
-                headerStyle: { backgroundColor: theme.background, elevation: 3 },
-                tabBarStyle: [{ backgroundColor: theme.background, bottom: 0, height: 60 }],
+                headerStyle: {
+                    backgroundColor: theme.background,
+                    elevation: 0,
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0,
+                    shadowRadius: 0,
+                },
+                tabBarItemStyle: { borderWidth: 0 },
+                tabBarStyle: [
+                    {
+                        backgroundColor: theme.background,
+                        borderTopWidth: 0,
+                        elevation: 0,
+                        shadowOpacity: 0,
+                    }
+                ],
                 tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },
-                tabBarActiveTintColor: theme.color,
-                headerRight: () => <HeaderRight />
+                tabBarActiveTintColor: theme.main,
+                headerRight: () => <HeaderRight />,
             }}
         >
             <Tab.Screen name="Home" component={HomeScreen}
@@ -45,7 +60,6 @@ const BottomTabNavigation = () => {
                     title: i18n.t('Account')
                 }}
             />
-
         </Tab.Navigator>
     );
 }

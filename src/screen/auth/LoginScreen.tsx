@@ -8,12 +8,10 @@ import { StatusBar } from 'expo-status-bar'
 import { Layout, ThemeErrorText } from '../../components'
 import useAuth from '../../hooks/useAuth'
 import { assets } from '../../../assets'
-import React, { useState } from 'react'
-import Checkbox from 'expo-checkbox'
+import React from 'react'
 import { loginAction } from '../../redux/cache'
 import { IUser } from '../../hooks/interface/ISignin'
-import { actionForgetPassword } from '../../redux/temp'
-import { ToastMessage } from '../../components/ToastMessage'
+import { actionCreateCard, actionForgetPassword } from '../../redux/temp'
 import i18n from '../../localization'
 import { TextInput } from 'react-native-paper'
 
@@ -22,6 +20,7 @@ const logo = assets.logo
 const LoginScreen = () => {
 
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
+    const { navigate } = useAppSelector((state) => state.temp)
     const { handleErrorChange, handleTextChange, input, error, setChecked, isChecked } = useInputText()
     const { signinMutation } = useAuth()
     const dispatch = useAppDispatch()
@@ -41,21 +40,17 @@ const LoginScreen = () => {
             const data = { phone_number: input?.phone!, password: input?.password! }
             signinMutation.mutateAsync(data, {
                 onSuccess: (data) => {
-                    console.log(data)
                     if (data.status) {
-                        const user: IUser = {
-                            access_token: data.token,
-                            full_name: data.membership.full_name,
-                            phone_number: data.membership.phone_number,
-                            id: data.membership.id,
-                            dob: data.membership.dob,
-                            password: input?.password!,
-                            avatar: data.membership?.avatar
-                        }
+                        const user: IUser = { access_token: data.token, id: data.membership.id }
                         dispatch(loginAction(user));
-                        ToastMessage(data.message, theme.color, theme.bgDark)
+                        navigation.navigate(navigate ?? 'Home')
                     } else {
-                        handleErrorChange('phone', data.message)
+                        if (data?.errors) {
+                            data?.errors?.phone_number && handleErrorChange('phone', data?.errors?.phone_number[0])
+                            data?.errors?.password && handleErrorChange('password', data?.errors?.password[0])
+                            return
+                        }
+                        handleErrorChange('phone', data?.message)
                     }
                 },
                 onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
@@ -101,7 +96,6 @@ const LoginScreen = () => {
                     <ThemeErrorText textError={error?.phone!} />
                 </View>
 
-                <View style={{ height: 10 }} />
                 <TextInput
                     mode='outlined'
                     style={[styles.inputStyle, { backgroundColor: theme.bgInput }]}
@@ -139,7 +133,11 @@ const LoginScreen = () => {
 
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: theme.bgDark }]}
-                    onPress={validation}>
+                    onPress={() => {
+                        navigation.navigate('qr-scanner-card')
+                        dispatch(actionCreateCard(true))
+                    }}>
+                    {/* onPress={() => navigation.navigate('qr-scanner-card')}> */}
                     <Text style={[styles.buttonText, { color: theme.colorText }]}>{i18n.t('Register with membership card')}</Text>
                 </TouchableOpacity>
 

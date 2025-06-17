@@ -89,13 +89,15 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
-        marginBottom: 10
+        marginBottom: 10,
+        marginTop: 20
     },
     tabBar: {
         borderRadius: 20,
         overflow: 'hidden',
         backgroundColor: 'transparent',
-        shadowColor: 'transparent'
+        shadowColor: 'transparent',
+        marginHorizontal: 10
     },
     indicator: {
         backgroundColor: '#b9770e',
@@ -153,6 +155,14 @@ const styles = StyleSheet.create({
         height: '35%',
         bottom: '40%',
         right: 0
+    },
+    pendingOverlay: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.7)'
     },
     item_card: {
         width: '92%',
@@ -227,6 +237,29 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: -20,
         marginBottom: 10
+    },
+    tab_scan: {
+        position: 'absolute',
+        alignSelf: 'center',
+        backgroundColor: 'rgba(254, 0, 0,0.5)',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        bottom: '53%'
+    },
+    tab_text: {
+        fontSize: 12,
+        fontFamily: 'R700',
+        color: 'white'
+    },
+    scan_title: {
+        position: 'absolute',
+        alignSelf: 'center',
+        zIndex: 99,
+        color: 'white',
+        bottom: 20,
+        fontFamily: 'R900',
+        borderBottomWidth: 1,
+        borderBottomColor: 'white'
     }
 })
 

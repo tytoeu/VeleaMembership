@@ -1,7 +1,8 @@
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import { View, Text, StyleSheet } from 'react-native'
 import { useAppSelector } from '../hooks'
 import React from 'react'
+import { formatDecimal } from '../helpers'
 
 interface historyInterface {
     id: number,
@@ -31,6 +32,8 @@ const TransactionHistory = (prop: prop) => {
     const prevDate = prop.index > 0 ? formatDate(prop.data[prop.index - 1].date) : null;
     const showDate = currentDate !== prevDate;
 
+    const decimal: string = formatDecimal(prop.item.amount)
+
     return (
         <>
             {showDate && <View style={home_style.tran_date_content}>
@@ -49,7 +52,7 @@ const TransactionHistory = (prop: prop) => {
                         <Text style={[home_style.tran_name_text, { color: theme.color }]}>Velea gastropub</Text>
                     </View>
                 </View>
-                <Text style={[home_style.tran_text_balance, { color }]}>{_symbol}{prop.item.amount} {symbol}</Text>
+                <Text style={[home_style.tran_text_balance, { color }]}>{_symbol}{decimal} {symbol}</Text>
             </View>
         </>
     )

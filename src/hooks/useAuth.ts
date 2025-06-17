@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { IChangePassword, IResetPassword, ISignin, ISignup, IVerifyOtp, OTP } from "./interface/ISignin";
+import { IChangePassword, IPersanlChange, IRegisterWithCard, IResetPassword, ISignin, ISigninCard, ISignup, IVerifyOtp, OTP } from "./interface/ISignin";
 import { assets } from "../../assets";
 import { Alert } from "react-native";
 import { useAppSelector } from ".";
@@ -24,6 +24,16 @@ const useAuth = () => {
 
     const signin = async (auth: ISignin) => {
         const url = `${appConfig.api}login/member`;
+        const response = await fetch(url, { method: 'POST', headers: headerOptions, body: JSON.stringify(auth) });
+        return response.json();
+    };
+    const signinWithCard = async (auth: ISigninCard) => {
+        const url = `${appConfig.api}login-card/member`;
+        const response = await fetch(url, { method: 'POST', headers: headerOptions, body: JSON.stringify(auth) });
+        return response.json();
+    };
+    const signupWithCard = async (auth: IRegisterWithCard) => {
+        const url = `${appConfig.api}register-card/member`;
         const response = await fetch(url, { method: 'POST', headers: headerOptions, body: JSON.stringify(auth) });
         return response.json();
     };
@@ -62,6 +72,12 @@ const useAuth = () => {
         return response.json();
     }
 
+    const changePersonalInfor = async (auth: IPersanlChange) => {
+        const url = `${appConfig.api}member/change-personal-infor`;
+        const response = await fetch(url, { method: 'POST', headers: headerOptionsAuth, body: JSON.stringify(auth) });
+        return response.json();
+    }
+
     // Mutation for 
     const signinMutation = useMutation({
         mutationFn: signin,
@@ -96,6 +112,18 @@ const useAuth = () => {
         mutationFn: changePassword,
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
     });
+    const signinWithCardMutation = useMutation({
+        mutationFn: signinWithCard,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
+    const signupWithCardMutation = useMutation({
+        mutationFn: signupWithCard,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
+    const changePersonalInforMutation = useMutation({
+        mutationFn: changePersonalInfor,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
 
     return {
         signinMutation,
@@ -104,7 +132,10 @@ const useAuth = () => {
         signupMutation,
         logoutMutation,
         resetPasswordMutation,
-        changePasswordMutation
+        changePasswordMutation,
+        signinWithCardMutation,
+        signupWithCardMutation,
+        changePersonalInforMutation
     };
 };
 

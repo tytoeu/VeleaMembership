@@ -12,7 +12,7 @@ const menuStyle = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        width: '47%',
+        width: '49%',
         overflow: 'hidden',
         position: 'relative'
     },

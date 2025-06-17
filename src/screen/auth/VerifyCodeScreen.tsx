@@ -1,4 +1,4 @@
-import SmsRetriever from "react-native-sms-retriever";
+// import SmsRetriever from "react-native-sms-retriever";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
@@ -25,34 +25,33 @@ const VerifyCodeScreen = () => {
     const { handleErrorChange, handleTextChange, input, error } = useInputText()
     const { verifyOtpMutation, sendOtpMutation } = useAuth()
 
-    useEffect(() => {
-        const startListening = async () => {
-            try {
-                const registered = await SmsRetriever.startSmsRetriever();
-                console.log("SMS Retriever started:", registered);
+    // useEffect(() => {
+    //     const startListening = async () => {
+    //         try {
+    //             const registered = await SmsRetriever.startSmsRetriever();
+    //             console.log("SMS Retriever started:", registered);
 
-                if (registered) {
-                    SmsRetriever.addSmsListener((event) => {
-                        // Extract OTP (Assuming a 6-digit OTP)
-                        const otpMatch = event?.message?.match(/\b\d{6}\b/);
-                        if (otpMatch) {
-                            handleTextChange('otp_code', otpMatch[0])
-                            handleErrorChange('otp_code', '')
-                        }
+    //             if (registered) {
+    //                 SmsRetriever.addSmsListener((event) => {
+    //                     // Extract OTP (Assuming a 6-digit OTP)
+    //                     const otpMatch = event?.message?.match(/\b\d{6}\b/);
+    //                     if (otpMatch) {
+    //                         handleTextChange('otp_code', otpMatch[0])
+    //                         handleErrorChange('otp_code', '')
+    //                     }
 
-                        SmsRetriever.removeSmsListener();
-                    });
-                }
-            } catch (error) {
-                sendToTelegramBot(error)
-            }
-        };
+    //                     SmsRetriever.removeSmsListener();
+    //                 });
+    //             }
+    //         } catch (error) {
+    //             sendToTelegramBot(error)
+    //         }
+    //     };
 
-        startListening();
-        return () => SmsRetriever.removeSmsListener();
-    }, []);
+    //     startListening();
+    //     return () => SmsRetriever.removeSmsListener();
+    // }, []);
 
-    console.log('IS FORGET', isforget)
 
     const verifyCode = async () => {
         if (!input?.otp_code) {
@@ -194,7 +193,7 @@ const _styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 25
+        marginBottom: 50
     },
     text_button: {
         fontSize: 16,

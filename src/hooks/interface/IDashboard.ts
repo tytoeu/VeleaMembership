@@ -1,5 +1,5 @@
 
-export interface IMembership {
+interface IMembership {
     id: number;
     name: string
     phone: string;
@@ -8,6 +8,7 @@ export interface IMembership {
     balance: number;
     point: number;
     created_at: string
+    avatar: string | null;
 }
 
 export interface IOnboard {
@@ -18,4 +19,21 @@ export interface IOnboard {
     status: number;
     created_at: string;
     updated_at: string;
+}
+
+export interface IDashboard {
+    membership: IMembership;
+    cards: ICard[];
+}
+
+export interface ICard {
+    id: number;
+    card_number: string;
+    offer_discount: number;
+    limit_type: string;
+    limit_offer: number | 0
+    expire_date: string;
+    status: number;
+    tier_name: string;
+    tier_image: string | null;
 }

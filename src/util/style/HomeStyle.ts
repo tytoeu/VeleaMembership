@@ -29,6 +29,7 @@ const home_style = StyleSheet.create({
     balance_container: {
         flexDirection: 'row',
         alignItems: 'center',
+        position: 'relative'
     },
     logo: {
         width: 80,
@@ -84,6 +85,7 @@ const home_style = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+        position: 'relative'
     },
     menu_btn_text: {
         paddingLeft: 12,
@@ -112,6 +114,19 @@ const home_style = StyleSheet.create({
         shadowRadius: 1.41,
 
         elevation: 2,
+        marginBottom: 10
+    },
+    coming_soon: {
+        position: 'absolute',
+        color: 'white',
+        backgroundColor: 'rgba(255, 0, 0,0.8)',
+        fontFamily: 'R900',
+        fontSize: 10,
+        padding: 5,
+        borderRadius: 5,
+        top: 32,
+        overflow: 'hidden',
+        paddingHorizontal: 10
     }
 })
 

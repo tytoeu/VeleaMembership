@@ -107,6 +107,13 @@ const TopupScreen = () => {
         console.log('Topup Action:', jsonData);
     }
 
+    const isComingSoon = true
+    if (isComingSoon) {
+        return (<View style={[topup_style.container, { backgroundColor: theme.background, justifyContent: 'center' }]}>
+            <Text style={{ color: theme.color, backgroundColor: theme.bgDark, padding: 20, borderRadius: 5, overflow: 'hidden', fontFamily: 'R700' }}>Coming Soon</Text>
+        </View>)
+    }
+
     return (
         <View style={[topup_style.container, { backgroundColor: theme.background }]}>
 

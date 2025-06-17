@@ -6,7 +6,6 @@ import { StatusBar } from 'expo-status-bar'
 import styles from '../../util/style/Style'
 import { Layout, ThemeErrorText } from '../../components'
 import { assets } from '../../../assets'
-import Checkbox from 'expo-checkbox'
 import React from 'react'
 import { ISignup, IUser } from '../../hooks/interface/ISignin'
 import { useRoute } from '@react-navigation/native'
@@ -15,6 +14,7 @@ import { loginAction } from '../../redux/cache'
 import { ToastMessage } from '../../components/ToastMessage'
 import i18n from '../../localization'
 import { TextInput } from 'react-native-paper'
+import { formatDateBirthDay } from '../../helpers'
 
 const logo = assets.logo
 type phoneType = { phone: string, opt_code: string }
@@ -22,6 +22,7 @@ type phoneType = { phone: string, opt_code: string }
 const SignupScreen = () => {
 
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
+    const { navigate } = useAppSelector((state) => state.temp)
     const { handleErrorChange, handleTextChange, input, error, setChecked, isChecked } = useInputText()
     const navigation = useAppNavigation()
     const routes = useRoute()
@@ -64,17 +65,10 @@ const SignupScreen = () => {
             signupMutation.mutateAsync(data, {
                 onSuccess: (data) => {
                     if (data?.status) {
-                        const user: IUser = {
-                            access_token: data.token,
-                            full_name: data.membership.full_name,
-                            phone_number: data.membership.phone_number,
-                            id: data.membership.id,
-                            dob: data.membership.dob,
-                            password: input?.password!,
-                            avatar: data.membership?.avatar
-                        }
+                        const user: IUser = { access_token: data.token, id: data.membership.id }
                         dispatch(loginAction(user))
                         ToastMessage(data.message, theme.color, theme.bgDark)
+                        navigation.navigate(navigate ?? 'Home')
                     } else {
                         Alert.alert('Warning', data?.message || 'Something went wrong!')
                     }
@@ -86,35 +80,8 @@ const SignupScreen = () => {
 
     }
 
-    const formatDate = (text: string) => {
-        // Remove any non-digit characters first
-        const cleaned = text.replace(/\D/g, '');
-
-        // If user types full 8 digits
-        if (cleaned.length >= 8) {
-            const day = cleaned.slice(0, 2).padStart(2, '0');
-            const month = cleaned.slice(2, 4).padStart(2, '0');
-            const year = cleaned.slice(4, 8);
-            return `${day}-${month}-${year}`;
-        }
-
-        // If user types partial date, format progressively
-        if (cleaned.length >= 4) {
-            const day = cleaned.slice(0, 2);
-            const month = cleaned.slice(2, 4);
-            const rest = cleaned.slice(4);
-            return `${day}-${month}${rest ? '-' + rest : ''}`;
-        }
-
-        if (cleaned.length > 2) {
-            return `${cleaned.slice(0, 2)}-${cleaned.slice(2)}`;
-        }
-
-        return cleaned;
-    };
-
     const handleDateChange = (text: string) => {
-        const formatted = formatDate(text);
+        const formatted = formatDateBirthDay(text);
         handleTextChange('date', formatted); // or setInput({ ...input, date: formatted })
     }
 

@@ -1,14 +1,16 @@
-import { View, Text, FlatList, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, StyleSheet, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Animated } from 'react-native'
+import React, { useRef, useState } from 'react'
 import { useAppSelector } from '../hooks';
-import { Ionicons } from '@expo/vector-icons';
 import i18n from '../localization';
+import FlipCard from './FlipCard';
+import { ICard } from '../hooks/interface/IDashboard';
 
 const WIDTH = Dimensions.get('screen').width;
 const CARD_WIDTH = WIDTH - 40;
 
 interface props {
-    isPromotion: boolean
+    isPromotion: boolean;
+    items: ICard[];
 }
 
 const MemberCard = (props: props) => {
@@ -16,7 +18,7 @@ const MemberCard = (props: props) => {
 
     return (
         <View>
-            <Text style={[_style.text_promotion, { color: theme.color, marginBottom: 10 }]}>{i18n.t('Your Card')}</Text>
+            <Text style={[_styles.text_promotion, { color: theme.color, marginBottom: 10 }]}>{i18n.t('Your Card')}</Text>
             <FlatList
                 horizontal
                 pagingEnabled
@@ -25,35 +27,32 @@ const MemberCard = (props: props) => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 20 }}
                 ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-                data={Array.from({ length: 1 })}
+                data={props.items}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index }) => {
-                    return (
-                        <TouchableOpacity activeOpacity={0.8} style={[_style.card_container, { backgroundColor: theme.bgDark }]}>
-                            <Ionicons name='add-circle-outline' size={50} color={theme.background} />
-                        </TouchableOpacity>
-                    );
+                    return (<FlipCard index={index} item={item} frontText={index.toString()} backText={index.toString()} isCreated={item.id == 0 ? true : false} />);
                 }}
             />
-            {props.isPromotion && <Text style={[_style.text_promotion, { color: theme.color, marginTop: 30 }]}>{i18n.t('Promotion')}</Text>}
+            {props.isPromotion && <Text style={[_styles.text_promotion, { color: theme.color, marginTop: 30 }]}>{i18n.t('Promotion')}</Text>}
         </View>
     );
 };
 
 export default MemberCard;
 
-const _style = StyleSheet.create({
-    card_container: {
-        height: WIDTH / 2.5,
-        borderRadius: 12,
-        width: CARD_WIDTH,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+const _styles = StyleSheet.create({
     text_promotion: {
         marginLeft: 20,
         fontSize: 14,
         fontWeight: 'bold',
         textTransform: 'uppercase',
         marginBottom: -12
-    }
+    },
+    card_container: {
+        height: 170,
+        borderRadius: 12,
+        width: CARD_WIDTH,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });

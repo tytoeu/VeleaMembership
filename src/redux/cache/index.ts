@@ -20,7 +20,8 @@ const initialState: initialStateInferface = {
     auth: null,
     cartList: [],
     keyIncrease: 0,
-    incorrectCode: 0
+    incorrectCode: 0,
+    countNotify: 0
 }
 const createCacheSlice = createSlice({
     name: 'cache',
@@ -77,6 +78,10 @@ const createCacheSlice = createSlice({
         },
         setIncorrectCodeAction: (state, action: PayloadAction<number>) => {
             state.incorrectCode = action.payload
+        },
+        setNotificationCount: (state, action: PayloadAction<number>) => {
+            if (action.payload == 0) state.countNotify = 0
+            else state.countNotify = action.payload + state.countNotify
         }
     }
 });
@@ -88,7 +93,8 @@ export const {
     onBoardingDoneAction,
     addToCartAction,
     updateQualityAction,
-    setIncorrectCodeAction
+    setIncorrectCodeAction,
+    setNotificationCount
 } = createCacheSlice.actions
 
 export default createCacheSlice.reducer

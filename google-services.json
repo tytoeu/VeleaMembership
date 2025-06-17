@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "541415925350",
+    "project_id": "velea-f739c",
+    "storage_bucket": "velea-f739c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541415925350:android:fce99df0ec911506ffafa7",
+        "android_client_info": {
+          "package_name": "kh.velea.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzZJvU7T1fLBqqUkS0EVGi_aMdNCCjIjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

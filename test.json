@@ -1,13 +1,40 @@
-{
-    "balance": {
-        "balance": "0.00",
-        "id": 1,
-        "point": "0.00"
+[
+    {
+        "key": "BottomTab-tyuu1r3DzZMsyGMmMsNoE",
+        "name": "BottomTab",
+        "params": undefined
     },
-    "membership": {
-        "dob": "05-11-1998",
-        "id": 11,
-        "name": "Toeu Ty",
-        "phone": "0886508240"
+    {
+        "key": "Login-84y9nvqXYlpvNs0jVeCLy",
+        "name": "Login",
+        "params": undefined,
+        "path": undefined
+    },
+    {
+        "key": "information-card-8YI_I8VMda0D6Qnq3eUy1",
+        "name": "information-card",
+        "params": {
+            "cardInfor": [Object
+            ]
+        },
+        "path": undefined
     }
-}
+]
+
+[
+    {
+        "name": "BottomTab",
+        "params": undefined
+    },
+    {
+        "name": "Login",
+        "params": undefined
+    },
+    {
+        "name": "information-card",
+        "params": {
+            "cardInfor": [Object
+            ]
+        }
+    }
+]

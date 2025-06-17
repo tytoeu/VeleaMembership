@@ -16,7 +16,7 @@ export const NavigateStyle = StyleSheet.create({
         fontFamily: 'R700',
         textTransform: 'capitalize',
         opacity: 0.8,
-        paddingBottom: 5
+        paddingBottom: 0
     },
     wellcome: {
         fontSize: 12,

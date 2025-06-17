@@ -146,7 +146,7 @@ const _styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 25
+        marginBottom: 50
     },
     text_button: {
         fontSize: 16,

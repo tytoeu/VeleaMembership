@@ -7,6 +7,7 @@ import { useAppSelector } from '../hooks'
 import styles from '../util/style/Style'
 import { useState } from 'react'
 import i18n from '../localization'
+import { Authorization } from '../components'
 
 const renderScene = SceneMap({
     Purchase: Purchase,
@@ -15,7 +16,7 @@ const renderScene = SceneMap({
 });
 
 const HistoryScreen = () => {
-    const { theme, currentTheme } = useAppSelector((state) => state.cache)
+    const { theme, currentTheme, auth } = useAppSelector((state) => state.cache)
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
 
@@ -33,9 +34,12 @@ const HistoryScreen = () => {
                 indicatorStyle={styles.indicator}
                 activeColor={'white'}
                 inactiveColor={theme.color}
+                pressColor={theme.bgDark}
             />
         </View>
     );
+
+    if (!auth) { return (<Authorization navigate='History' />) }
 
     return (
         <View style={[history_style.container, { backgroundColor: theme.background }]}>

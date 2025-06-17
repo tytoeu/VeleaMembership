@@ -12,7 +12,7 @@ const useInputText = () => {
     const handleTextChange = (field: string, text: string) => setInput(preState => ({ ...preState, [field]: text }))
     const handleErrorChange = (field: string, message: string) => setError(preState => ({ ...preState, [field]: message }))
 
-    return { handleTextChange, handleErrorChange, input, error, setChecked, isChecked }
+    return { handleTextChange, handleErrorChange, input, error, setChecked, isChecked, setInput }
 }
 
 export default useInputText

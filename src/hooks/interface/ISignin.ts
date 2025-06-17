@@ -3,14 +3,15 @@ export interface ISignin {
     password: string
 }
 
+export interface ISigninCard {
+    membership_id: number;
+    password: string;
+    card_number: string;
+}
+
 export interface IUser {
     id: number;
-    full_name: string;
-    phone_number: string;
     access_token: string;
-    dob: string;
-    password: string;
-    avatar: string;
 }
 
 export interface OTP {
@@ -42,4 +43,29 @@ export interface IChangePassword {
     id: number;
     password: string;
     old_password: string;
+}
+
+export interface IRegisterWithCard {
+    membershipNumber: string,
+    offerDiscount: number,
+    limitOffer: number,
+    limitType: string,
+    expiredDate: string,
+    membershipId: number,
+    customerName: string,
+    phone: string,
+    dob: string,
+    type: string;
+    password: string;
+}
+
+export interface ICardInformation extends Omit<IRegisterWithCard, 'password'> {
+    membership_id: number;
+}
+
+export interface IPersanlChange {
+    id: number;
+    name: string;
+    dob: string;
+    gender: string;
 }

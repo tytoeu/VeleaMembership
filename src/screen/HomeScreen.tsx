@@ -6,13 +6,30 @@ import { ActivityIndicator, Dimensions, FlatList, Modal, RefreshControl, View } 
 import React, { useCallback, useEffect } from 'react'
 import useDashbaord from '../hooks/useDashbaord'
 import styles from '../util/style/Style'
+import { ICard } from '../hooks/interface/IDashboard'
+import { useDispatch } from 'react-redux'
+import { actionStoreTempAuth } from '../redux/temp'
+import useNotification from '../hooks/useNotification'
 
-const WIDTH = Dimensions.get('screen').width
+const cardObject: ICard = {
+    id: 0,
+    card_number: "",
+    offer_discount: 0,
+    limit_type: "",
+    limit_offer: 0,
+    expire_date: "",
+    status: 0,
+    tier_name: "",
+    tier_image: null
+}
 
 const HomeScreen = () => {
-    const { theme, currentTheme } = useAppSelector((state) => state.cache)
+    const { theme, currentTheme, auth, countNotify } = useAppSelector((state) => state.cache)
+    const { personalChange } = useAppSelector(state => state.temp)
     const backAction = useBackHandler()
     const { fetchMemberInfoMutation, infiniteQuery } = useDashbaord()
+    const { } = useNotification()
+    const dispatch = useDispatch()
 
     //extract data
     const { data, isPending } = fetchMemberInfoMutation
@@ -21,7 +38,22 @@ const HomeScreen = () => {
     const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.data) || [];
 
     // fetch member data
-    useEffect(() => { fetchMemberInfoMutation.mutate() }, [])
+    useEffect(() => {
+        fetchMemberInfoMutation.mutate()
+        dispatch(actionStoreTempAuth({
+            name: data?.membership?.name ?? 'Guest',
+            phone: data?.membership?.phone!,
+            avatar: data?.membership?.avatar!
+        }))
+    }, [auth, personalChange, countNotify])
+
+    useEffect(() => {
+        dispatch(actionStoreTempAuth({
+            name: data?.membership?.name ?? 'Guest',
+            phone: data?.membership?.phone!,
+            avatar: data?.membership?.avatar!
+        }))
+    }, [auth, data?.membership])
 
     // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
@@ -30,11 +62,21 @@ const HomeScreen = () => {
     const onRefresh = useCallback(() => {
         infiniteQuery.refetch()
         fetchMemberInfoMutation.mutate()
+        if (data?.membership) {
+            console.log('data', data?.membership)
+            dispatch(actionStoreTempAuth({
+                name: data?.membership?.name ?? 'Guest',
+                phone: data?.membership?.phone!,
+                avatar: data?.membership?.avatar!
+            }))
+        }
     }, []);
+
+    const dataCards: ICard[] = [...data?.cards || [], cardObject];
 
     const listFooterComponent = () => {
         if (!infiniteQuery.isFetchingNextPage) return null;
-        return <ActivityIndicator size={'small'} color={'#ddd'} />;
+        return <View style={{ paddingBottom: 20 }}><ActivityIndicator size={'small'} color={'#ddd'} /></View>;
     }
 
     if (isPending) {
@@ -54,15 +96,16 @@ const HomeScreen = () => {
                 renderItem={({ item, index }) => <PromotionCard item={item} />}
                 ListHeaderComponent={() => <>
                     <CriditCard
-                        phone={data?.phone!}
-                        balance={data?.balance?.toString()!}
-                        point={Number(data?.point ?? 0)}
+                        phone={data?.membership?.phone!}
+                        balance={data?.membership?.balance?.toString()!}
+                        point={Number(data?.membership?.point ?? 0)}
                     />
 
                     <MenuTransaction />
                     <View style={{ height: 25 }} />
-                    <MemberCard isPromotion={daraArr.length > 0} />
+                    <MemberCard isPromotion={daraArr.length > 0} items={dataCards} />
                 </>}
+
                 ListFooterComponent={listFooterComponent}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
                 keyExtractor={(item, index) => index.toString()}

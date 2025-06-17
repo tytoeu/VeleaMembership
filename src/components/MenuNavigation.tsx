@@ -18,7 +18,7 @@ const MenuNavigation = (prop: IProp) => {
     return (
         <Pressable style={styles.menu_content} onPress={prop.onPress}>
             <View style={styles.icon}>
-                <MyIconComponent name={prop.icon!} size={22} color={theme.color} />
+                <MyIconComponent type='Ionicons' name={prop.icon!} size={22} color={theme.color} />
             </View>
             <View style={[styles.menu_text_content, { borderBottomColor: prop.disabledborderBottom ? 'transparent' : theme.border }]}>
                 <Text style={[{ color: theme.color }, styles.text_normal]}>{prop.text}</Text>

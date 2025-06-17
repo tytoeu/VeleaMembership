@@ -11,5 +11,6 @@ export interface initialStateInferface {
     auth: IUser | null,
     cartList: IMenu[],
     keyIncrease: number,
-    incorrectCode: number
+    incorrectCode: number,
+    countNotify: number
 }

@@ -1,11 +1,11 @@
 import { View, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
 import { AddToCard, CategoryCard, ItemCard, SubCategoryCard } from '../components'
 import { useAppNavigation, useAppSelector } from '../hooks'
+import { IMenu } from '../hooks/interface/IMenu'
 import HomeStyle from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
 import useMenu from '../hooks/useMenu'
-import { IMenu } from '../hooks/interface/IMenu'
 
 const MenuScreen = () => {
     const nav = useAppNavigation()
@@ -64,14 +64,14 @@ const MenuScreen = () => {
                 scrollEventThrottle={50}
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
-                contentContainerStyle={{ paddingTop: 10 }}
+                contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 16 }}
                 renderItem={({ item, index }) => (<ItemCard items={item} />)}
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
                 numColumns={2}
                 key={2}
-                columnWrapperStyle={{ gap: 12, justifyContent: "center" }}
+                columnWrapperStyle={{ gap: 12, justifyContent: 'space-between' }}
                 showsVerticalScrollIndicator={false}
                 removeClippedSubviews={true}
                 keyboardShouldPersistTaps="handled"

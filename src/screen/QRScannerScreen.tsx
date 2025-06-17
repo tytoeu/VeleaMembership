@@ -5,6 +5,7 @@ import { Camera, CameraView } from 'expo-camera'
 import { useAppNavigation, useAppSelector } from '../hooks'
 import styles from '../util/style/Style'
 import i18n from '../localization'
+import { useFocusEffect } from '@react-navigation/native'
 
 const QRScannerScreen = () => {
     const { theme } = useAppSelector(state => state.cache)
@@ -18,6 +19,7 @@ const QRScannerScreen = () => {
         const { status } = await Camera.requestCameraPermissionsAsync();
         setHasPermission(status === "granted");
     };
+
     useEffect(() => {
 
         getCameraPermissions();
@@ -33,11 +35,18 @@ const QRScannerScreen = () => {
 
     const color = flash ? 'white' : 'gray'
 
+    const isComingSoon = true
+    if (isComingSoon) {
+        return (<View style={{ backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <Text style={{ color: theme.color, backgroundColor: theme.bgDark, padding: 20, borderRadius: 5, overflow: 'hidden', fontFamily: 'R700' }}>Coming Soon</Text>
+        </View>)
+    }
+
     if (hasPermission === false) {
         return <View style={{ flex: 1, backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center' }}>
-            <MaterialIcons name="camera-alt" size={50} color={color} />
-            <Text>Requesting for camera permission</Text>
-            <Text>Permission {hasPermission ? 'granted' : 'denied'}</Text>
+            <MaterialIcons name="camera-alt" size={50} color={'gray'} />
+            <Text style={{ color: theme.colorText }}>Requesting for camera permission</Text>
+            <Text style={{ color: theme.colorText }}>Permission {hasPermission ? 'granted' : 'denied'}</Text>
             <TouchableOpacity onPress={() => Linking.openSettings()}
                 style={{ marginTop: 20, padding: 10, backgroundColor: theme.bgDark, borderRadius: 5 }}>
                 <Text style={{ color: theme.color }}>Try Again</Text>
@@ -64,7 +73,7 @@ const QRScannerScreen = () => {
             <View style={styles.leftOverlay} />
             <View style={styles.rightOverlay} />
 
-            <View style={styles.footer}>
+            {/* <View style={styles.footer}>
                 <TouchableOpacity style={[styles.iconButton]} onPress={() => setFlash(!flash)}>
                     <MaterialIcons name={flash ? "flashlight-on" : "flashlight-off"} size={22} color={color} />
                     <Text style={[styles.iconText, { color }]}>{i18n.t('Flash')}</Text>
@@ -73,7 +82,7 @@ const QRScannerScreen = () => {
                     <MaterialIcons name="qr-code-scanner" size={22} color={'white'} />
                     <Text style={[styles.iconText]}>{i18n.t('Open RQ')}</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
     )
 }

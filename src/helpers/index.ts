@@ -30,3 +30,41 @@ export function formatPhoneNumber(number: string) {
 }
 
 export const randomColor = () => '#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
+
+export const formatDateBirthDay = (text: string) => {
+    // Remove any non-digit characters first
+    const cleaned = text.replace(/\D/g, '');
+
+    // If user types full 8 digits
+    if (cleaned.length >= 8) {
+        const day = cleaned.slice(0, 2).padStart(2, '0');
+        const month = cleaned.slice(2, 4).padStart(2, '0');
+        const year = cleaned.slice(4, 8);
+        return `${day}-${month}-${year}`;
+    }
+
+    // If user types partial date, format progressively
+    if (cleaned.length >= 4) {
+        const day = cleaned.slice(0, 2);
+        const month = cleaned.slice(2, 4);
+        const rest = cleaned.slice(4);
+        return `${day}-${month}${rest ? '-' + rest : ''}`;
+    }
+
+    if (cleaned.length > 2) {
+        return `${cleaned.slice(0, 2)}-${cleaned.slice(2)}`;
+    }
+
+    return cleaned;
+};
+
+export function formatDecimal(input: number | string | undefined | null): string {
+    const value = Number(input);
+
+    if (isNaN(value)) {
+        return '';
+    }
+
+    const rounded = Number(value.toFixed(2));
+    return Number.isInteger(rounded) ? String(rounded) : value.toFixed(2);
+}

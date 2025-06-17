@@ -5,10 +5,21 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppNavigation from './src/navigation/AppNavigation';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider } from 'react-native-paper';
+import * as Notifications from 'expo-notifications';
+import { Image, View } from 'react-native';
+import "./global.css"
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function App() {
 
@@ -19,12 +30,6 @@ export default function App() {
     R900: require('./assets/fonts/roboto-900.ttf')
   });
 
-  useEffect(() => { SplashScreen.preventAutoHideAsync(); }, []);
-
-  useEffect(() => { fontsLoaded && SplashScreen.hideAsync(); }, [fontsLoaded])
-
-  if (!fontsLoaded) return null;
-
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -32,6 +37,15 @@ export default function App() {
       },
     },
   });
+
+  if (!fontsLoaded) {
+    return <View className='flex-1 w-full border-l-orange-500'>
+      <Image
+        source={require('./assets/splash_screen.png')}
+        className='h-full w-full object-fill'
+      />
+    </View>
+  }
 
   return (
     <PaperProvider>

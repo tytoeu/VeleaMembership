@@ -1,27 +1,38 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { CartListScreen, PaymentScreen, PaySuccess, PromotionDetail, QRScannerScreen, QRScreen, TopupScreen } from '../screen'
+import { CardInformationScreen, CartListScreen, NotificationScreen, OnBoardingScreen, PaymentScreen, PaySuccess, PromotionDetail, QRScannerScreen, QRScreen, RedeemItemScreen, TopupScreen } from '../screen'
 import BottomTabNavigation from './BottomTabNavigation'
 import { DarkMode, Language } from '../screen/setting'
 import { useAppSelector } from '../hooks'
 import React from 'react'
 import i18n from '../localization'
-import { ChangePassword, PersonalInfor, ResetPassword, VerifyCode } from '../screen/auth'
+import { ChangePassword, CreatePassword, Login, LoginPassword, PersonalInfor, ProcessLinkCard, QRScannerCardScreen, ResetPassword, Signup, VerifyCode } from '../screen/auth'
 import VerifyPhoneScreen from '../screen/auth/VerifyPhoneScreen'
+import { PersonalInforRight } from '../components'
 
 const Stack = createStackNavigator()
 
 const StackNavigation = () => {
-    const { theme } = useAppSelector((state) => state.cache)
+    const { theme, onBoading } = useAppSelector((state) => state.cache)
     return (
         <Stack.Navigator
-            initialRouteName='BottomTab'
+            initialRouteName={!onBoading ? 'onBoarding' : 'BottomTab'}
             screenOptions={{
+                headerTitleAlign: 'left',
                 headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 16 },
-                headerStyle: { backgroundColor: theme.background, elevation: 0 },
+                headerStyle: {
+                    backgroundColor: theme.background, elevation: 0, shadowOffset: {
+                        width: 0,
+                        height: 0,
+                    },
+                    shadowOpacity: 0,
+                    shadowRadius: 0
+                },
                 headerTintColor: theme.color,
+                headerBackTitle: ' ',
+                headerBackTitleVisible: false,
             }}
         >
-            <Stack.Screen name='BottomTab' component={BottomTabNavigation} options={{ headerShown: false }} />
+            <Stack.Screen name='BottomTab' component={BottomTabNavigation} options={{ headerShown: false, title: '' }} />
             <Stack.Screen name='DarkMode' component={DarkMode} options={{
                 title: i18n.t('Dark mode')
             }} />
@@ -30,10 +41,10 @@ const StackNavigation = () => {
             }} />
             <Stack.Screen name='qr-scanner' component={QRScannerScreen} options={{
                 title: i18n.t('QR Scanner'),
-                headerStyle: { backgroundColor: '#000' },
-                headerTintColor: '#fff',
-                headerBackTitle: '#fff',
-                headerTitleStyle: { color: '#fff', fontFamily: 'R700', fontSize: 18 },
+                headerStyle: { backgroundColor: theme.background },
+                headerTintColor: theme.color,
+                headerBackTitle: theme.color,
+                headerTitleStyle: { color: theme.color, fontFamily: 'R700', fontSize: 16 },
             }} />
             <Stack.Screen name='cart-list' component={CartListScreen} options={{
                 title: i18n.t('Cart')
@@ -58,24 +69,65 @@ const StackNavigation = () => {
                 title: i18n.t('Change password')
             }} />
 
+            <Stack.Screen name="personal-info" component={PersonalInfor} options={{
+                title: i18n.t('Personal information'),
+                headerRight: () => <PersonalInforRight />
+            }} />
+
+            <Stack.Screen name="redeem-item" component={RedeemItemScreen} options={{
+                title: i18n.t('Exchange Point')
+            }} />
+            <Stack.Screen name="notification" component={NotificationScreen} options={{
+                title: i18n.t('Notification')
+            }} />
+
+            {/* authorization */}
+            {!onBoading &&
+                <Stack.Screen name="onBoarding" component={OnBoardingScreen} options={{
+
+                    title: '',
+                    headerShown: false
+                }} />}
+
+            <Stack.Screen name="Login" component={Login} options={{
+                title: ''
+            }} />
+            <Stack.Screen name="sign-up" component={Signup} options={{
+                title: ''
+            }} />
             <Stack.Screen name="verify-code" component={VerifyCode} options={{
-                headerStyle: { backgroundColor: theme.background, elevation: 0 },
                 title: ''
             }} />
             <Stack.Screen name="phone-verify" component={VerifyPhoneScreen} options={{
-                headerStyle: { backgroundColor: theme.background, elevation: 0 },
                 title: ''
             }} />
 
             <Stack.Screen name="reset-password" component={ResetPassword} options={{
-                headerStyle: { backgroundColor: theme.background, elevation: 0 },
                 title: ''
             }} />
 
-            <Stack.Screen name="personal-info" component={PersonalInfor} options={{
-                headerStyle: { backgroundColor: theme.background, elevation: 0 },
-                title: i18n.t('Personal information')
+            <Stack.Screen name="qr-scanner-card" component={QRScannerCardScreen} options={{
+                headerStyle: { backgroundColor: 'black', elevation: 0 },
+                title: i18n.t('Card Scanner'),
+                headerTintColor: 'white',
+                headerTitleStyle: { color: 'white', fontFamily: 'R700', fontSize: 16 }
             }} />
+
+            <Stack.Screen name="process-link-card" component={ProcessLinkCard} options={{
+                title: '',
+                headerShown: false
+            }} />
+            <Stack.Screen name="information-card" component={CardInformationScreen} options={{
+                title: ''
+            }} />
+            <Stack.Screen name="create-password" component={CreatePassword} options={{
+                title: ''
+            }} />
+            <Stack.Screen name="login-password" component={LoginPassword} options={{
+                title: '',
+                headerShown: false
+            }} />
+
         </Stack.Navigator>
     )
 }
