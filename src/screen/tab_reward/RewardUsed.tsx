@@ -1,9 +1,9 @@
 import { View, Text, ActivityIndicator, FlatList, RefreshControl } from 'react-native'
+import { Authorization, Loading, RewardItem } from '../../components'
+import useRedeem from '../../hooks/useRedeem'
 import { useAppSelector } from '../../hooks'
 import React, { useCallback } from 'react'
 import i18n from '../../localization'
-import { Authorization, Loading, RewardItem } from '../../components'
-import useRedeem from '../../hooks/useRedeem'
 
 const RewardUsed = () => {
     const { theme, auth } = useAppSelector((state) => state.cache)
@@ -35,7 +35,7 @@ const RewardUsed = () => {
     }
 
     if (!auth) {
-        return <View className='flex-1 justify-center items-center bg-white dark:bg-black'>
+        return <View className='flex-1 justify-center items-center dark:bg-black'>
             <Authorization navigate={null} />
         </View>
     }

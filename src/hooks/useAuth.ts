@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { IChangePassword, IPersanlChange, IRegisterWithCard, IResetPassword, ISignin, ISigninCard, ISignup, IVerifyOtp, OTP } from "./interface/ISignin";
+import { IChangePassword, IDeleteAccount, IPersanlChange, IRegisterWithCard, IResetPassword, ISignin, ISigninCard, ISignup, IVerifyOtp, OTP } from "./interface/ISignin";
 import { assets } from "../../assets";
 import { Alert } from "react-native";
 import { useAppSelector } from ".";
@@ -78,6 +78,12 @@ const useAuth = () => {
         return response.json();
     }
 
+    const deleteAccount = async (auth: IDeleteAccount) => {
+        const url = `${appConfig.api}member/delete`;
+        const response = await fetch(url, { method: 'PATCH', headers: headerOptionsAuth, body: JSON.stringify(auth) });
+        return response.json();
+    }
+
     // Mutation for 
     const signinMutation = useMutation({
         mutationFn: signin,
@@ -124,6 +130,10 @@ const useAuth = () => {
         mutationFn: changePersonalInfor,
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
     });
+    const deleteAccountMutation = useMutation({
+        mutationFn: deleteAccount,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
 
     return {
         signinMutation,
@@ -135,7 +145,8 @@ const useAuth = () => {
         changePasswordMutation,
         signinWithCardMutation,
         signupWithCardMutation,
-        changePersonalInforMutation
+        changePersonalInforMutation,
+        deleteAccountMutation
     };
 };
 

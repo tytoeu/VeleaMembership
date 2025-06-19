@@ -69,3 +69,5 @@ export interface IPersanlChange {
     dob: string;
     gender: string;
 }
+
+export interface IDeleteAccount extends Omit<ISigninCard, 'card_number'> { }

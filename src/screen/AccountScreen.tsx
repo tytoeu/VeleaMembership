@@ -1,18 +1,15 @@
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import { View, Text, ScrollView, Image, ActivityIndicator, Alert, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, ActivityIndicator, Alert } from 'react-native'
 import history_style from '../util/style/HistoryStyle'
 import { Authorization, MenuNavigation } from '../components'
 import { Ionicons } from '@expo/vector-icons'
 import { loginAction } from '../redux/cache'
-import { Button } from 'react-native-paper'
 import { StatusBar } from 'expo-status-bar'
 import styles from '../util/style/Style'
 import useAuth from '../hooks/useAuth'
-import { assets } from '../../assets'
 import i18n from '../localization'
 import React, { useEffect } from 'react'
 import useDashbaord from '../hooks/useDashbaord'
-import { actionStoreTempAuth } from '../redux/temp'
 
 const AccountScreen = () => {
     const { theme, currentTheme, locale, auth } = useAppSelector((state) => state.cache)

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../../hooks'
 import { useRoute } from '@react-navigation/native'
 import i18n from '../../localization'
 import useInputText from '../../hooks/useInputText'
@@ -11,6 +11,9 @@ import { IPersanlChange } from '../../hooks/interface/ISignin'
 import { ToastMessage } from '../../components/ToastMessage'
 import { actionChangePersonalInfor } from '../../redux/temp'
 import ModalSheetBottom, { ModalSheetBottomRef } from '../../components/ModalSheetBottom'
+import { Layout, ThemeErrorText } from '../../components'
+import { TextInput as TextInputPaper } from 'react-native-paper'
+import { loginAction } from '../../redux/cache'
 
 interface IMembership {
     membership: {
@@ -28,8 +31,9 @@ const PersonalInfor = () => {
     const router = useRoute();
     const { membership } = router.params as IMembership;
     const { handleErrorChange, handleTextChange, input, error, setInput } = useInputText()
-    const { changePersonalInforMutation } = useAuth()
+    const { changePersonalInforMutation, deleteAccountMutation } = useAuth()
     const dispatch = useAppDispatch()
+    const nav = useAppNavigation()
     const tempMember = membership
     const [updated, setUpdated] = useState(false)
     const modalRef = useRef<ModalSheetBottomRef>(null)
@@ -88,6 +92,32 @@ const PersonalInfor = () => {
     const handleDateChange = (text: string) => {
         const formatted = formatDateBirthDay(text);
         handleTextChange('dob', formatted);
+    }
+
+    const deleteAccountAction = () => {
+
+        if (!input?.confirm_password) {
+            handleErrorChange('confirm_password', i18n.t('Confirm-Password is required'))
+            return
+        }
+
+        const dataJson = {
+            password: input?.confirm_password!,
+            membership_id: auth?.id!
+        }
+
+        deleteAccountMutation.mutateAsync(dataJson, {
+            onSuccess: (data) => {
+                console.log(data)
+                if (data?.status) {
+                    nav.goBack()
+                    dispatch(loginAction(null))
+                    ToastMessage(data?.message)
+                } else {
+                    handleErrorChange('confirm_password', data?.message)
+                }
+            }
+        })
     }
 
     const borderColor = personalChange ? theme.main : theme.border;
@@ -168,7 +198,47 @@ const PersonalInfor = () => {
             </View>
 
             <ModalSheetBottom ref={modalRef} snapPoint={['80%']}>
-                <View className='h-80'></View>
+
+                <Layout className='bg-white p-4 h-96'>
+                    <Text className='text-lg leading-10 tracking-tight font-bold color-black/80'>
+                        {i18n.t('Delete Your Account')}
+                    </Text>
+                    <Text className='font-normal leading-6 tracking-wide mb-5 color-black/80'>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur semper dui congue hendrerit malesuada. Proin faucibus auctor pellentesque. Suspendisse viverra justo risus, id ultricies quam porta non.
+                    </Text>
+                    <TextInputPaper
+                        label={i18n.t('Confirm Password')}
+                        secureTextEntry={true}
+                        onChangeText={text => handleTextChange('confirm_password', text)}
+                        onFocus={() => handleErrorChange('confirm_password', '')}
+                        onBlur={() => handleErrorChange('confirm_password', input?.confirm_password ? '' : i18n.t('Confirm-Password is required'))}
+                        keyboardType='number-pad'
+                        maxLength={4}
+                        error={error?.confirm_password ? true : false}
+                        textColor={'black'}
+                        outlineColor={theme.main}
+                        theme={{ colors: { onSurfaceVariant: theme.main } }}
+                        className='bg-white rounded-sm '
+                    />
+                    <View className='mt-6'>
+                        <ThemeErrorText textError={error?.confirm_password!} />
+                    </View>
+
+                    <Button
+                        onPress={deleteAccountAction}
+                        mode='contained-tonal'
+                        contentStyle={{ paddingVertical: 5 }}
+                        className='mt-10 font-semibold'
+                        labelStyle={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}
+                        style={{ width: 200, alignSelf: 'center', backgroundColor: '#808b96' }}
+                        loading={deleteAccountMutation.isPending}
+                        disabled={deleteAccountMutation.isPending}
+                    >
+                        {i18n.t('Delete Account')}
+                    </Button>
+
+                </Layout>
+
             </ModalSheetBottom>
         </View>
     )
@@ -177,6 +247,10 @@ const PersonalInfor = () => {
 export default PersonalInfor
 
 const styles = StyleSheet.create({
+    modal: {
+        flex: 1,
+        backgroundColor: 'red'
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

@@ -1,14 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux';
-import { persistor, store } from './src/redux/store';
-import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import AppNavigation from './src/navigation/AppNavigation';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import { useFonts } from 'expo-font';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import AppNavigation from './src/navigation/AppNavigation';
+import { persistor, store } from './src/redux/store';
 import * as Notifications from 'expo-notifications';
-import { Image, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { useFonts } from 'expo-font';
 import "./global.css"
 
 Notifications.setNotificationHandler({
@@ -38,14 +37,7 @@ export default function App() {
     },
   });
 
-  if (!fontsLoaded) {
-    return <View className='flex-1 w-full border-l-orange-500'>
-      <Image
-        source={require('./assets/splash_screen.png')}
-        className='h-full w-full object-fill'
-      />
-    </View>
-  }
+  if (!fontsLoaded) { return null }
 
   return (
     <PaperProvider>
