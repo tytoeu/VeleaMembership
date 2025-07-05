@@ -47,11 +47,6 @@ const SignupScreen = () => {
             isValid = false
         }
 
-        if (input?.password && input?.password.length! !== 4) {
-            handleErrorChange('password', 'Password must be 4 digits')
-            isValid = false
-        }
-
         if (isValid) {
             const data: ISignup = {
                 full_name: input?.fullname!,
@@ -139,8 +134,7 @@ const SignupScreen = () => {
                     onChangeText={text => handleTextChange('password', text)}
                     onFocus={() => handleErrorChange('password', '')}
                     onBlur={() => handleErrorChange('password', input?.password ? '' : i18n.t('Password is required'))}
-                    keyboardType='number-pad'
-                    maxLength={4}
+                    keyboardType='default'
                     error={error?.password ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}
@@ -157,8 +151,7 @@ const SignupScreen = () => {
                     onChangeText={text => handleTextChange('confirm_password', text)}
                     onFocus={() => handleErrorChange('confirm_password', '')}
                     onBlur={() => handleErrorChange('confirm_password', input?.confirm_password ? '' : i18n.t('Confirm-Password is required'))}
-                    keyboardType='number-pad'
-                    maxLength={4}
+                    keyboardType='default'
                     error={error?.confirm_password ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}

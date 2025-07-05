@@ -2,7 +2,7 @@
   "expo": {
     "name": "VELEA",
     "slug": "VeleaMembership",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,23 +17,30 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "kh.velea.com",
-      "icon": "./assets/velea_ios.png",
+      "bundleIdentifier": "com.velea.asia",
+      "icon": "./assets/logo_ios.png",
       "requireFullScreen": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Our app need to use the camera to scan card membership qr"
+        "NSCameraUsageDescription": "We need access to your camera to take photos or scan QR codes.",
+        "NSLocationWhenInUseUsageDescription": "Allow location access to show nearby services and improve your experience."
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/velea_andiord.png",
+        "foregroundImage": "./assets/logo_android.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "kh.velea.com",
+      "package": "com.velea.asia",
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "CAMERA"
-      ]
+      ],
+      "config": {
+        "usesNonExemptEncryption": false,
+        "googleMaps": {
+          "apiKey": "AIzaSyDj-sDv7p5f1bJ96pbqATFdSSBxQ_zahjM"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -43,7 +50,8 @@
       "expo-font",
       "expo-localization",
       "expo-asset",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-document-picker"
     ],
     "extra": {
       "eas": {

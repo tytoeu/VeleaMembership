@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: 100,
+        width: 90,
         height: 80,
         resizeMode: 'cover',
         overflow: 'hidden',
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
         height: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        marginLeft: 14
     },
     footer_cart: {
         flexDirection: 'row',

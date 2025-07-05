@@ -18,7 +18,7 @@ const QRScreen = () => {
                 </View>
                 <View style={{ justifyContent: "center", alignItems: 'center', flex: 1 }}>
                     <View style={{ width: '80%', height: '80%', borderRadius: 8, alignSelf: 'center', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-                        <QRCode value={JSON.stringify(tempAuth)} size={200} logoBackgroundColor='transparent' />
+                        <QRCode value={tempAuth?.phone} size={200} logoBackgroundColor='transparent' />
                     </View>
                 </View>
             </View>

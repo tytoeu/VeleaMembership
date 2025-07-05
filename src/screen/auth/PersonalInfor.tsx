@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native'
 import i18n from '../../localization'
 import useInputText from '../../hooks/useInputText'
 import { formatDateBirthDay } from '../../helpers'
-import { Button } from 'react-native-paper'
+import { Button, RadioButton } from 'react-native-paper'
 import useAuth from '../../hooks/useAuth'
 import { IPersanlChange } from '../../hooks/interface/ISignin'
 import { ToastMessage } from '../../components/ToastMessage'
@@ -37,6 +37,7 @@ const PersonalInfor = () => {
     const tempMember = membership
     const [updated, setUpdated] = useState(false)
     const modalRef = useRef<ModalSheetBottomRef>(null)
+    const [value, setValue] = React.useState('Other');
 
     useEffect(() => {
         if (!updated) {
@@ -44,21 +45,18 @@ const PersonalInfor = () => {
             handleErrorChange('name', '')
             handleErrorChange('gender', '')
             handleErrorChange('dob', '')
+            setValue(membership.gender)
         }
     }, [personalChange, updated])
 
     useEffect(() => { setUpdated(false) }, [input])
 
-    useEffect(() => { setInput(membership) }, [])
+    useEffect(() => { setInput(membership); setValue(membership.gender) }, [])
 
     const handleUpdatePersonalInfor = () => {
         let isValid = true;
         if (!input?.name) {
             handleErrorChange('name', i18n.t('Please enter your name'))
-            isValid = false;
-        }
-        if (!input?.gender) {
-            handleErrorChange('gender', i18n.t('Please select your gender'))
             isValid = false;
         }
         if (!input?.dob) {
@@ -69,13 +67,11 @@ const PersonalInfor = () => {
             const jsonData: IPersanlChange = {
                 id: auth?.id as number,
                 name: input?.name as string,
-                gender: input?.gender as string,
+                gender: value as string,
                 dob: input?.dob as string
             }
-
             changePersonalInforMutation.mutateAsync(jsonData, {
                 onSuccess(data) {
-                    console.log(data)
                     if (data.status) {
                         dispatch(actionChangePersonalInfor(false))
                         setUpdated(true)
@@ -138,12 +134,28 @@ const PersonalInfor = () => {
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <Text style={[{ color: theme.color }, styles.label]}>{i18n.t('Gender')}</Text>
-                    <TextInput
-                        readOnly={!personalChange}
-                        value={input?.gender}
+                    {!personalChange ? <TextInput
+                        readOnly={true}
+                        value={value}
                         style={[styles.theme_text_container, { color: theme.colorText, borderBottomColor: error?.gender ? 'red' : borderColor }]}
-                        onChangeText={(text) => handleTextChange('gender', text)}
-                    />
+                    /> : <View className="mt-5">
+                        <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value} >
+                            <View className="flex-row items-center">
+                                <View className="flex-row items-center mr-3">
+                                    <RadioButton value="Female" />
+                                    <Text>Female</Text>
+                                </View>
+                                <View className="flex-row items-center mr-3">
+                                    <RadioButton value="Male" />
+                                    <Text>Male</Text>
+                                </View>
+                                <View className="flex-row items-center mr-3">
+                                    <RadioButton value="Other" />
+                                    <Text>Other</Text>
+                                </View>
+                            </View>
+                        </RadioButton.Group>
+                    </View>}
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <Text style={[{ color: theme.color }, styles.label]}>{i18n.t('Date of Birth')}</Text>
@@ -199,12 +211,12 @@ const PersonalInfor = () => {
 
             <ModalSheetBottom ref={modalRef} snapPoint={['80%']}>
 
-                <Layout className='bg-white p-4 h-96'>
-                    <Text className='text-lg leading-10 tracking-tight font-bold color-black/80'>
+                <Layout className='p-4'>
+                    <Text className='text-lg leading-10 tracking-tight font-bold color-black/80 dark:color-slate-200'>
                         {i18n.t('Delete Your Account')}
                     </Text>
-                    <Text className='font-normal leading-6 tracking-wide mb-5 color-black/80'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur semper dui congue hendrerit malesuada. Proin faucibus auctor pellentesque. Suspendisse viverra justo risus, id ultricies quam porta non.
+                    <Text className='font-normal leading-6 tracking-wide mb-5 color-black/80 dark:color-slate-100'>
+                        {i18n.t('del_des')}
                     </Text>
                     <TextInputPaper
                         label={i18n.t('Confirm Password')}
@@ -212,34 +224,36 @@ const PersonalInfor = () => {
                         onChangeText={text => handleTextChange('confirm_password', text)}
                         onFocus={() => handleErrorChange('confirm_password', '')}
                         onBlur={() => handleErrorChange('confirm_password', input?.confirm_password ? '' : i18n.t('Confirm-Password is required'))}
-                        keyboardType='number-pad'
-                        maxLength={4}
+                        keyboardType='default'
                         error={error?.confirm_password ? true : false}
                         textColor={'black'}
                         outlineColor={theme.main}
                         theme={{ colors: { onSurfaceVariant: theme.main } }}
-                        className='bg-white rounded-sm '
+
                     />
                     <View className='mt-6'>
                         <ThemeErrorText textError={error?.confirm_password!} />
                     </View>
 
-                    <Button
-                        onPress={deleteAccountAction}
-                        mode='contained-tonal'
-                        contentStyle={{ paddingVertical: 5 }}
-                        className='mt-10 font-semibold'
-                        labelStyle={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}
-                        style={{ width: 200, alignSelf: 'center', backgroundColor: '#808b96' }}
-                        loading={deleteAccountMutation.isPending}
-                        disabled={deleteAccountMutation.isPending}
-                    >
-                        {i18n.t('Delete Account')}
-                    </Button>
+                    <View className='mb-4'>
+                        <Button
+                            onPress={deleteAccountAction}
+                            mode='contained-tonal'
+                            className='mt-10 font-semibold'
+                            labelStyle={{ fontSize: 14, fontWeight: 'bold', color: 'white' }}
+                            style={{ width: 200, alignSelf: 'center', backgroundColor: '#808b96' }}
+                            loading={deleteAccountMutation.isPending}
+                            disabled={deleteAccountMutation.isPending}
+                        >
+                            {i18n.t('Delete Account')}
+                        </Button>
+                        <View style={{ height: 20 }} />
+                    </View>
 
                 </Layout>
 
             </ModalSheetBottom>
+
         </View>
     )
 }

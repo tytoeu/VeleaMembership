@@ -1,4 +1,4 @@
-import { AccountScreen, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
+import { AccountScreen, CardMembership, HistoryScreen, HomeScreen, MenuScreen } from '../screen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HeaderRight, HeaderLeftProfile } from '../components';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,7 +31,7 @@ const BottomTabNavigation = () => {
                 ],
                 tabBarLabelStyle: { fontSize: 12, fontFamily: 'R700', marginBottom: 6 },
                 tabBarActiveTintColor: theme.main,
-                headerRight: () => <HeaderRight />,
+                headerRight: () => <HeaderRight isCart={true} />,
             }}
         >
             <Tab.Screen name="Home" component={HomeScreen}
@@ -39,7 +39,16 @@ const BottomTabNavigation = () => {
                     tabBarIcon: ({ focused, color }) => (<Ionicons name='home-outline' color={color} size={18} />),
                     title: i18n.t('Home'),
                     headerTitle: '',
-                    headerLeft: () => <HeaderLeftProfile />
+                    headerLeft: () => <HeaderLeftProfile isLocation={true} />
+                }}
+            />
+            <Tab.Screen name="card-membership" component={CardMembership}
+                options={{
+                    tabBarIcon: ({ focused, color }) => (<Ionicons name='card-outline' color={color} size={22} />),
+                    title: i18n.t('Card'),
+                    headerTitle: '',
+                    headerLeft: () => <HeaderLeftProfile isProfile={true} />,
+                    headerRight: () => <HeaderRight isQR={true} />
                 }}
             />
             <Tab.Screen name="Menu" component={MenuScreen}

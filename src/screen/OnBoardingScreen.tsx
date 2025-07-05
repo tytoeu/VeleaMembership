@@ -15,6 +15,30 @@ const OnBoardingScreen = () => {
 
     const data: IOnboard[] = onboard.data || [];
 
+    useEffect(() => {
+        onboard.mutate()
+    }, [])
+
+    const onboardingData = data.map(item => ({
+        backgroundColor: '#fff',
+        title: item.title,
+        subtitle: item.description,
+        image: (
+            <Image
+                source={{ uri: item.image }}
+                style={[{ resizeMode: 'contain' }, StyleSheet.absoluteFillObject]}
+                resizeMode='cover'
+            />
+        )
+    }))
+
+    if (onboard.isPending) {
+        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
+            <StatusBar barStyle={currentTheme == 'light' ? 'light-content' : 'light-content'} translucent />
+            <ActivityIndicator color={theme.color} size={'large'} />
+        </View>
+    }
+
     const DoneButton = ({ ...props }) => (
         <TouchableOpacity style={{ marginRight: 20, backgroundColor: 'red', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8 }} {...props}>
             <Text style={{ fontSize: 12, fontWeight: "bold", color: 'white' }}>
@@ -50,29 +74,6 @@ const OnBoardingScreen = () => {
         />
     );
 
-    useEffect(() => {
-        onboard.mutate()
-    }, [])
-
-    const onboardingData = data.map(item => ({
-        backgroundColor: '#fff',
-        title: item.title,
-        subtitle: item.description,
-        image: (
-            <Image
-                source={{ uri: item.image }}
-                style={[{ resizeMode: 'contain' }, StyleSheet.absoluteFillObject]}
-                resizeMode='cover'
-            />
-        )
-    }))
-
-    if (onboard.isPending) {
-        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
-            <StatusBar barStyle={currentTheme == 'light' ? 'light-content' : 'light-content'} translucent />
-            <ActivityIndicator color={theme.color} size={'large'} />
-        </View>
-    }
 
     return (
         <View style={{ flex: 1 }}>

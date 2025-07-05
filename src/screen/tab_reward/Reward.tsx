@@ -41,6 +41,7 @@ const Reward = () => {
         }
         changeRedeemItemMutation.mutateAsync(dataJson, {
             onSuccess: (response) => {
+                console.log(response)
                 setState({ ...state, isModal: false })
                 if (response?.status) {
                     redeemItemsInfiniteQuery.refetch()

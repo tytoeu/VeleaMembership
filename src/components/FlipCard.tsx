@@ -15,10 +15,11 @@ interface FlipCardProps {
     backText: string;
     isCreated?: boolean;
     item: ICard;
-    index: number
+    index: number;
+    balance: number
 }
 
-const FlipCard: React.FC<FlipCardProps> = ({ isCreated, item, index }) => {
+const FlipCard: React.FC<FlipCardProps> = ({ isCreated, item, index, balance }) => {
     const { theme, auth } = useAppSelector(state => state.cache);
     const [isFlipped, setIsFlipped] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
@@ -54,12 +55,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ isCreated, item, index }) => {
         return (<TouchableOpacity
             activeOpacity={0.8} style={[styles.card_container, { backgroundColor: theme.bgDark }]}
             onPress={() => {
-                if (auth) {
-                    nav.navigate('qr-scanner-card')
-                    dispatch(actionCreateCard(false))
-                } else {
-                    nav.navigate('Login');
-                }
+                nav.navigate('card-provider', { balance })
+                dispatch(actionCreateCard(false))
             }}>
             <Ionicons name='add-circle-outline' size={50} color={theme.background} />
         </TouchableOpacity>)

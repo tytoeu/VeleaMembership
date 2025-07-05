@@ -12,16 +12,17 @@ interface IUpdateQuality {
 }
 
 const initialState: initialStateInferface = {
-    locale: 'kh',
+    locale: 'en',
     mode: false,
-    currentTheme: 'dark',
-    theme: themeConfig.dark,
+    currentTheme: 'light',
+    theme: themeConfig.light,
     onBoading: false,
     auth: null,
     cartList: [],
     keyIncrease: 0,
     incorrectCode: 0,
-    countNotify: 0
+    countNotify: 0,
+    totalPrice: 0
 }
 const createCacheSlice = createSlice({
     name: 'cache',
@@ -41,41 +42,6 @@ const createCacheSlice = createSlice({
         onBoardingDoneAction: (state, action: PayloadAction<boolean>) => {
             state.onBoading = action.payload
         },
-        addToCartAction: (state, action: PayloadAction<IMenu>) => {
-            const food = action.payload
-            const foodList = state.cartList
-            if (food) {
-                const index = foodList.findIndex(x => x.itemId == food.itemId)
-                if (index !== -1) {
-                    foodList[index].qty += 1;
-                    state.cartList = foodList;
-                } else {
-                    const newItem: IMenu = { ...food, increaseKey: state.keyIncrease, qty: 1 };
-                    state.cartList = [newItem, ...state.cartList];
-                    state.keyIncrease += 1
-                }
-                return
-            }
-            Alert.alert('Warning !', 'Item is not found.')
-        },
-        updateQualityAction: (state, action: PayloadAction<IUpdateQuality>) => {
-            const symbol = action.payload.symbol
-            const key = action.payload.keyIncrease
-            const foods = state.cartList
-            const index = foods.findIndex(x => x.increaseKey === key)
-            if (symbol === '+') {
-                foods[index].qty += 1
-            } else {
-                if (foods[index].qty === 1) {
-                    foods.splice(index, 1);
-                } else {
-                    foods[index].qty -= 1
-                }
-            }
-            foods.length == 0 ? state.keyIncrease = 0 : undefined
-
-            state.cartList = foods
-        },
         setIncorrectCodeAction: (state, action: PayloadAction<number>) => {
             state.incorrectCode = action.payload
         },
@@ -91,8 +57,6 @@ export const {
     changeDarkModeAction,
     loginAction,
     onBoardingDoneAction,
-    addToCartAction,
-    updateQualityAction,
     setIncorrectCodeAction,
     setNotificationCount
 } = createCacheSlice.actions

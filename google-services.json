@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:541415925350:android:49dc9c635ebab284ffafa7",
+        "android_client_info": {
+          "package_name": "com.velea.asia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzZJvU7T1fLBqqUkS0EVGi_aMdNCCjIjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:541415925350:android:fce99df0ec911506ffafa7",
         "android_client_info": {
           "package_name": "kh.velea.com"

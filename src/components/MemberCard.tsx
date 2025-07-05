@@ -11,6 +11,7 @@ const CARD_WIDTH = WIDTH - 40;
 interface props {
     isPromotion: boolean;
     items: ICard[];
+    balance: number
 }
 
 const MemberCard = (props: props) => {
@@ -30,7 +31,7 @@ const MemberCard = (props: props) => {
                 data={props.items}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index }) => {
-                    return (<FlipCard index={index} item={item} frontText={index.toString()} backText={index.toString()} isCreated={item.id == 0 ? true : false} />);
+                    return (<FlipCard balance={props.balance} index={index} item={item} frontText={index.toString()} backText={index.toString()} isCreated={item.id == 0 ? true : false} />);
                 }}
             />
             {props.isPromotion && <Text style={[_styles.text_promotion, { color: theme.color, marginTop: 30 }]}>{i18n.t('Promotion')}</Text>}

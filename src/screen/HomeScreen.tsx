@@ -1,51 +1,81 @@
-import { CriditCard, MemberCard, MenuTransaction, Promotion, PromotionCard } from '../components'
-import { useAppSelector, useBackHandler } from '../hooks'
-import home_style from '../util/style/HomeStyle'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { ItemLayout, Loading, MyIconComponent, SlidePromotion } from '../components'
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
 import { StatusBar } from 'expo-status-bar'
-import { ActivityIndicator, Dimensions, FlatList, Modal, RefreshControl, View } from 'react-native'
-import React, { useCallback, useEffect } from 'react'
+import { Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import useDashbaord from '../hooks/useDashbaord'
-import styles from '../util/style/Style'
-import { ICard } from '../hooks/interface/IDashboard'
-import { useDispatch } from 'react-redux'
-import { actionStoreTempAuth } from '../redux/temp'
-import useNotification from '../hooks/useNotification'
+import { useCallback, useEffect, useRef } from 'react'
+import ModalSheetBottom, { ModalSheetBottomRef } from '../components/ModalSheetBottom'
+import { actionStoreTempAuth, locationSeleted, setBottomSheetRef } from '../redux/temp'
+import MapView from 'react-native-maps'
+import useAddress from '../hooks/useAddress'
+import { ILocation } from '../hooks/interface/IAddress'
+import useLocation from '../hooks/useLocation'
 
-const cardObject: ICard = {
-    id: 0,
-    card_number: "",
-    offer_discount: 0,
-    limit_type: "",
-    limit_offer: 0,
-    expire_date: "",
-    status: 0,
-    tier_name: "",
-    tier_image: null
+const shadow = {
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
 }
 
 const HomeScreen = () => {
-    const { theme, currentTheme, auth, countNotify } = useAppSelector((state) => state.cache)
-    const { personalChange } = useAppSelector(state => state.temp)
-    const backAction = useBackHandler()
-    const { fetchMemberInfoMutation, infiniteQuery } = useDashbaord()
-    const { } = useNotification()
-    const dispatch = useDispatch()
+    const { theme, currentTheme, auth } = useAppSelector((state) => state.cache)
+    const { addressSeleted } = useAppSelector((state) => state.temp)
+    const modalRef = useRef<ModalSheetBottomRef>(null)
+    const nav = useAppNavigation()
+    const dispatch = useAppDispatch()
+    const { fetchMemberInfoMutation } = useDashbaord()
+    const { fetchLocationInfiniteQuery } = useAddress();
+    const { useCurrentLocation, formattedAddressing, region, setRegion } = useLocation()
+    const location = fetchLocationInfiniteQuery.data as ILocation[]
+    const { data } = fetchMemberInfoMutation
 
-    //extract data
-    const { data, isPending } = fetchMemberInfoMutation
+    const { homefiniteQuery } = useDashbaord()
 
-    // Extracts all data arrays from pages and merges them into a single array
-    const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.data) || [];
+    // reload data
+    const onRefresh = useCallback(() => {
+        homefiniteQuery.refetch()
+    }, []);
+
+    const useCurrentLocations = async () => {
+        modalRef.current?.close()
+        useCurrentLocation()
+        const { street, city, streetNumber, subregion } = await formattedAddressing()
+        const address = (streetNumber && street) ? `${streetNumber ?? ''} ${street ?? ''}` : `${city ?? subregion}`
+        const currentAddress: ILocation = {
+            ...addressSeleted!,
+            addressId: 0,
+            address1: address,
+            labelName: 'Current Location',
+            labelIcon: 'location-outline'
+        }
+        dispatch(locationSeleted(currentAddress))
+    }
+
+    useEffect(() => {
+        dispatch(setBottomSheetRef(modalRef.current));
+        console.log(modalRef, 'useRef')
+        return () => {
+            dispatch(setBottomSheetRef(null));
+        }
+    }, [modalRef, dispatch, data?.membership])
 
     // fetch member data
     useEffect(() => {
         fetchMemberInfoMutation.mutate()
+        fetchLocationInfiniteQuery.refetch()
         dispatch(actionStoreTempAuth({
             name: data?.membership?.name ?? 'Guest',
             phone: data?.membership?.phone!,
             avatar: data?.membership?.avatar!
         }))
-    }, [auth, personalChange, countNotify])
+    }, [auth])
 
     useEffect(() => {
         dispatch(actionStoreTempAuth({
@@ -53,70 +83,118 @@ const HomeScreen = () => {
             phone: data?.membership?.phone!,
             avatar: data?.membership?.avatar!
         }))
-    }, [auth, data?.membership])
+    }, [data?.membership])
 
-    // load pagination page
-    const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
-
-    // reload data
-    const onRefresh = useCallback(() => {
-        infiniteQuery.refetch()
-        fetchMemberInfoMutation.mutate()
-        if (data?.membership) {
-            console.log('data', data?.membership)
-            dispatch(actionStoreTempAuth({
-                name: data?.membership?.name ?? 'Guest',
-                phone: data?.membership?.phone!,
-                avatar: data?.membership?.avatar!
-            }))
+    useEffect(() => {
+        if (auth && location?.length) {
+            const defaultLocation = location.find(item => item.isDefault == 1)!
+            dispatch(locationSeleted(defaultLocation))
+        } else {
+            useCurrentLocations()
         }
-    }, []);
+    }, [location, auth])
 
-    const dataCards: ICard[] = [...data?.cards || [], cardObject];
-
-    const listFooterComponent = () => {
-        if (!infiniteQuery.isFetchingNextPage) return null;
-        return <View style={{ paddingBottom: 20 }}><ActivityIndicator size={'small'} color={'#ddd'} /></View>;
+    const ThemeTitle = ({ title }: { title: string }) => {
+        return (<View className='flex-row justify-between items-center mx-5 mt-5'>
+            <Text className='color-slate-900 dark:color-slate-100 font-semibold text-xl tracking-wider'>{title}</Text>
+            <Pressable>
+                <Text className='color-orange-700 font-medium px-2'>View All</Text>
+            </Pressable>
+        </View>)
     }
 
-    if (isPending) {
-        return <View style={[{ backgroundColor: theme.background }, styles.container]}>
-            <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
-            <ActivityIndicator color={theme.color} size={'large'} />
-        </View>
+    const SearchButton = () => {
+        return (<Pressable
+            onPress={() => nav.navigate('search-item')}
+            className='flex-row h-14 bg-white/60 dark:bg-white/10 items-center mb-6 mx-6 mt-3 rounded-lg px-4'>
+            <Ionicons name='search-outline' color={theme.colorText} size={22} />
+            <Text className='ms-3 color-slate-500 dark:color-slate-400 font-medium text-sm'>Search...</Text>
+        </Pressable>)
     }
+
+    if (homefiniteQuery.isLoading) return <Loading />
 
     return (
-        <View style={[home_style.container, { backgroundColor: theme.background }]}>
-            <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
-            <FlatList
-                data={daraArr}
-                contentContainerStyle={{ marginTop: 20, paddingBottom: 40 }}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item, index }) => <PromotionCard item={item} />}
-                ListHeaderComponent={() => <>
-                    <CriditCard
-                        phone={data?.membership?.phone!}
-                        balance={data?.membership?.balance?.toString()!}
-                        point={Number(data?.membership?.point ?? 0)}
-                    />
+        <View className='flex-1 dark:bg-black'>
+            <ScrollView
+                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={homefiniteQuery.isRefetching} />}
+                contentContainerStyle={{ backgroundColor: theme.background }} showsVerticalScrollIndicator={false}>
+                <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
 
-                    <MenuTransaction />
-                    <View style={{ height: 25 }} />
-                    <MemberCard isPromotion={daraArr.length > 0} items={dataCards} />
-                </>}
+                <SearchButton />
 
-                ListFooterComponent={listFooterComponent}
-                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
-                keyExtractor={(item, index) => index.toString()}
-                removeClippedSubviews={true}
-                keyboardShouldPersistTaps="handled"
-                initialNumToRender={10}
-                windowSize={4}
-                onEndReached={onEndReached}
-                onEndReachedThreshold={0.5}
-                scrollEventThrottle={50}
-            />
+                {/* Slide */}
+                <SlidePromotion data={homefiniteQuery.data?.data} />
+
+                {/* item */}
+                <ThemeTitle title={homefiniteQuery.data?.item_title} />
+                <ItemLayout data={homefiniteQuery.data?.items} />
+
+                <View style={{ height: 20 }} />
+            </ScrollView>
+
+            <ModalSheetBottom
+                snapPoint={['50%']}
+                ref={modalRef}
+            >
+                <View className='p-4'>
+                    <Text className='text-lg font-bold dark:color-slate-50 color-slate-900'>Where you want to place order</Text>
+                    <View className='rounded-lg mt-4 bg-white dark:bg-white/10' style={[shadow, { height: 175, padding: 10 }]}>
+                        <MapView
+                            style={{ height: 120, width: '100%', borderRadius: 200 }}
+                            initialRegion={region}
+                            showsUserLocation={true}
+                            showsMyLocationButton={true}
+                            mapType='standard'
+                            provider='google'
+                            zoomEnabled={false}
+                            zoomControlEnabled={false}
+                            scrollEnabled={false}
+                            pitchEnabled={false}
+                            minZoomLevel={17}
+                            onPress={() => nav.navigate('location', { item: null })}
+                            mapPadding={{ top: 0, right: 0, bottom: 80, left: 0 }}
+                        />
+                        <View className='py-3 flex-row items-center'>
+                            <Ionicons name='navigate-outline' color={addressSeleted?.addressId == 0 ? '#ea580c' : theme.colorText} size={20} />
+                            <Text className='font-semibold ms-3' style={{ color: addressSeleted?.addressId == 0 ? '#ea580c' : theme.colorText }}>
+                                Current location
+                            </Text>
+                        </View>
+                    </View>
+                    {(auth && location?.length) ? location.map((item, index) => {
+                        const color = addressSeleted?.addressId == item.addressId ? '#ea580c' : theme.colorText
+                        return <View key={index} style={shadow} className='rounded-lg p-3 flex-row items-center justify-between mt-3 bg-white dark:bg-white/10'>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    dispatch(locationSeleted(item))
+                                    modalRef.current?.close()
+                                    setRegion({ ...region, latitude: item.latitude, longitude: item.longitude })
+                                }}
+                                className='flex-row w-80'>
+                                <MyIconComponent name={item.labelIcon} color={color} size={20} type='Ionicons' />
+                                <View>
+                                    <Text numberOfLines={1} className='font-normal text-sm ms-3' style={{ color }}>{item.labelName}</Text>
+                                    <Text numberOfLines={1} className='font-semibold ms-3' style={{ color }}>{item.address1}</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity className='p-3' onPress={() => nav.navigate('location', { item })}>
+                                <AntDesign name="edit" size={20} color={theme.color} />
+                            </TouchableOpacity>
+                        </View>
+                    }) : undefined}
+                    <View className='flex-row justify-between items-center mt-4'>
+                        <TouchableOpacity className='py-3 flex-row items-center' onPress={useCurrentLocations}>
+                            <Ionicons name='navigate-outline' color={theme.colorText} size={20} />
+                            <Text className='color-slate-800 dark:color-slate-100 font-semibold ms-3'>Use current location</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className='py-3 flex-row items-center' onPress={() => nav.navigate('location', { item: null })}>
+                            <Ionicons name='add-outline' color={theme.colorText} size={20} />
+                            <Text className='color-slate-800 dark:color-slate-100 font-semibold ms-3'>Add Location</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ModalSheetBottom>
         </View>
     )
 }

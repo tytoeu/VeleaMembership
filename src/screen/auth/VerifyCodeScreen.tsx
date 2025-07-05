@@ -89,19 +89,22 @@ const VerifyCodeScreen = () => {
     }
 
     const sentOpt = async () => {
+        console.log(phone)
 
         const data = {
             phone_number: phone,
             device_id: "device_id1",
             calling_code: "+855",
-            verify_date: formatDate(new Date())
+            verify_date: formatDate(new Date()),
+            isforget: isforget
         }
 
         try {
+            console.log(data)
             sendOtpMutation.mutateAsync(data, {
                 onSuccess: (data) => {
                     if (data?.status && data?.sms_res !== null) {
-                        nav.navigate('verify-code', { phone: input?.phone })
+                        !isforget && nav.navigate('verify-code', { phone: input?.phone })
                     }
                     else {
                         Alert.alert('Warning', data?.message || 'Something went wrong!')

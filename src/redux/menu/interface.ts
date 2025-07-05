@@ -1,6 +1,7 @@
 export interface initialStateInferface {
     heightTab: number;
-    cateId: string;
-    subCateId: string;
+    cateId: number;
+    subCateId: number;
+    search: string | null
 }
 

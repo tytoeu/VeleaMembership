@@ -1,13 +1,46 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { CardInformationScreen, CartListScreen, NotificationScreen, OnBoardingScreen, PaymentScreen, PaySuccess, PromotionDetail, QRScannerScreen, QRScreen, RedeemItemScreen, TopupScreen } from '../screen'
+import {
+    CardInformationScreen,
+    CardProvider,
+    CartListScreen,
+    Desposit,
+    ItemDetail,
+    Location,
+    NotificationScreen,
+    OnBoardingScreen,
+    PaymentScreen,
+    PaySuccess,
+    PromotionDetail,
+    QRScannerScreen,
+    QRScreen,
+    RedeemItemScreen,
+    ReserveForm,
+    ReserveScreen,
+    ReviewPayment,
+    SearchItemScreen,
+    TopupScreen
+} from '../screen'
+import {
+    ChangePassword,
+    CreatePassword,
+    Login,
+    LoginPassword,
+    PersonalInfor,
+    ProcessLinkCard,
+    QRScannerCardScreen,
+    ResetPassword,
+    Signup,
+    VerifyCode
+} from '../screen/auth'
+
 import BottomTabNavigation from './BottomTabNavigation'
 import { DarkMode, Language } from '../screen/setting'
 import { useAppSelector } from '../hooks'
 import React from 'react'
 import i18n from '../localization'
-import { ChangePassword, CreatePassword, Login, LoginPassword, PersonalInfor, ProcessLinkCard, QRScannerCardScreen, ResetPassword, Signup, VerifyCode } from '../screen/auth'
 import VerifyPhoneScreen from '../screen/auth/VerifyPhoneScreen'
-import { PersonalInforRight } from '../components'
+import { PersonalInforRight, SearchHeaderRight } from '../components'
+import { BalanceRules, TermCondition } from '../screen/policy'
 
 const Stack = createStackNavigator()
 
@@ -80,11 +113,42 @@ const StackNavigation = () => {
             <Stack.Screen name="notification" component={NotificationScreen} options={{
                 title: i18n.t('Notification')
             }} />
+            <Stack.Screen name="reserve" component={ReserveScreen} options={{
+                title: i18n.t('Reserve')
+            }} />
+            <Stack.Screen name="form-reserve" component={ReserveForm} options={{
+                title: i18n.t('Form Reserve')
+            }} />
+            <Stack.Screen name="balance-rule" component={BalanceRules} options={{
+                title: 'Balance Terms & Conditions'
+            }} />
+            <Stack.Screen name="deposit" component={Desposit} options={{
+                title: i18n.t('Top-Up Balance')
+            }} />
+            <Stack.Screen name="card-provider" component={CardProvider} options={{
+                title: i18n.t('Membership Tier')
+            }} />
+
+            <Stack.Screen name="item-detail" component={ItemDetail} options={{
+                title: ''
+            }} />
+            <Stack.Screen name="review-payment" component={ReviewPayment} options={{
+                title: i18n.t('Review Payment'),
+            }} />
+
+            <Stack.Screen name="search-item" component={SearchItemScreen} options={{
+                title: '',
+                headerRight: () => <SearchHeaderRight />,
+                headerLeft: () => null,
+            }} />
+            <Stack.Screen name='location' component={Location} options={{
+                title: i18n.t('Location'),
+                headerShown: false
+            }} />
 
             {/* authorization */}
             {!onBoading &&
                 <Stack.Screen name="onBoarding" component={OnBoardingScreen} options={{
-
                     title: '',
                     headerShown: false
                 }} />}
@@ -126,6 +190,10 @@ const StackNavigation = () => {
             <Stack.Screen name="login-password" component={LoginPassword} options={{
                 title: '',
                 headerShown: false
+            }} />
+
+            <Stack.Screen name="term" component={TermCondition} options={{
+                title: i18n.t('term-condition')
             }} />
 
         </Stack.Navigator>

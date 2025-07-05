@@ -102,7 +102,7 @@ export default function LoginPassword() {
                 onChangeText={text => handleTextChange('password', text)}
                 onFocus={() => handleErrorChange('password', '')}
                 onBlur={() => handleErrorChange('password', input?.password ? '' : i18n.t('Password is required'))}
-                keyboardType='number-pad'
+                keyboardType='default'
                 maxLength={4}
                 error={error?.password ? true : false}
                 textColor={theme.color}

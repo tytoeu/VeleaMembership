@@ -14,9 +14,9 @@ const SubCategoryCard = (prop: IProp) => {
     const { subCateId } = useAppSelector(state => state.menu)
     const dispatch = useAppDispatch()
 
-    const selected = subCateId == prop.item.subId.toString()
+    const selected = subCateId == prop.item.subId
     return (
-        <TouchableOpacity style={[menuStyle.category]} onPress={() => dispatch(subCategorySeleted(prop.item.subId.toString()))}>
+        <TouchableOpacity style={[menuStyle.category]} onPress={() => dispatch(subCategorySeleted(prop.item.subId))}>
             <Text style={[menuStyle.cate_text, { color: selected ? 'red' : theme.color }]}>{prop.item.name}</Text>
         </TouchableOpacity>
     )

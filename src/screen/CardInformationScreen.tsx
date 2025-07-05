@@ -28,6 +28,7 @@ interface ICardData {
         type: string;
         tierImage: string;
         membership_id: number | null;
+        customerId: number
     }
 }
 

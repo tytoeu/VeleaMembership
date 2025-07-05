@@ -35,7 +35,7 @@ const QRScannerScreen = () => {
 
     const color = flash ? 'white' : 'gray'
 
-    const isComingSoon = true
+    const isComingSoon = false
     if (isComingSoon) {
         return (<View style={{ backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', flex: 1 }}>
             <Text style={{ color: theme.color, backgroundColor: theme.bgDark, padding: 20, borderRadius: 5, overflow: 'hidden', fontFamily: 'R700' }}>Coming Soon</Text>

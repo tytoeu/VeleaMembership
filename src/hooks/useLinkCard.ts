@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAppSelector } from ".";
 import { assets } from "../../assets";
 import { ICard } from "./interface/ILink";
@@ -16,6 +16,11 @@ const useLinkCard = () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${auth?.access_token!}`
     };
+    const headerOptionNoAuhorize = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': ``
+    };
 
     const linkCard = async (cardDAta: ICardInformation) => {
         const url = `${appConfig.api}membership-card/create`;
@@ -28,6 +33,13 @@ const useLinkCard = () => {
         const response = await fetch(url, { method: 'GET', headers: headerOptions });
         return response.json();
     }
+
+    const fetchMembershipTier = async () => {
+        const url = `${appConfig.api}get-member-tier`;
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNoAuhorize });
+        return response.json();
+    }
+
     const verifyInforCard = async (card_number: string) => {
         const url = `${appConfig.api}verify-infor-card?card_number=${card_number}&phone_number=${tempAuth?.phone}`;
         const response = await fetch(url, { method: 'GET', headers: headerOptions });
@@ -47,7 +59,9 @@ const useLinkCard = () => {
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
     });
 
-    return { linkCardMutation, checkCardInfoMutation, verifyInforCardMutation }
+    const membershipTierQuery = useQuery({ queryKey: ['membership-tier'], queryFn: fetchMembershipTier });
+
+    return { linkCardMutation, checkCardInfoMutation, verifyInforCardMutation, membershipTierQuery }
 }
 
 export default useLinkCard

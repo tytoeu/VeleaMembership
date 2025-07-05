@@ -12,8 +12,10 @@ import {
     BottomSheetBackdrop,
     BottomSheetModal,
     BottomSheetModalProvider,
+    BottomSheetScrollView,
     BottomSheetView
 } from '@gorhom/bottom-sheet'
+import { useAppSelector } from '../hooks'
 
 interface ModalSheetBottomProps {
     children: ReactNode
@@ -31,6 +33,7 @@ const ModalSheetBottom = forwardRef<ModalSheetBottomRef, ModalSheetBottomProps>(
     ({ children, modalStyle, contentStyle, snapPoint }, ref) => {
         const bottomSheetModalRef = useRef<BottomSheetModal>(null)
         const snapPoints = useMemo(() => snapPoint, [])
+        const { theme, currentTheme } = useAppSelector(state => state.cache)
 
         useImperativeHandle(ref, () => ({
             present: () => bottomSheetModalRef.current?.present(),
@@ -56,10 +59,13 @@ const ModalSheetBottom = forwardRef<ModalSheetBottomRef, ModalSheetBottomProps>(
                     snapPoints={snapPoints}
                     style={modalStyle}
                     backdropComponent={renderBackdrop}
+                    backgroundStyle={{ backgroundColor: currentTheme == 'light' ? 'white' : 'black' }}
+                    handleStyle={{ backgroundColor: theme.bgDark, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+                    handleIndicatorStyle={{ backgroundColor: '#888' }}
                 >
-                    <BottomSheetView style={contentStyle}>
+                    <BottomSheetScrollView style={{ flex: 1 }}>
                         {children}
-                    </BottomSheetView>
+                    </BottomSheetScrollView>
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         )

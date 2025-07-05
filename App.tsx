@@ -9,6 +9,7 @@ import * as Notifications from 'expo-notifications';
 import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
 import "./global.css"
+import 'react-native-get-random-values';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

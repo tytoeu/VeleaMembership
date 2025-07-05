@@ -1,34 +1,40 @@
 import { View, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
-import { AddToCard, CategoryCard, ItemCard, SubCategoryCard } from '../components'
-import { useAppNavigation, useAppSelector } from '../hooks'
+import { CategoryCard, ItemCard, SubCategoryCard } from '../components'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { useFocusEffect } from '@react-navigation/native'
 import { IMenu } from '../hooks/interface/IMenu'
 import HomeStyle from '../util/style/HomeStyle'
+import { searchAction } from '../redux/menu'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
 import useMenu from '../hooks/useMenu'
 
 const MenuScreen = () => {
-    const nav = useAppNavigation()
-    // use custom hook for data action state
+    const dispatch = useAppDispatch()
+    // // use custom hook for data action state
     const { infiniteQuery, categoryQuery, subCategoryQuery } = useMenu()
 
-    // use redux for action state
+    // // use redux for action state
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
 
-    // Extracts all data arrays from pages and merges them into a single array
+    // // Extracts all data arrays from pages and merges them into a single array
     const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.response?.data as IMenu[]) || [];
 
-    // data declearation object
-    const all = { categoryId: '', name: "All", image: null, itemCount: 0 };
+    // // data declearation object
+    const all = { categoryId: 0, name: "All", itemCount: 0 };
 
-    // app one object to array
-    const appendAllToCategories = !categoryQuery.isFetching ? [all, ...categoryQuery.data?.data || []] : []
+    // // app one object to array
+    const appendAllToCategories = !categoryQuery.isFetching ? [all, ...categoryQuery.data || []] : []
 
-    // load pagination page
+    // // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
 
-    // reload data
+    // // reload data
     const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
+
+    useFocusEffect(() => {
+        dispatch(searchAction(null))
+    })
 
     const ListFooterComponent = () => {
         if (!infiniteQuery.isFetchingNextPage) return null;
@@ -49,7 +55,7 @@ const MenuScreen = () => {
             />
 
             <FlatList
-                data={subCategoryQuery.data?.data}
+                data={subCategoryQuery.data}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index }) => (<SubCategoryCard item={item} />)}
                 horizontal
@@ -78,10 +84,9 @@ const MenuScreen = () => {
                 initialNumToRender={10}
                 windowSize={4}
             />
-
-            <AddToCard onPress={() => nav.navigate('cart-list')} />
         </View>
     )
+
 }
 
 export default MenuScreen

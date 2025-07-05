@@ -5,7 +5,7 @@ import topup_style from '../util/style/topup_style'
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
-const data = Array.from({ length: 9 }, (_, i) => ({ id: i, name: `${i + 1}0 $` }))
+const data = Array.from({ length: 12 }, (_, i) => ({ id: i, name: `${i + 1} $` }))
 const borderColor = { borderWidth: 1, borderColor: '#ca6f1e' }
 const dataPayment = [
     {
@@ -80,7 +80,9 @@ const TopupScreen = () => {
             backgroundColor: bgDark,
             color,
             borderColor: isAmountLow ? 'red' : 'transparent',
-            borderWidth: 1
+            borderWidth: 1,
+            marginBottom: 0,
+            marginTop: 20
         }
     ];
 
@@ -107,7 +109,7 @@ const TopupScreen = () => {
         console.log('Topup Action:', jsonData);
     }
 
-    const isComingSoon = true
+    const isComingSoon = false
     if (isComingSoon) {
         return (<View style={[topup_style.container, { backgroundColor: theme.background, justifyContent: 'center' }]}>
             <Text style={{ color: theme.color, backgroundColor: theme.bgDark, padding: 20, borderRadius: 5, overflow: 'hidden', fontFamily: 'R700' }}>Coming Soon</Text>
@@ -118,23 +120,8 @@ const TopupScreen = () => {
         <View style={[topup_style.container, { backgroundColor: theme.background }]}>
 
             <ScrollView showsVerticalScrollIndicator={false} style={{ width: WIDTH }}>
-                <Text style={[topup_style.text, { color }]}>Packet</Text>
-                <FlatList
-                    data={data}
-                    keyExtractor={(item) => item.id.toString()}
-                    contentContainerStyle={{ padding: 20, alignItems: 'center', paddingBottom: 10 }}
-                    scrollEnabled={false}
-                    numColumns={3}
-                    key={3}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity
-                            onPress={() => setState({ ...state, isPacket: index, amount: '' })}
-                            style={[topup_style.item, { backgroundColor: bgDark }, state.isPacket == index && borderColor]}>
-                            <Text style={[{ color, fontWeight: 'bold', textAlign: 'center' }]}>{item.name}</Text>
-                        </TouchableOpacity>
-                    )}
-                />
 
+                <Text style={[topup_style.text, { color }]}>Packet</Text>
                 <TextInput
                     ref={inputRef}
                     style={[inputStyle, { backgroundColor: bgDark, color }]}
@@ -151,6 +138,21 @@ const TopupScreen = () => {
                     returnKeyType='done'
                     onFocus={() => setState({ ...state, isPacket: -1 })}
                     value={state.amount}
+                />
+                <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={{ padding: 20, alignItems: 'center', paddingBottom: 10 }}
+                    scrollEnabled={false}
+                    numColumns={4}
+                    key={4}
+                    renderItem={({ item, index }) => (
+                        <TouchableOpacity
+                            onPress={() => setState({ ...state, isPacket: index, amount: '' })}
+                            style={[topup_style.item, { backgroundColor: bgDark }, state.isPacket == index && borderColor]}>
+                            <Text style={[{ color, fontWeight: 'bold', textAlign: 'center' }]}>{item.name}</Text>
+                        </TouchableOpacity>
+                    )}
                 />
 
                 <Text style={[topup_style.text, { color, marginTop: 8 }]}>Payment Method</Text>

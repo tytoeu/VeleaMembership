@@ -13,11 +13,11 @@ const topup_style = StyleSheet.create({
         marginTop: 25
     },
     item: {
-        padding: 20,
-        paddingHorizontal: 10,
-        borderRadius: 10,
+        minWidth: 40,
+        minHeight: 40,
+        borderRadius: 5,
         margin: 10,
-        width: WIDTH / 3 - 40,
+        width: WIDTH / 4 - 40,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -27,6 +27,8 @@ const topup_style = StyleSheet.create({
         shadowRadius: 2.22,
 
         elevation: 3,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     input_text: {
         height: 50,
@@ -51,18 +53,18 @@ const topup_style = StyleSheet.create({
     payment: {
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderRadius: 10,
         margin: 10,
         width: WIDTH - 40,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 2,
         },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.00,
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
 
-        elevation: 1,
+        elevation: 5,
+        borderRadius: 10
     },
     pay_now: {
         backgroundColor: '#ca6f1e',

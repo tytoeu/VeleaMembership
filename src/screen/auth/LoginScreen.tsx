@@ -105,7 +105,7 @@ const LoginScreen = () => {
                     onFocus={() => handleErrorChange('password', '')}
                     onBlur={() => handleErrorChange('password', input?.password ? '' : i18n.t('Password is required'))}
                     value={input?.password}
-                    keyboardType='number-pad'
+                    keyboardType='default'
                     error={error?.password ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}
@@ -150,6 +150,10 @@ const LoginScreen = () => {
                         <Text style={[{ color: theme.color }]}> {i18n.t('Create Account')}</Text>
                     </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity className='self-end mr-4 mt-2 p-3' onPress={() => navigation.navigate('term')}>
+                    <Text className='color-black dark:color-white font-semibold'>Term & Condition</Text>
+                </TouchableOpacity>
             </View>
         </Layout>
     )

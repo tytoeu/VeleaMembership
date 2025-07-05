@@ -28,8 +28,7 @@ const home_style = StyleSheet.create({
     },
     balance_container: {
         flexDirection: 'row',
-        alignItems: 'center',
-        position: 'relative'
+        alignItems: 'center'
     },
     logo: {
         width: 80,
@@ -48,7 +47,6 @@ const home_style = StyleSheet.create({
     balance_number: {
         fontFamily: 'R900',
         fontSize: 22,
-        marginTop: 8
     },
     code: {
         fontFamily: 'R700',

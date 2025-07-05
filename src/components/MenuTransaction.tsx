@@ -6,7 +6,11 @@ import React from 'react'
 import i18n from '../localization'
 import { actionNavigate } from '../redux/temp'
 
-const MenuTransaction = () => {
+interface prop {
+    balance?: number;
+}
+
+const MenuTransaction = (prop: prop) => {
     const { theme, auth } = useAppSelector(state => state.cache)
     const nav = useAppNavigation()
     const dispatch = useAppDispatch()
@@ -18,7 +22,7 @@ const MenuTransaction = () => {
                     dispatch(actionNavigate(null))
                     nav.navigate('Login')
                 } else {
-                    nav.navigate('top-up')
+                    nav.navigate('deposit', { balance: prop.balance })
                 }
             }}>
                 <MaterialCommunityIcons name="arrow-bottom-left-bold-box-outline" color={theme.color} size={22} />
@@ -30,11 +34,11 @@ const MenuTransaction = () => {
                     dispatch(actionNavigate(null))
                     nav.navigate('Login')
                 } else {
-                    nav.navigate('qr-scanner')
+                    nav.navigate('reserve')
                 }
             }}>
-                <Ionicons name='qr-code-outline' color={theme.color} size={22} />
-                <Text style={[home_style.menu_btn_text, { color: theme.color }]}>{i18n.t('Scan QR')}</Text>
+                <Ionicons name='restaurant-outline' color={theme.color} size={22} />
+                <Text style={[home_style.menu_btn_text, { color: theme.color }]}>{i18n.t('Reserve Table')}</Text>
             </TouchableOpacity>
         </View>
     )

@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useAppSelector } from ".";
 import { assets } from "../../assets";
 import { Alert } from "react-native";
@@ -55,6 +55,12 @@ const useDashbaord = () => {
         return await response.json();
     };
 
+    const fetchHome = async () => {
+        const url = `${appConfig.api}fetch-dashboards`;
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
+        return await response.json();
+    };
+
     const fetchMemberInfoMutation = useMutation({
         mutationFn: fetchMemberInfo,
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
@@ -86,11 +92,14 @@ const useDashbaord = () => {
         getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage?.data.length === 0) ? undefined : allPages.length + 1)
     });
 
+    const homefiniteQuery = useQuery({ queryKey: ['fetch-booking'], queryFn: fetchHome });
+
     return {
         fetchMemberInfoMutation,
         infiniteQuery, onboard,
         notificationInfiniteQuery,
-        generalNotificationInfiniteQuery
+        generalNotificationInfiniteQuery,
+        homefiniteQuery
     }
 }
 

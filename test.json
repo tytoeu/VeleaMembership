@@ -1,40 +1,16 @@
 [
     {
-        "key": "BottomTab-tyuu1r3DzZMsyGMmMsNoE",
-        "name": "BottomTab",
-        "params": undefined
-    },
-    {
-        "key": "Login-84y9nvqXYlpvNs0jVeCLy",
-        "name": "Login",
-        "params": undefined,
-        "path": undefined
-    },
-    {
-        "key": "information-card-8YI_I8VMda0D6Qnq3eUy1",
-        "name": "information-card",
-        "params": {
-            "cardInfor": [Object
-            ]
-        },
-        "path": undefined
-    }
-]
-
-[
-    {
-        "name": "BottomTab",
-        "params": undefined
-    },
-    {
-        "name": "Login",
-        "params": undefined
-    },
-    {
-        "name": "information-card",
-        "params": {
-            "cardInfor": [Object
-            ]
-        }
+        "city": "Mountain View",
+        "country": "United States",
+        "district": null,
+        "formattedAddress": "Google Building PLY1, 1500 Plymouth St, Mountain View, CA 94043, USA",
+        "isoCountryCode": "US",
+        "name": "Google Building PLY1",
+        "postalCode": "94043",
+        "region": "California",
+        "street": "Plymouth Street",
+        "streetNumber": "1500",
+        "subregion": "Santa Clara County",
+        "timezone": null
     }
 ]

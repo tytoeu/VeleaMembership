@@ -30,11 +30,6 @@ const ChangePassword = () => {
             isValid = false
         }
 
-        if (input?.newPassword && input?.newPassword.length! !== 4) {
-            handleErrorChange('newPassword', i18n.t('Password must be 4 digits'))
-            isValid = false
-        }
-
         if (!input?.newPassword) {
             handleErrorChange('newPassword', i18n.t('Password is required'))
             isValid = false
@@ -56,7 +51,6 @@ const ChangePassword = () => {
                 old_password: input?.oldPassword!
             }
 
-            console.log('DATA', data)
             changePasswordMutation.mutateAsync(data, {
                 onSuccess: (data) => {
                     if (data?.status) {
@@ -88,8 +82,7 @@ const ChangePassword = () => {
                     onChangeText={text => handleTextChange('oldPassword', text)}
                     onFocus={() => handleErrorChange('oldPassword', '')}
                     onBlur={() => handleErrorChange('oldPassword', input?.oldPassword ? '' : i18n.t('Password is required'))}
-                    keyboardType='number-pad'
-                    maxLength={4}
+                    keyboardType='default'
                     error={error?.oldPassword ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}
@@ -104,8 +97,7 @@ const ChangePassword = () => {
                     onChangeText={text => handleTextChange('newPassword', text)}
                     onFocus={() => handleErrorChange('newPassword', '')}
                     onBlur={() => handleErrorChange('newPassword', input?.newPassword ? '' : i18n.t('Password is required'))}
-                    keyboardType='number-pad'
-                    maxLength={4}
+                    keyboardType='default'
                     error={error?.newPassword ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}
@@ -120,8 +112,7 @@ const ChangePassword = () => {
                     onChangeText={text => handleTextChange('confirm_password', text)}
                     onFocus={() => handleErrorChange('confirm_password', '')}
                     onBlur={() => handleErrorChange('confirm_password', input?.confirm_password ? '' : i18n.t('Confirm-Password is required'))}
-                    keyboardType='number-pad'
-                    maxLength={4}
+                    keyboardType='default'
                     error={error?.confirm_password ? true : false}
                     textColor={theme.color}
                     outlineColor={theme.main}

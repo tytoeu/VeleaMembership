@@ -24,7 +24,7 @@ const ProcessLinkCard = () => {
         if (isRegisterCard) {
             checkCardInfoMutation.mutateAsync(data.card_number, {
                 onSuccess(response) {
-
+                    console.log('response', response)
                     if (response?.status) {
                         // go to type password for login
                         setTimeout(() => {

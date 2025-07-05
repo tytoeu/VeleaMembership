@@ -12,5 +12,6 @@ export interface initialStateInferface {
     cartList: IMenu[],
     keyIncrease: number,
     incorrectCode: number,
-    countNotify: number
+    countNotify: number,
+    totalPrice: number
 }

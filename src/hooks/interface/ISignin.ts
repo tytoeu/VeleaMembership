@@ -18,7 +18,8 @@ export interface OTP {
     phone_number: string,
     device_id: string,
     calling_code: string,
-    verify_date: string
+    verify_date: string;
+    isforget: boolean
 }
 
 export interface IVerifyOtp {
@@ -71,3 +72,9 @@ export interface IPersanlChange {
 }
 
 export interface IDeleteAccount extends Omit<ISigninCard, 'card_number'> { }
+
+export interface IAvartar {
+    id: number;
+    image: string;
+    filename: string;
+}

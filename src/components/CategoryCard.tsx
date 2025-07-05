@@ -15,11 +15,11 @@ const CategoryCard = (prop: IProp) => {
     const dispatch = useAppDispatch()
 
     const onPress = () => {
-        dispatch(categorySeleted(prop.item.categoryId.toString()))
-        dispatch(subCategorySeleted(''))
+        dispatch(categorySeleted(prop.item.categoryId))
+        dispatch(subCategorySeleted(0))
     }
 
-    const selected = cateId == prop.item.categoryId.toString()
+    const selected = cateId == prop.item.categoryId
 
     return (
         <TouchableOpacity style={[menuStyle.category]} onPress={onPress}>

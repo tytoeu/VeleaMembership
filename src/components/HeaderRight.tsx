@@ -1,20 +1,35 @@
 import { Ionicons } from '@expo/vector-icons'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { actionNavigate } from '../redux/temp'
 import { changeDarkModeAction, setNotificationCount } from '../redux/cache'
+import useMenu from '../hooks/useMenu'
+import { IItemInCart } from '../hooks/interface/IMenu'
 
-const HeaderRight = () => {
+interface IProp {
+    isCart?: boolean;
+    isQR?: boolean;
+}
+
+const HeaderRight = (prop: IProp) => {
     const { theme, auth, currentTheme, countNotify } = useAppSelector((state) => state.cache)
+    const { listCartInfiniteQuery } = useMenu();
+    const data = listCartInfiniteQuery.data as IItemInCart[] || [];
+
     const nav = useAppNavigation()
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        listCartInfiniteQuery.refetch()
+    }, [auth])
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
             <TouchableOpacity style={[styles.icon_bage, { backgroundColor: theme.bgDark }]} onPress={() => dispatch(changeDarkModeAction())}>
                 <Ionicons name={currentTheme == 'light' ? 'sunny-outline' : 'sunny'} color={theme.btnColor} size={20} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.icon_bage, { backgroundColor: theme.bgDark }]} onPress={() => {
+
+            {prop.isQR && <TouchableOpacity style={[styles.icon_bage, { backgroundColor: theme.bgDark }]} onPress={() => {
                 if (!auth) {
                     dispatch(actionNavigate(null))
                     nav.navigate('Login')
@@ -23,7 +38,15 @@ const HeaderRight = () => {
                 }
             }}>
                 <Ionicons name='qr-code-outline' color={theme.btnColor} size={16} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
+
+            {prop.isCart && <View style={[styles.icon_bage, { backgroundColor: theme.bgDark }]}>
+                <Ionicons name='cart-outline' color={theme.btnColor} size={20} onPress={() => {
+                    nav.navigate('cart-list')
+                }} />
+                <Text style={styles.count}>{data.length > 9 ? `9+` : data?.length || 0}</Text>
+            </View>}
+
             <View style={[styles.icon_bage, { backgroundColor: theme.bgDark }]}>
                 <Ionicons name='notifications-outline' color={theme.btnColor} size={20} onPress={() => {
                     nav.navigate('notification')
@@ -31,7 +54,7 @@ const HeaderRight = () => {
                         dispatch(setNotificationCount(0))
                     }, 3000)
                 }} />
-                <Text style={styles.count}>{countNotify > 9 ? `9+` : countNotify}</Text>
+                <Text style={styles.count}>{countNotify > 9 ? `9+` : countNotify || 0}</Text>
             </View>
         </View>
     )
