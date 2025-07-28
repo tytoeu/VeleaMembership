@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGuest } from "./interface";
 import { ModalSheetBottomRef } from "../../components/ModalSheetBottom";
 import { ILocation } from "../../hooks/interface/IAddress";
+import { IVoucherDiscount } from "../../hooks/interface/IItem";
 
 const createTempSlice = createSlice({
     name: 'temp',
@@ -46,7 +47,7 @@ export const {
     actionStoreTempAuth,
     actionChangePersonalInfor,
     setBottomSheetRef,
-    locationSeleted
+    locationSeleted,
 } = createTempSlice.actions
 
 export default createTempSlice.reducer

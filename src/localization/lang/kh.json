@@ -104,5 +104,7 @@
     "Description": "ការបរិយាយ",
     "total-cart": "សរុប (មិនបូកថ្លៃដឹក នឹង ពន្ធ)",
     "Review Payment": "ពិនិត្យមើលការទូទាត់",
-    "Location": "ទីតាំង"
+    "Location": "ទីតាំង",
+    "Payment": "Payment",
+    "order detail": "Order detail"
 }

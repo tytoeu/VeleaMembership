@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useAppSelector } from '../hooks'
 import React from 'react'
 import { formatDecimal } from '../helpers'
@@ -11,12 +11,14 @@ interface historyInterface {
     type: string,
     date: string,
     amount: number,
+    orderId: number
 }
 
 interface prop {
     item: historyInterface
     index: number,
-    data: any
+    data: any;
+    onPress?: (id: number) => void
 }
 const formatDate = (datetime: string) => datetime.split(' ')[0];
 
@@ -42,7 +44,9 @@ const TransactionHistory = (prop: prop) => {
                 <View style={[home_style.tran_border, { borderBottomColor: theme.colorText }]} />
             </View>}
 
-            <View style={[home_style.tran_card, { backgroundColor: theme.bgDark }]}>
+            <TouchableOpacity onPress={() => {
+                prop.onPress && prop.onPress(prop.item.orderId)
+            }} style={[home_style.tran_card, { backgroundColor: theme.bgDark }]}>
                 <View style={home_style.icon_content}>
                     <View style={[home_style.tran_icon, { backgroundColor: '#b9770e' }]}>
                         {prop.item.type == 'earn-point' ? <FontAwesome name="star" size={20} color={'white'} /> : <FontAwesome name="dollar" size={20} color={'white'} />}
@@ -53,7 +57,7 @@ const TransactionHistory = (prop: prop) => {
                     </View>
                 </View>
                 <Text style={[home_style.tran_text_balance, { color }]}>{_symbol}{decimal} {symbol}</Text>
-            </View>
+            </TouchableOpacity>
         </>
     )
 }

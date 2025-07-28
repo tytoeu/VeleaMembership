@@ -1,16 +1,34 @@
-[
-    {
-        "city": "Mountain View",
-        "country": "United States",
-        "district": null,
-        "formattedAddress": "Google Building PLY1, 1500 Plymouth St, Mountain View, CA 94043, USA",
-        "isoCountryCode": "US",
-        "name": "Google Building PLY1",
-        "postalCode": "94043",
-        "region": "California",
-        "street": "Plymouth Street",
-        "streetNumber": "1500",
-        "subregion": "Santa Clara County",
-        "timezone": null
-    }
-]
+{
+    "additionals": [],
+    "barcode": "",
+    "categoryName": "Promotion",
+    "description": "Corona Extra 6+3",
+    "discountRat": 0,
+    "image": null,
+    "itemCode": "PK166",
+    "itemDisType": "Promotion",
+    "itemId": 249,
+    "itemNameEn": "Corona Extra 6+3",
+    "itemNameKh": "Corona Extra 6+3",
+    "itemPrices": [
+        {
+            "discountRat": 0,
+            "id": 249,
+            "itemDisType": "Promotion",
+            "price": 23.4,
+            "priceAfterDis": 23.4,
+            "remarkDiscount": "Promotion",
+            "size": "Bottle",
+            "skuSap": "PK166",
+            "typeDis": ""
+        }
+    ],
+    "package": 1,
+    "price": 23.4,
+    "priceAfterDis": 23.4,
+    "priceId": 249,
+    "size": "Bottle",
+    "skuSap": "PK166",
+    "subCategoryName": "Promotion",
+    "typeDis": ""
+}

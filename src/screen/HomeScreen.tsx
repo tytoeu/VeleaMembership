@@ -1,16 +1,17 @@
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { Linking, Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { actionStoreTempAuth, locationSeleted, setBottomSheetRef } from '../redux/temp'
+import ModalSheetBottom, { ModalSheetBottomRef } from '../components/ModalSheetBottom'
 import { ItemLayout, Loading, MyIconComponent, SlidePromotion } from '../components'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import { StatusBar } from 'expo-status-bar'
-import { Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import useDashbaord from '../hooks/useDashbaord'
-import { useCallback, useEffect, useRef } from 'react'
-import ModalSheetBottom, { ModalSheetBottomRef } from '../components/ModalSheetBottom'
-import { actionStoreTempAuth, locationSeleted, setBottomSheetRef } from '../redux/temp'
-import MapView from 'react-native-maps'
-import useAddress from '../hooks/useAddress'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { ILocation } from '../hooks/interface/IAddress'
+import { useCallback, useEffect, useRef } from 'react'
+import useDashbaord from '../hooks/useDashbaord'
 import useLocation from '../hooks/useLocation'
+import useAddress from '../hooks/useAddress'
+import { StatusBar } from 'expo-status-bar'
+import MapView from 'react-native-maps'
+import useDeepLinking from '../hooks/useDeepLinking'
 
 const shadow = {
     shadowColor: "#000",
@@ -20,7 +21,6 @@ const shadow = {
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
 }
 
@@ -37,10 +37,12 @@ const HomeScreen = () => {
     const { data } = fetchMemberInfoMutation
 
     const { homefiniteQuery } = useDashbaord()
+    const { data: dataDeepLink } = useDeepLinking()
 
     // reload data
     const onRefresh = useCallback(() => {
         homefiniteQuery.refetch()
+        fetchLocationInfiniteQuery.refetch()
     }, []);
 
     const useCurrentLocations = async () => {
@@ -60,7 +62,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         dispatch(setBottomSheetRef(modalRef.current));
-        console.log(modalRef, 'useRef')
+        console.log(modalRef.current)
         return () => {
             dispatch(setBottomSheetRef(null));
         }
@@ -132,7 +134,6 @@ const HomeScreen = () => {
 
                 <View style={{ height: 20 }} />
             </ScrollView>
-
             <ModalSheetBottom
                 snapPoint={['50%']}
                 ref={modalRef}
@@ -144,7 +145,7 @@ const HomeScreen = () => {
                             style={{ height: 120, width: '100%', borderRadius: 200 }}
                             initialRegion={region}
                             showsUserLocation={true}
-                            showsMyLocationButton={true}
+                            showsMyLocationButton={false}
                             mapType='standard'
                             provider='google'
                             zoomEnabled={false}
@@ -153,7 +154,6 @@ const HomeScreen = () => {
                             pitchEnabled={false}
                             minZoomLevel={17}
                             onPress={() => nav.navigate('location', { item: null })}
-                            mapPadding={{ top: 0, right: 0, bottom: 80, left: 0 }}
                         />
                         <View className='py-3 flex-row items-center'>
                             <Ionicons name='navigate-outline' color={addressSeleted?.addressId == 0 ? '#ea580c' : theme.colorText} size={20} />
@@ -174,8 +174,8 @@ const HomeScreen = () => {
                                 className='flex-row w-80'>
                                 <MyIconComponent name={item.labelIcon} color={color} size={20} type='Ionicons' />
                                 <View>
-                                    <Text numberOfLines={1} className='font-normal text-sm ms-3' style={{ color }}>{item.labelName}</Text>
                                     <Text numberOfLines={1} className='font-semibold ms-3' style={{ color }}>{item.address1}</Text>
+                                    <Text numberOfLines={1} className='font-normal text-sm ms-3' style={{ color }}>{item.labelName}</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity className='p-3' onPress={() => nav.navigate('location', { item })}>
@@ -184,10 +184,6 @@ const HomeScreen = () => {
                         </View>
                     }) : undefined}
                     <View className='flex-row justify-between items-center mt-4'>
-                        <TouchableOpacity className='py-3 flex-row items-center' onPress={useCurrentLocations}>
-                            <Ionicons name='navigate-outline' color={theme.colorText} size={20} />
-                            <Text className='color-slate-800 dark:color-slate-100 font-semibold ms-3'>Use current location</Text>
-                        </TouchableOpacity>
                         <TouchableOpacity className='py-3 flex-row items-center' onPress={() => nav.navigate('location', { item: null })}>
                             <Ionicons name='add-outline' color={theme.colorText} size={20} />
                             <Text className='color-slate-800 dark:color-slate-100 font-semibold ms-3'>Add Location</Text>

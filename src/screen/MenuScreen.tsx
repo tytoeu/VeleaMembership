@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, RefreshControl, FlatList } from 'react-native'
+import { View, ActivityIndicator, RefreshControl, FlatList, Dimensions } from 'react-native'
 import { CategoryCard, ItemCard, SubCategoryCard } from '../components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { useFocusEffect } from '@react-navigation/native'
@@ -8,9 +8,11 @@ import { searchAction } from '../redux/menu'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback } from 'react'
 import useMenu from '../hooks/useMenu'
+import { WIDTH } from '../helpers'
 
 const MenuScreen = () => {
     const dispatch = useAppDispatch()
+    const t = true
     // // use custom hook for data action state
     const { infiniteQuery, categoryQuery, subCategoryQuery } = useMenu()
 
@@ -21,10 +23,13 @@ const MenuScreen = () => {
     const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.response?.data as IMenu[]) || [];
 
     // // data declearation object
-    const all = { categoryId: 0, name: "All", itemCount: 0 };
+    const all = { categoryId: 0, name: "All", itemCount: 0, image: null };
 
     // // app one object to array
-    const appendAllToCategories = !categoryQuery.isFetching ? [all, ...categoryQuery.data || []] : []
+    const isValidArray = Array.isArray(categoryQuery.data);
+    const appendAllToCategories = !categoryQuery.isFetching && isValidArray
+        ? [all, ...categoryQuery.data]
+        : [];
 
     // // load pagination page
     const onEndReached = () => !infiniteQuery.isFetchingNextPage && infiniteQuery.fetchNextPage()
@@ -70,7 +75,7 @@ const MenuScreen = () => {
                 scrollEventThrottle={50}
                 ListFooterComponent={ListFooterComponent}
                 ListFooterComponentStyle={{ padding: 10 }}
-                contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 16 }}
+                contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 16, width: WIDTH }}
                 renderItem={({ item, index }) => (<ItemCard items={item} />)}
                 keyExtractor={(item, index) => index.toString()}
                 ListEmptyComponent={() => (<ActivityIndicator size={'small'} color={'#ddd'} />)}
@@ -81,7 +86,7 @@ const MenuScreen = () => {
                 showsVerticalScrollIndicator={false}
                 removeClippedSubviews={true}
                 keyboardShouldPersistTaps="handled"
-                initialNumToRender={10}
+                initialNumToRender={20}
                 windowSize={4}
             />
         </View>

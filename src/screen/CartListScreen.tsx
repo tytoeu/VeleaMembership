@@ -1,6 +1,6 @@
-import { View, Text, FlatList, TouchableOpacity, RefreshControl, Image } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, RefreshControl, Image, ActivityIndicator } from 'react-native'
 import { useAppNavigation, useAppSelector } from '../hooks'
-import { CartList, Loading } from '../components'
+import { CartList, Loader, Loading } from '../components'
 import React, { useCallback, useState } from 'react'
 import i18n from '../localization'
 import useMenu from '../hooks/useMenu'
@@ -14,10 +14,12 @@ const img = assets.img
 
 const CartListScreen = () => {
     const { theme } = useAppSelector(state => state.cache)
+    const { addressSeleted } = useAppSelector(state => state.temp)
     const nav = useAppNavigation()
-    const { listCartInfiniteQuery, updateQualityMutation } = useMenu();
+    const { listCartInfiniteQuery, updateQualityMutation, methodPaymentMutation } = useMenu();
 
     const [loadingAction, setLoadingAction] = useState<LoadingAction>(null);
+    console.log(listCartInfiniteQuery.data)
 
     const handleQtyChange = async (index: number, symbol: '+' | '-', item: IItemInCart) => {
         if (loadingAction !== null) return;
@@ -50,7 +52,7 @@ const CartListScreen = () => {
 
         if (!data || !data.length) return { totalPricesAfterDiscount: 0, totalPrices: 0 }
 
-        const totalPricesAfterDiscount = data?.reduce((acc, item) => acc + (item.priceAfterDis * item.qty), 0) || 0;
+        const totalPricesAfterDiscount = data?.reduce((acc, item) => acc + (item.total), 0) || 0;
         const totalPrices = data?.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0) || 0;
 
         const discount = totalPrices !== totalPricesAfterDiscount ? true : false
@@ -64,7 +66,19 @@ const CartListScreen = () => {
         if (!data?.length) {
             return ToastMessage('Your cart is not exist')
         }
-        nav.navigate('review-payment')
+
+        if (addressSeleted?.addressId === 0) {
+            return nav.navigate('location', { item: null })
+        }
+
+        methodPaymentMutation.mutateAsync(1, {
+            onSuccess: (response) => {
+                if (!response?.length) {
+                    return ToastMessage('somethis went wrong !')
+                }
+                nav.navigate('review-payment', { data, methodList: response })
+            }
+        })
     }
 
     const ListEmptyComponent = () => {
@@ -79,17 +93,14 @@ const CartListScreen = () => {
 
     return (
         <View style={[{ backgroundColor: theme.background, flex: 1 }]}>
+
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index }) => <CartList
                     item={item}
-                    isPlusLoading={
-                        loadingAction?.index === index && loadingAction.symbol === '+'
-                    }
-                    isMinusLoading={
-                        loadingAction?.index === index && loadingAction.symbol === '-'
-                    }
+                    isPlusLoading={loadingAction?.index === index && loadingAction.symbol === '+'}
+                    isMinusLoading={loadingAction?.index === index && loadingAction.symbol === '-'}
                     onQtyChange={(symbol) => handleQtyChange(index, symbol, item)} />
                 }
                 removeClippedSubviews={true}
@@ -112,8 +123,10 @@ const CartListScreen = () => {
             </View>
             <TouchableOpacity
                 onPress={reviewPayment}
-                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-10 h-14 items-center justify-center rounded-xl'>
-                <Text className='font-bold text-lg color-slate-50'>{i18n.t('Review & Pay')}</Text>
+                disabled={methodPaymentMutation.isPending}
+                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
+                {methodPaymentMutation.isPending ? <Loader barColor='#FFF' /> :
+                    <Text className='font-bold text-lg color-slate-50'>{i18n.t('Review & Pay')}</Text>}
             </TouchableOpacity>
         </View>
     )

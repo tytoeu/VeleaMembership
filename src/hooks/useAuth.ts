@@ -9,7 +9,7 @@ const appConfig = assets.config
 const headerOptions = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': ''
+    'Authorization': appConfig.token
 };
 
 const useAuth = () => {

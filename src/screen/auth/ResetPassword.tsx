@@ -4,7 +4,6 @@ import { useAppNavigation, useAppSelector } from '../../hooks';
 import useErrorHandler from '../../hooks/useErrorHandler';
 import styles from '../../util/style/Style';
 import useInputText from '../../hooks/useInputText';
-import Checkbox from 'expo-checkbox';
 import useAuth from '../../hooks/useAuth';
 import { useRoute } from '@react-navigation/native';
 import { ToastMessage } from '../../components/ToastMessage';

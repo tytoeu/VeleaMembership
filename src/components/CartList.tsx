@@ -24,13 +24,20 @@ const CartList: React.FC<IProp> = ({
 
     return (
         <View style={[styles.item_card, { backgroundColor: theme.bgDark }]}>
-            <Image
-                source={{ uri: image }}
-                style={styles.image}
-            />
+            <View style={{
+                width: 90,
+                height: 80,
+                backgroundColor: '#f1f1f1',
+                borderRadius: 8,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <Image source={{ uri: image }} style={styles.image} />
+            </View>
+
             <View style={styles.content_text}>
                 <Text numberOfLines={1} style={[{ color: theme.color }, styles.cart_title]}>{locale === 'kh' ? item.itemNameKh : item.itemNameEn}</Text>
-                <Text style={[{ color: theme.color }, styles.sub_title]}>{item.additionalName}</Text>
+                <Text style={[{ color: theme.color }, styles.sub_title]}>{item.additionalName !== ' ' ? item.additionalName : 'No description'}</Text>
                 <View style={styles.footer_cart}>
                     <Text style={[{ color: theme.color }]}>{item.unitPrice} x {item.qty} ({item.size})</Text>
                     <View style={styles.action}>

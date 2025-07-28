@@ -19,7 +19,7 @@ const useLinkCard = () => {
     const headerOptionNoAuhorize = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': ``
+        'Authorization': appConfig.token
     };
 
     const linkCard = async (cardDAta: ICardInformation) => {
@@ -35,7 +35,7 @@ const useLinkCard = () => {
     }
 
     const fetchMembershipTier = async () => {
-        const url = `${appConfig.api}get-member-tier`;
+        const url = `${appConfig.api}get-member-tiers`;
         const response = await fetch(url, { method: 'GET', headers: headerOptionNoAuhorize });
         return response.json();
     }

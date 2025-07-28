@@ -110,5 +110,7 @@
     "Review & Pay": "Review Payment",
     "total-cart": "Total (Excluded Delivery Fee & Tax)",
     "Review Payment": "Review Payment",
-    "Location": "Location"
+    "Location": "Location",
+    "Payment": "Payment",
+    "order detail": "Order detail"
 }

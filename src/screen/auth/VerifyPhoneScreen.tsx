@@ -10,6 +10,7 @@ import useInputText from '../../hooks/useInputText';
 import { formatDate } from '../../helpers';
 import i18n from '../../localization';
 import { ThemeErrorText } from '../../components';
+import { OTP } from '../../hooks/interface/ISignin';
 
 const VerifyPhoneScreen = () => {
 
@@ -41,7 +42,7 @@ const VerifyPhoneScreen = () => {
             return
         }
 
-        const data = {
+        const data: OTP = {
             phone_number: input?.phone,
             device_id: "device_id1",
             calling_code: "+855",

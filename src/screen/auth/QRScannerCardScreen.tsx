@@ -22,7 +22,7 @@ const QRScannerCardScreen = () => {
 
     useEffect(() => {
         getCameraPermissions()
-        nav.navigate('process-link-card', { card_number: '202512310496' })
+        // nav.navigate('process-link-card', { card_number: '202512310496' })
     }, []);
 
     const handleBarcodeScanned = ({ type, data }: any) => {

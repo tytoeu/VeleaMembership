@@ -19,7 +19,7 @@ export interface OTP {
     device_id: string,
     calling_code: string,
     verify_date: string;
-    isforget: boolean
+    isforget: boolean | number
 }
 
 export interface IVerifyOtp {

@@ -3,6 +3,7 @@ import { assets } from "../../assets";
 import { useAppSelector } from ".";
 import { IItemAdd, IItemInCart, IItemInCartUpdate } from "./interface/IMenu";
 import { Alert } from "react-native";
+import { IMethodPayment } from "./interface/IItem";
 
 const apiConfig = assets.config
 const STALE_TIME = 1000 * 60 * 5 // 5mn
@@ -18,22 +19,29 @@ const useMenu = () => {
         'Authorization': `Bearer ${auth?.access_token!}`
     };
 
+    const headerOptionNonAuth = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': apiConfig.token
+    };
+
     const fetchMenu = async ({ cateId, subId, page = 1, search }: { cateId?: number; subId?: number; page?: number, search: string | null }) => {
         const url = `${apiConfig.api}fetch-menu-list?cateId=${cateId}&subId=${subId}&page=${page}&search=${search}`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
+        console.log(url)
         return await response.json();
     };
 
     const fetchCategory = async () => {
         const url = `${apiConfig.api}fetch-cate-list`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
         return await response.json();
     };
 
     const fetchSubCategory = async (cateId?: number) => {
         if (!cateId) return [];
         const url = `${apiConfig.api}fetch-sub-list?cateId=${cateId}`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
         return await response.json();
     };
 
@@ -47,6 +55,12 @@ const useMenu = () => {
         const url = `${apiConfig.api}get-item-cart?id=${auth?.id}`;
         const response = await fetch(url, { method: 'GET', headers: headerOptions });
         const data: IItemInCart[] = await response.json();
+        return data
+    }
+    const methodPayment = async (id: number) => {
+        const url = `${apiConfig.api}order/method-payment`;
+        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const data: IMethodPayment[] = await response.json();
         return data
     }
 
@@ -92,8 +106,21 @@ const useMenu = () => {
         mutationFn: updateQuality,
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
     });
+    const methodPaymentMutation = useMutation({
+        mutationFn: methodPayment,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
 
-    return { infiniteQuery, categoryQuery, subCategoryQuery, updateQuality, listCartInfiniteQuery, postAddToCartMutation, updateQualityMutation };
+    return {
+        infiniteQuery,
+        categoryQuery,
+        subCategoryQuery,
+        updateQuality,
+        listCartInfiniteQuery,
+        postAddToCartMutation,
+        updateQualityMutation,
+        methodPaymentMutation
+    };
 };
 
 export default useMenu;

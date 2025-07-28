@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import { addToCartAction } from '../redux/cache'
+import { useAppNavigation, useAppSelector } from '../hooks'
 import { IMenu } from '../hooks/interface/IMenu'
 import menuStyle from '../util/style/MenuStyle'
 import { assets } from '../../assets'

@@ -1,16 +1,19 @@
 import { View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native'
-import { TransactionHistory } from '../../components'
-import { useAppSelector } from '../../hooks'
+import { ModalLoading, TransactionHistory } from '../../components'
+import { useAppNavigation, useAppSelector } from '../../hooks'
 import React, { useCallback } from 'react'
 import useHistoryTransaction from '../../hooks/useHistoryTransaction'
 import i18n from '../../localization'
 import { StatusBar } from 'expo-status-bar'
 import styles from '../../util/style/Style'
+import { ToastMessage } from '../../components/ToastMessage'
 
 const Purchase = () => {
+
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
-    const { infiniteQuery } = useHistoryTransaction('purchase')
+    const { infiniteQuery, fetchOrderDetailMutation } = useHistoryTransaction('purchase')
     const daraArr = infiniteQuery.data?.pages.flatMap(page => page?.data) || [];
+    const nav = useAppNavigation()
 
     const onEndReached = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isLoading) {
@@ -19,6 +22,19 @@ const Purchase = () => {
     }
 
     const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
+
+    const fetchOrderDetail = (id: number) => {
+        console.log(id)
+        if (id == null) return ToastMessage('This purchase not exist detail!')
+
+        fetchOrderDetailMutation.mutateAsync({ id }, {
+            onSuccess: response => {
+                if (response?.length) {
+                    nav.navigate('review-order', { orderItem: response[0] })
+                }
+            }
+        })
+    }
 
     const ListFooterComponent = () => {
         if (infiniteQuery.isFetchingNextPage) {
@@ -42,18 +58,21 @@ const Purchase = () => {
     }
 
     return (
-        <FlatList
-            data={daraArr}
-            onEndReached={onEndReached}
-            onEndReachedThreshold={0.5}
-            scrollEventThrottle={50}
-            ListFooterComponent={ListFooterComponent}
-            ListFooterComponentStyle={{ padding: 10 }}
-            renderItem={({ item, index }) => <TransactionHistory item={item} index={index} data={daraArr} />}
-            ListEmptyComponent={() => (<ListEmptyComponent />)}
-            refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
-            contentContainerStyle={{ paddingHorizontal: 16 }}
-        />
+        <>
+            {fetchOrderDetailMutation.isPending && <ModalLoading isLoading={fetchOrderDetailMutation.isPending} />}
+            <FlatList
+                data={daraArr}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.5}
+                scrollEventThrottle={50}
+                ListFooterComponent={ListFooterComponent}
+                ListFooterComponentStyle={{ padding: 10 }}
+                renderItem={({ item, index }) => <TransactionHistory item={item} index={index} data={daraArr} onPress={id => fetchOrderDetail(id)} />}
+                ListEmptyComponent={() => (<ListEmptyComponent />)}
+                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={infiniteQuery.isRefetching} />}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
+            />
+        </>
     )
 }
 

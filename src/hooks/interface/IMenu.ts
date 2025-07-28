@@ -72,6 +72,7 @@ export interface IItemAdd {
     itemDisType: string;
     remark: string;
     additionalNoted: string;
+    sku: string;
 }
 
 export interface IItemInCart extends IItemAdd {
@@ -86,4 +87,35 @@ export interface IItemInCartUpdate {
     itemId: number;
     appCartId: number;
     qty: number;
+}
+
+export interface ISummery {
+    isopen: boolean;
+    timeDelivery: string;
+    shipfee: number;
+    tax: number;
+    distance: number;
+}
+
+export interface IOrderMaster {
+    id: number;
+    sub_Total: number;
+    discountRate: number;
+    totalAfterDis: number;
+    typeDis: string,
+    taxRate: number;
+    taxValue: number;
+    grandTotal: number;
+    paymentMethod: string,
+    applyType: string | null;
+    voucherId: number;
+    membershipId: number;
+    exchangeRate: number;
+    deliveryAddressId: number;
+    deliveryFee: number;
+    deliveryType: string,
+    payment_Token: string,
+    branchId: number;
+    distance: number;
+    orderDetailList: IItemAdd[]
 }

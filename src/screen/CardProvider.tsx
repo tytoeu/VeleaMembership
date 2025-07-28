@@ -34,7 +34,8 @@ const CardProvider = () => {
     const dispatch = useAppDispatch()
 
     const { membershipTierQuery } = useLinkCard()
-    const DATA = membershipTierQuery.data?.data as IMembershipIier[]
+
+    const DATA = membershipTierQuery.data?.data || [] as IMembershipIier[]
     const PATH_IMAGE = membershipTierQuery.data?.path_image
 
     const { theme, auth } = useAppSelector(state => state.cache)
@@ -54,13 +55,13 @@ const CardProvider = () => {
         listRef.current?.scrollToIndex({ index: i, animated: true });
     };
 
-    if (membershipTierQuery.isLoading) return <Loading />
-
     const activeItem = DATA[activeIndex];
 
-    const MAX = activeItem.amount; // merbership's point 
+    const MAX = activeItem?.amount || 0; // merbership's point 
 
-    const progress = Math.max(0, Math.min(1, (balance - MIN) / (MAX - MIN)));
+    const range = (balance - MIN) / (MAX - MIN) || 0
+
+    const progress = Math.max(0, Math.min(1, range));
 
     const tagsStyles = {
         ul: {
@@ -69,6 +70,8 @@ const CardProvider = () => {
             lineHeight: 24
         }
     };
+
+    if (membershipTierQuery.isLoading) return <Loading />
 
     return (
         <View className='dark:bg-black flex-1'>
@@ -138,7 +141,7 @@ const CardProvider = () => {
 
             <Button
                 mode='contained'
-                style={{ position: 'absolute', bottom: 50, alignSelf: 'center', width: '90%' }}
+                style={{ position: 'absolute', bottom: 0, alignSelf: 'center', width: '90%' }}
                 onPress={() => {
                     if (auth) {
                         nav.navigate('qr-scanner-card')

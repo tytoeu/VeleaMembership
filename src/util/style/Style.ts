@@ -177,9 +177,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: 90,
+        width: 80,
         height: 80,
-        resizeMode: 'cover',
+        resizeMode: 'contain',
         overflow: 'hidden',
         borderRadius: 5
     },

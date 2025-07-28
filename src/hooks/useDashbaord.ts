@@ -19,7 +19,7 @@ const useDashbaord = () => {
     const headerOptionNonAuth = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': ``
+        'Authorization': appConfig.token
     };
 
     const fetchMemberInfo = async () => {
@@ -31,15 +31,14 @@ const useDashbaord = () => {
 
     const fetchOnboarding = async () => {
         const url = `${appConfig.api}onboard`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
         const data = await response.json();
-        const onboard: IOnboard[] = data.onboard
-        return onboard
+        return data
     }
 
     const fetchPromotion = async ({ page = 1 }: { page?: number }) => {
         const url = `${appConfig.api}fetch-promotion?page=${page}`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
         return await response.json();
     };
 
@@ -66,10 +65,7 @@ const useDashbaord = () => {
         onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
     })
 
-    const onboard = useMutation({
-        mutationFn: fetchOnboarding,
-        onError: error => Alert.alert('Error', 'Something went wrong! ' + error?.message)
-    })
+    const onboard = useQuery({ queryKey: ['onboard-query'], queryFn: fetchOnboarding });
 
     const infiniteQuery = useInfiniteQuery({
         queryKey: ['promotion'],

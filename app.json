@@ -2,11 +2,16 @@
   "expo": {
     "name": "VELEA",
     "slug": "VeleaMembership",
+    "scheme": "velea",
+    "deepLinks": [
+      "velea://"
+    ],
+    "deepLinking": true,
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -23,6 +28,9 @@
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to take photos or scan QR codes.",
         "NSLocationWhenInUseUsageDescription": "Allow location access to show nearby services and improve your experience."
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyDDvgbNZmbsMcwl2XxYdqo8VFO6XG61xkw"
       }
     },
     "android": {
@@ -38,9 +46,22 @@
       "config": {
         "usesNonExemptEncryption": false,
         "googleMaps": {
-          "apiKey": "AIzaSyDj-sDv7p5f1bJ96pbqATFdSSBxQ_zahjM"
+          "apiKey": "AIzaSyDDvgbNZmbsMcwl2XxYdqo8VFO6XG61xkw"
         }
-      }
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "velea",
+            "host": "*"
+          },
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",

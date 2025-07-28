@@ -8,12 +8,15 @@ import {
     Location,
     NotificationScreen,
     OnBoardingScreen,
+    OrderSuccess,
     PaymentScreen,
     PaySuccess,
+    PayWebview,
     PromotionDetail,
     QRScannerScreen,
     QRScreen,
     RedeemItemScreen,
+    ReportOrder,
     ReserveForm,
     ReserveScreen,
     ReviewPayment,
@@ -39,7 +42,7 @@ import { useAppSelector } from '../hooks'
 import React from 'react'
 import i18n from '../localization'
 import VerifyPhoneScreen from '../screen/auth/VerifyPhoneScreen'
-import { PersonalInforRight, SearchHeaderRight } from '../components'
+import { HeaderRight, PersonalInforRight, SearchHeaderRight } from '../components'
 import { BalanceRules, TermCondition } from '../screen/policy'
 
 const Stack = createStackNavigator()
@@ -130,10 +133,22 @@ const StackNavigation = () => {
             }} />
 
             <Stack.Screen name="item-detail" component={ItemDetail} options={{
-                title: ''
+                title: '',
+                headerRight: () => <HeaderRight isCart={true} />
             }} />
             <Stack.Screen name="review-payment" component={ReviewPayment} options={{
                 title: i18n.t('Review Payment'),
+            }} />
+            <Stack.Screen name="pay-webview" component={PayWebview} options={{
+                title: i18n.t('Payment'),
+            }} />
+            <Stack.Screen name="review-order" component={ReportOrder} options={{
+                title: i18n.t('order detail'),
+                headerShown: true
+            }} />
+            <Stack.Screen name="order-success" component={OrderSuccess} options={{
+                title: '',
+                headerShown: false
             }} />
 
             <Stack.Screen name="search-item" component={SearchItemScreen} options={{

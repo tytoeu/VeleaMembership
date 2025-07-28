@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppSelector } from '../hooks'
 import MultiCheckbox from '../components/MultiCheckbox'
-import { Layout, Size } from '../components'
+import { Layout, Loader, Size } from '../components'
 import { TextInput } from 'react-native-paper'
 import styles from '../util/style/Style'
 import i18n from '../localization'
@@ -24,7 +24,7 @@ const shadow = {
     shadowRadius: 2.22,
 
     elevation: 3,
-    marginTop: -25
+    marginTop: 10
 }
 
 interface IProp {
@@ -38,8 +38,7 @@ const ItemDetail = () => {
     const [selected, setSelected] = React.useState<string[]>([]);
     const [remark, setRemark] = useState('')
     const { qty, total, increment, decrement, selectSize, selectedPrice } = useItemQuantity(item.itemPrices);
-
-    const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item.image}`
+    const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item?.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item?.image}`
     const { postAddToCartMutation, listCartInfiniteQuery } = useMenu()
 
     const AddToCardAction = () => {
@@ -59,9 +58,9 @@ const ItemDetail = () => {
             package: item.package,
             itemDisType: selectedPrice.itemDisType,
             remark: remark,
-            additionalNoted: selected.toString()
+            additionalNoted: selected.toString(),
+            sku: item.skuSap
         }
-
         postAddToCartMutation.mutate(dataJson, {
             onSuccess: (data) => {
                 if (data?.status) {
@@ -81,13 +80,13 @@ const ItemDetail = () => {
     return (
         <View className='flex-1 dark:bg-black'>
             <Layout>
-                <View className='w-96 h-96 self-center items-center relative'>
+                <View className='w-96 h-96 self-center items-center relative mb-3'>
                     {item.image ? <Image
                         source={{ uri: image }}
-                        style={{ width: 300, height: 300, objectFit: 'fill', borderRadius: 150 }}
+                        style={{ width: 300, height: 300, objectFit: 'cover', borderRadius: 300 }}
                     /> : <Image
                         source={assets.logo.login}
-                        style={{ width: 300, height: 300, objectFit: 'fill', borderRadius: 150 }}
+                        style={{ width: 300, height: 300, objectFit: 'cover', borderRadius: 300 }}
                     />}
                     <View className='bg-white dark:bg-white/10 flex-row items-center rounded-lg px-3' style={shadow}>
                         <TouchableOpacity className='w-11 h-11 items-center justify-center' onPress={decrement}>
@@ -113,23 +112,23 @@ const ItemDetail = () => {
                         </Text>
                     </View>
 
-                    {item.itemPrices.length &&
+                    {item.itemPrices.length ?
                         <View className='mt-5'>
                             <Text className='color-slate-800 dark:color-slate-50 font-bold text-lg mb-3'>{i18n.t('Size')}</Text>
                             <Size
                                 options={item.itemPrices.sort((a, b) => a.price - b.price)}
                                 onChange={selectSize}
                             />
-                        </View>}
+                        </View> : undefined}
 
-                    {item.additionals.length &&
+                    {item.additionals.length ?
                         <View className='mt-5'>
                             <Text className='color-slate-800 dark:color-slate-50 font-bold text-lg'>{i18n.t('Additional')}</Text>
                             <MultiCheckbox
                                 options={item.additionals}
                                 onChange={setSelected}
                             />
-                        </View>}
+                        </View> : undefined}
 
                     <View className='mt-5'>
                         <Text className='color-slate-800 dark:color-slate-50 font-bold text-lg mb-2'>{i18n.t('Remark')}</Text>
@@ -164,11 +163,11 @@ const ItemDetail = () => {
             <TouchableOpacity
                 onPress={AddToCardAction}
                 disabled={postAddToCartMutation.isPending}
-                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-10 h-14 items-center justify-center rounded-xl'>
-                {postAddToCartMutation.isPending ? <ActivityIndicator size={'small'} color={theme.colorText} />
+                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
+                {postAddToCartMutation.isPending ?
+                    <Loader barColor='#FFF' />
                     :
                     <Text className='font-bold text-lg color-slate-50'>{i18n.t('Add to cart for')} ${total}</Text>}
-
             </TouchableOpacity>
         </View>
     )

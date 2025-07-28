@@ -1,24 +1,26 @@
 import { View, StyleSheet, Animated, TouchableOpacity, Text, Pressable, KeyboardAvoidingView, Image, ActivityIndicator, FlatList } from 'react-native';
 import ModalSheetBottomNotScroll from '../../components/ModalSheetBottomNotScroll'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { useAppNavigation, useAppSelector } from '../../hooks';
-import React, { useEffect, useState } from 'react';
-import useInputText from '../../hooks/useInputText';
-import MapView from 'react-native-maps';
-import { TextInput } from 'react-native-paper';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { Layout } from '../../components';
-import Checkbox from 'expo-checkbox';
-import useAddress from '../../hooks/useAddress';
 import { IAddress, ILocation } from '../../hooks/interface/IAddress';
+import { useAppNavigation, useAppSelector } from '../../hooks';
 import { ToastMessage } from '../../components/ToastMessage';
-import useLocation from '../../hooks/useLocation';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import useInputText from '../../hooks/useInputText';
 import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import useLocation from '../../hooks/useLocation';
+import { TextInput } from 'react-native-paper';
+import useAddress from '../../hooks/useAddress';
+import { Layout } from '../../components';
+import MapView from 'react-native-maps';
 import Constants from 'expo-constants';
+import Checkbox from 'expo-checkbox';
+import { assets } from '../../../assets';
 
 const PIN_HEIGHT = 40;
 const PIN_WIDTH = 30;
 const LIFT = -28;
+const img = assets.img
 
 const apiKey = Constants?.expoConfig?.extra?.googlePlacesApiKey;
 type PropType = { item: ILocation }
@@ -121,9 +123,9 @@ const LocationScreen = () => {
             })
         } else {
             handleTextChange('phone', tempAuth?.phone as string)
-            setTimeout(() => {
-                useCurrentLocation();
-            }, 3000);
+            // setTimeout(() => {
+            //     useCurrentLocation();
+            // }, 3000);
         }
     }, [item]);
 
@@ -174,7 +176,6 @@ const LocationScreen = () => {
                     showsTraffic={true}
                     showsUserLocation={true}
                     showsMyLocationButton={false}
-
                 />
 
                 <TouchableOpacity
@@ -199,7 +200,7 @@ const LocationScreen = () => {
 
                 {/* pin image */}
                 <Animated.Image
-                    source={require('../../../assets/pin.png')}
+                    source={img.pin}
                     style={[
                         styles.pin,
                         {

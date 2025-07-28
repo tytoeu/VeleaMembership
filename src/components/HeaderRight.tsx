@@ -1,11 +1,11 @@
-import { Ionicons } from '@expo/vector-icons'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
-import React, { useEffect } from 'react'
-import { actionNavigate } from '../redux/temp'
 import { changeDarkModeAction, setNotificationCount } from '../redux/cache'
-import useMenu from '../hooks/useMenu'
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { IItemInCart } from '../hooks/interface/IMenu'
+import { actionNavigate } from '../redux/temp'
+import { Ionicons } from '@expo/vector-icons'
+import React, { useEffect } from 'react'
+import useMenu from '../hooks/useMenu'
 
 interface IProp {
     isCart?: boolean;
@@ -20,9 +20,15 @@ const HeaderRight = (prop: IProp) => {
     const nav = useAppNavigation()
     const dispatch = useAppDispatch()
 
+    const countQuality = () => {
+        if (!auth || !Array.isArray(data)) return 0;
+        return data.reduce((sum, { qty = 0 }) => sum + qty, 0);
+    }
+
     useEffect(() => {
         listCartInfiniteQuery.refetch()
     }, [auth])
+
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 15 }}>
             <TouchableOpacity style={[styles.icon_bage, { backgroundColor: theme.bgDark }]} onPress={() => dispatch(changeDarkModeAction())}>
@@ -44,7 +50,7 @@ const HeaderRight = (prop: IProp) => {
                 <Ionicons name='cart-outline' color={theme.btnColor} size={20} onPress={() => {
                     nav.navigate('cart-list')
                 }} />
-                <Text style={styles.count}>{data.length > 9 ? `9+` : data?.length || 0}</Text>
+                <Text style={styles.count}>{countQuality() || 0}</Text>
             </View>}
 
             <View style={[styles.icon_bage, { backgroundColor: theme.bgDark }]}>

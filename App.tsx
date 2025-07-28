@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
 import "./global.css"
 import 'react-native-get-random-values';
+import useDeepLinking from './src/hooks/useDeepLinking';
+import { Loading } from './src/components';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -22,6 +24,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  const { linking } = useDeepLinking()
 
   const [fontsLoaded] = useFonts({
     R400: require('./assets/fonts/roboto-regular.ttf'),
@@ -48,7 +51,7 @@ export default function App() {
 
             <QueryClientProvider client={queryClient}>
 
-              <NavigationContainer>
+              <NavigationContainer linking={linking} fallback={<Loading />}>
                 <AppNavigation />
               </NavigationContainer>
 

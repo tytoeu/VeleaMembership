@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { assets } from '../../assets';
 import { useAppSelector } from '.';
+import { Alert } from 'react-native';
 
 const apiConfig = assets.config
 const STALE_TIME = 1000 * 60 * 5 // 5mn
@@ -20,6 +21,12 @@ const useHistoryTransaction = (type?: string) => {
         return await response.json();
     };
 
+    const fetchOrderDetail = async ({ id }: { id: number }) => {
+        const url = `${apiConfig.api}order/detail?id=${auth?.id}&orderId=${id}`;
+        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        return await response.json();
+    }
+
     // Infinite Query for Pagination
     const infiniteQuery = useInfiniteQuery({
         initialPageParam: 1,
@@ -29,8 +36,14 @@ const useHistoryTransaction = (type?: string) => {
         getNextPageParam: (lastPage, allPages) => ((!lastPage || lastPage?.data?.length === 0) ? undefined : allPages?.length + 1)
     });
 
+    const fetchOrderDetailMutation = useMutation({
+        mutationFn: fetchOrderDetail,
+        onError: (error) => Alert.alert('Error', 'Something went wrong! ' + error?.message)
+    });
+
     return {
-        infiniteQuery
+        infiniteQuery,
+        fetchOrderDetailMutation
     };
 };
 

@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
 import { View, Text, ScrollView, Image, ActivityIndicator, Alert, Pressable, RefreshControl } from 'react-native'
+import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
 import { Authorization, MenuNavigation } from '../components'
 import { ToastMessage } from '../components/ToastMessage'
 import * as DocumentPicker from 'expo-document-picker';
@@ -13,6 +13,7 @@ import { StatusBar } from 'expo-status-bar'
 import styles from '../util/style/Style'
 import useAuth from '../hooks/useAuth'
 import i18n from '../localization'
+import { actionNavigate } from '../redux/temp';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 
@@ -38,6 +39,9 @@ const AccountScreen = () => {
     }
 
     const pickDocument = async () => {
+        if (!auth) {
+            return ToastMessage('Please login first')
+        }
         let result = await DocumentPicker.getDocumentAsync({
             multiple: false,
             type: 'image/*',
@@ -90,8 +94,6 @@ const AccountScreen = () => {
         </View>
     }
 
-    if (!auth) { return (<Authorization navigate='Account' />) }
-
     if (isPending) {
         return <View style={[{ backgroundColor: theme.background }, styles.container]}>
             <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
@@ -111,14 +113,14 @@ const AccountScreen = () => {
                         <Image source={{ uri: data?.membership.avatar }} style={history_style.profile} />
                         :
                         <Ionicons name='person-circle-outline' style={history_style.profile} size={65} color={theme.colorText} />}
-                    <Text style={[history_style.name_text, { color: theme.color }]}>{data?.membership?.name}</Text>
+                    <Text style={[history_style.name_text, { color: theme.color }]}>{data?.membership?.name ?? 'Guest'}</Text>
                 </Pressable>
 
-                <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
+                {auth && <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
                     <MenuNavigation text={i18n.t('Personal information')} icon='person-outline' onPress={() => navigation.navigate('personal-info', { membership: data?.membership })} />
                     <MenuNavigation text={i18n.t('Change password')} icon='key-outline' onPress={() => navigation.navigate('change-password')} />
                     <MenuNavigation text={i18n.t('Location')} icon='location-outline' disabledborderBottom={true} onPress={() => navigation.navigate('location', { item: null })} />
-                </View>
+                </View>}
 
                 <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
                     <MenuNavigation text={i18n.t('Dark mode')} icon='moon-outline' option={currentTheme == 'dark' ? i18n.t('On') : i18n.t('Off')} onPress={() => navigation.navigate('DarkMode')} />
@@ -126,13 +128,20 @@ const AccountScreen = () => {
                 </View>
 
                 <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
-                    <MenuNavigation text={i18n.t('term-condition')} icon='document-text-outline' onPress={() => navigation.navigate('term')} />
-                    <MenuNavigation text={i18n.t('Delete Account')} icon='trash-outline' disabledborderBottom={true} onPress={() => navigation.navigate('personal-info', { membership: data?.membership })} />
+                    <MenuNavigation text={i18n.t('term-condition')} icon='document-text-outline' disabledborderBottom={auth ? false : true} onPress={() => navigation.navigate('term')} />
+                    {auth && <MenuNavigation text={i18n.t('Delete Account')} icon='trash-outline' disabledborderBottom={true} onPress={() => navigation.navigate('personal-info', { membership: data?.membership })} />}
                 </View>
 
-                <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
-                    <MenuNavigation text={i18n.t('Logout')} icon='exit-outline' disabledborderBottom={true} onPress={handleLogout} />
-                </View>
+                {auth ?
+                    <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
+                        <MenuNavigation text={i18n.t('Logout')} icon='exit-outline' disabledborderBottom={true} onPress={handleLogout} />
+                    </View> :
+                    <View style={[history_style.card, { backgroundColor: theme.bgDark }]}>
+                        <MenuNavigation text={i18n.t('Login')} icon='key-outline' disabledborderBottom={true} onPress={() => {
+                            navigation.navigate('Login')
+                            dispatch(actionNavigate('Account'))
+                        }} />
+                    </View>}
             </View>
 
         </ScrollView>

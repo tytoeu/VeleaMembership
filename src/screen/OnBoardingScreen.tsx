@@ -6,6 +6,7 @@ import styles from '../util/style/Style';
 import React, { useEffect } from 'react'
 import useDashbaord from '../hooks/useDashbaord';
 import { IOnboard } from '../hooks/interface/IDashboard';
+import { Loading } from '../components';
 
 const OnBoardingScreen = () => {
     const { theme, currentTheme } = useAppSelector((state) => state.cache)
@@ -13,13 +14,9 @@ const OnBoardingScreen = () => {
     const dispatch = useAppDispatch()
     const { onboard } = useDashbaord()
 
-    const data: IOnboard[] = onboard.data || [];
+    const data: IOnboard[] = onboard.data?.onboard || [];
 
-    useEffect(() => {
-        onboard.mutate()
-    }, [])
-
-    const onboardingData = data.map(item => ({
+    const onboardingData = !onboard.isLoading && data.map(item => ({
         backgroundColor: '#fff',
         title: item.title,
         subtitle: item.description,
@@ -74,11 +71,12 @@ const OnBoardingScreen = () => {
         />
     );
 
+    if (onboard.isLoading) return <Loading />
 
     return (
         <View style={{ flex: 1 }}>
             <StatusBar barStyle={'light-content'} translucent backgroundColor="transparent" />
-            {onboardingData.length && <Onboarding
+            {onboardingData && <Onboarding
                 pages={onboardingData}
                 onDone={() => { navigation.navigate('BottomTab'); dispatch(onBoardingDoneAction(true)) }}
                 onSkip={() => navigation.navigate('BottomTab')}

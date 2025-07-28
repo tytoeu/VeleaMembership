@@ -55,15 +55,15 @@ const topup_style = StyleSheet.create({
         paddingVertical: 10,
         margin: 10,
         width: WIDTH - 40,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
 
-        elevation: 5,
+        // elevation: 5,
         borderRadius: 10
     },
     pay_now: {

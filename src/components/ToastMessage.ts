@@ -10,7 +10,7 @@ export const ToastMessage = (message: string, color?: string, bgColor?: string):
         delay: 0,
         backgroundColor: bgColor || 'black',
         textColor: color || '#fff',
-        textStyle: { fontSize: 14, paddingHorizontal: 8 }
+        textStyle: { fontSize: 12, paddingHorizontal: 8, lineHeight: 22 }
     });
     return toast;
 }

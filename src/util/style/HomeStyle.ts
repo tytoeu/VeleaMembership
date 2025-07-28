@@ -4,7 +4,8 @@ const home_style = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        width: '100%'
     },
     credit_card: {
         width: '90%',
