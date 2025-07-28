@@ -1,6 +1,6 @@
 import Animated, { Easing, FadeInDown } from 'react-native-reanimated'
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Alert, Pressable } from 'react-native'
+import React, { useRef, useState } from 'react'
 import MapView from 'react-native-maps'
 import { HEIGHT } from '../helpers'
 import { ITeamOrder } from '../hooks/interface/IItem'
@@ -8,6 +8,8 @@ import { useRoute } from '@react-navigation/native'
 import StepIndicator from 'react-native-step-indicator';
 import { assets } from '../../assets'
 import { useAppNavigation, useAppSelector } from '../hooks'
+import { captureRef } from 'react-native-view-shot';
+import * as MediaLibrary from 'expo-media-library';
 
 const labels = ["Approval", "Processing", "Shipping", "Delivery", "Tracking"];
 
@@ -58,6 +60,32 @@ const ReportOrder = () => {
     const borderBottom = { borderBottomWidth: 1, borderBottomColor: theme.border }
     const nav = useAppNavigation()
 
+    const viewRef = useRef(null);
+
+    const handleSave = async () => {
+        try {
+            // Ask permission to access media
+            const { status } = await MediaLibrary.requestPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert('Permission denied', 'Cannot save image without permission.');
+                return;
+            }
+
+            // Capture view as image
+            const uri = await captureRef(viewRef, {
+                format: 'png',
+                quality: 1,
+            });
+
+            // Save to device gallery
+            await MediaLibrary.saveToLibraryAsync(uri);
+            Alert.alert('Saved', 'Order saved to gallery!');
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error', 'Failed to save the image.');
+        }
+    };
+
     return (
         <View className='flex-1 dark:bg-black'>
             <ScrollView
@@ -101,73 +129,78 @@ const ReportOrder = () => {
                         />
                     </View>
 
-                    <Animated.View className='h-32 my-5 flex-row rounded-lg self-center items-center p-8' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
-                        <View style={{ width: 80, height: 80 }}>
-                            <Image
-                                source={img.deliveryMan}
-                                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                            />
-                        </View>
-                        <View className='ml-5'>
-                            <Text className='color-slate-500 dark:color-slate-100 font-semibold'>Delivery Time</Text>
-                            <Text className='color-slate-950 dark:color-slate-50 text-sm font-bold mt-2'>{orderItem.orderStatus} - {orderItem.orderDate}</Text>
-                        </View>
-                    </Animated.View>
+                    <Pressable onPress={() => nav.navigate('map-tracking')}>
+                        <Animated.View className='h-32 my-5 flex-row rounded-lg self-center items-center p-8' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
+                            <View style={{ width: 80, height: 80 }}>
+                                <Image
+                                    source={img.deliveryMan}
+                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                />
+                            </View>
+                            <View className='ml-5'>
+                                <Text className='color-slate-500 dark:color-slate-100 font-semibold'>Delivery Time</Text>
+                                <Text className='color-slate-950 dark:color-slate-50 text-sm font-bold mt-2'>{orderItem.orderStatus} - {orderItem.orderDate}</Text>
+                            </View>
+                        </Animated.View>
+                    </Pressable>
 
-                    <Animated.Text entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='text-lg font-bold dark:color-slate-50 color-slate-900 mt-5'>Summary</Animated.Text>
-                    <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mt-2 p-4 rounded-lg' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
-                        <View className='flex-row justify-between items-center'>
-                            <Text className='color-slate-700 dark:color-slate-300'>ORDER ID</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.orderNo}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Payment Status</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium' style={{ color: orderItem.payStatus === 'Paid' ? 'green' : 'red' }}>{orderItem.payStatus}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Delivery Type</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.deliveryType}</Text>
-                        </View>
-                    </Animated.View>
+                    <View ref={viewRef} collapsable={false}>
+                        <Animated.Text entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='text-lg font-bold dark:color-slate-50 color-slate-900 mt-5'>Summary</Animated.Text>
+                        <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mt-2 p-4 rounded-lg' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
+                            <View className='flex-row justify-between items-center'>
+                                <Text className='color-slate-700 dark:color-slate-300'>ORDER ID</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.orderNo}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Payment Status</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium' style={{ color: orderItem.payStatus === 'Paid' ? 'green' : 'red' }}>{orderItem.payStatus}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Delivery Type</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.deliveryType}</Text>
+                            </View>
+                        </Animated.View>
 
-                    <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mb-4 pt-3 px-4 rounded-lg' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
-                        <View className='flex-row justify-between items-center'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Sub Total</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>${orderItem.subTotal}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Delivery Fee</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>+${orderItem.deliveryFee}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Tax</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>+${orderItem.taxRate}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Discount ({orderItem.applyType})</Text>
-                            <Text className='font-medium' style={{ color: '#b91c1c' }}>-${orderItem.discount}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mt-2 mb-4'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Grand Total</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>${orderItem.grandTotal}</Text>
-                        </View>
-                    </Animated.View>
+                        <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mb-4 pt-3 px-4 rounded-lg' style={{ width: '100%', borderBottomWidth: 1, borderBottomColor: theme.brInput }}>
+                            <View className='flex-row justify-between items-center'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Sub Total</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>${orderItem.subTotal}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Delivery Fee</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>+${orderItem.deliveryFee}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Tax</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>+${orderItem.taxRate}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Discount ({orderItem.applyType})</Text>
+                                <Text className='font-medium' style={{ color: '#b91c1c' }}>-${orderItem.discount}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mt-2 mb-4'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Grand Total</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>${orderItem.grandTotal}</Text>
+                            </View>
+                        </Animated.View>
 
-                    <Animated.Text entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='text-lg font-bold dark:color-slate-50 color-slate-900'>Contact Information</Animated.Text>
-                    <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mt-2 mb-4 p-4 rounded-lg'>
-                        <View className='flex-row justify-between items-center mb-5'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Name</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium uppercase'> {orderItem.deliveryName}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center mb-5'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Phone Number</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.phoneNumber}</Text>
-                        </View>
-                        <View className='flex-row justify-between items-center'>
-                            <Text className='color-slate-700 dark:color-slate-300'>Delivery to</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.shipAddress}</Text>
-                        </View>
-                    </Animated.View>
+                        <Animated.Text entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='text-lg font-bold dark:color-slate-50 color-slate-900'>Contact Information</Animated.Text>
+                        <Animated.View entering={FadeInDown.duration(800).delay(150).easing(Easing.ease)} className='mt-2 mb-4 p-4 rounded-lg'>
+                            <View className='flex-row justify-between items-center mb-5'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Name</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium uppercase'> {orderItem.deliveryName}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center mb-5'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Phone Number</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.phoneNumber}</Text>
+                            </View>
+                            <View className='flex-row justify-between items-center'>
+                                <Text className='color-slate-700 dark:color-slate-300'>Delivery to</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-medium'>{orderItem.shipAddress}</Text>
+                            </View>
+                        </Animated.View>
+                    </View>
+
                 </Animated.View>
             </ScrollView>
             <TouchableOpacity

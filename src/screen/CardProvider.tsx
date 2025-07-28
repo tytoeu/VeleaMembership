@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Image, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Linking } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, FlatList, Image, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, Linking, Alert } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Button, MD3Colors, ProgressBar } from 'react-native-paper';
 import useLinkCard from '../hooks/useLinkCard';

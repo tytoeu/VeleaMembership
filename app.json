@@ -27,7 +27,8 @@
       "requireFullScreen": true,
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to take photos or scan QR codes.",
-        "NSLocationWhenInUseUsageDescription": "Allow location access to show nearby services and improve your experience."
+        "NSLocationWhenInUseUsageDescription": "Allow location access to show nearby services and improve your experience.",
+        "NSPhotoLibraryAddUsageDescription": "This app needs access to save invoices to your photo library."
       },
       "config": {
         "googleMapsApiKey": "AIzaSyDDvgbNZmbsMcwl2XxYdqo8VFO6XG61xkw"
@@ -41,7 +42,10 @@
       "package": "com.velea.asia",
       "googleServicesFile": "./google-services.json",
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ],
       "config": {
         "usesNonExemptEncryption": false,

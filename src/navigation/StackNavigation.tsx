@@ -6,6 +6,7 @@ import {
     Desposit,
     ItemDetail,
     Location,
+    MapTracking,
     NotificationScreen,
     OnBoardingScreen,
     OrderSuccess,
@@ -157,6 +158,10 @@ const StackNavigation = () => {
                 headerLeft: () => null,
             }} />
             <Stack.Screen name='location' component={Location} options={{
+                title: i18n.t('Location'),
+                headerShown: false
+            }} />
+            <Stack.Screen name='map-tracking' component={MapTracking} options={{
                 title: i18n.t('Location'),
                 headerShown: false
             }} />
