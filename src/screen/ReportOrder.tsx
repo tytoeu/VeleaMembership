@@ -1,8 +1,6 @@
 import Animated, { Easing, FadeInDown } from 'react-native-reanimated'
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Alert, Pressable } from 'react-native'
-import React, { useRef, useState } from 'react'
-import MapView from 'react-native-maps'
-import { HEIGHT } from '../helpers'
+import { View, Text, ScrollView, Image, TouchableOpacity, Alert, Pressable } from 'react-native'
+import React, { useRef } from 'react'
 import { ITeamOrder } from '../hooks/interface/IItem'
 import { useRoute } from '@react-navigation/native'
 import StepIndicator from 'react-native-step-indicator';
@@ -10,8 +8,6 @@ import { assets } from '../../assets'
 import { useAppNavigation, useAppSelector } from '../hooks'
 import { captureRef } from 'react-native-view-shot';
 import * as MediaLibrary from 'expo-media-library';
-
-const labels = ["Approval", "Processing", "Shipping", "Delivery", "Tracking"];
 
 const img = assets.img
 
@@ -60,6 +56,8 @@ const ReportOrder = () => {
     const borderBottom = { borderBottomWidth: 1, borderBottomColor: theme.border }
     const nav = useAppNavigation()
 
+    const labels = orderItem.statusText?.split(',').map(status => status.trim()) || [];
+
     const viewRef = useRef(null);
 
     const handleSave = async () => {
@@ -97,21 +95,21 @@ const ReportOrder = () => {
                         {orderItem.itemDetail.map((item, index) => {
                             const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item.image}`
                             return (
-                                <View key={index} className='flex-row mb-4  rounded items-center ' style={borderBottom}>
-                                    <View className=' dark:bg-white/10 bg-black/10 ml-2 rounded justify-center items-center' style={{ width: 60, height: 60 }}>
+                                <View key={index} className='flex-row mb-4  rounded items-center '>
+                                    <View className=' dark:bg-white/10 bg-black/10 ml-2 rounded justify-center items-center' style={{ width: 65, height: 65 }}>
                                         <Image
                                             source={{ uri: image }}
                                             style={{ width: '90%', height: '90%', objectFit: 'contain', borderRadius: 8, overflow: 'hidden' }}
                                         />
                                     </View>
                                     <View className='ml-5 flex-col justify-between'>
-                                        <Text className='dark:color-white font-bold'>{locale == 'en' ? item.itemNameEn : item.itemNameKh}</Text>
+                                        <Text className='dark:color-white font-bold' numberOfLines={1}>{locale == 'en' ? item.itemNameEn : item.itemNameKh}</Text>
                                         <View className='flex-row items-center justify-between' style={{ width: '90%' }}>
                                             <View className='flex-row items-center'>
                                                 <Text className='font-bold color-orange-600'>{item.priceAfterDiscount}$</Text>
                                                 {/* <Text className='font-bold color-slate-500 text-sm ml-3 line-through'>{item.total}$</Text> */}
                                             </View>
-                                            <View className='justify-center items-center' style={{ width: 24, height: 24, borderRadius: 50, backgroundColor: '#fb923c', overflow: 'hidden' }}>
+                                            <View className='justify-center items-center' style={{ width: 20, height: 20, marginRight: 16, marginVertical: 3, borderRadius: 50, backgroundColor: '#fb923c', overflow: 'hidden' }}>
                                                 <Text className='color-orange-800 font-bold text-sm'>{item.qty}</Text>
                                             </View>
                                         </View>
@@ -124,8 +122,9 @@ const ReportOrder = () => {
                     <View className='my-5'>
                         <StepIndicator
                             customStyles={customStyles}
-                            currentPosition={4}
+                            currentPosition={orderItem.statusNumber}
                             labels={labels}
+                            stepCount={labels.length}
                         />
                     </View>
 
@@ -153,7 +152,7 @@ const ReportOrder = () => {
                             </View>
                             <View className='flex-row justify-between items-center mt-2'>
                                 <Text className='color-slate-700 dark:color-slate-300'>Payment Status</Text>
-                                <Text className='color-slate-800 dark:color-slate-100 font-medium' style={{ color: orderItem.payStatus === 'Paid' ? 'green' : 'red' }}>{orderItem.payStatus}</Text>
+                                <Text className='color-slate-800 dark:color-slate-100 font-bold' style={{ color: orderItem.payStatus === 'Paid' ? 'green' : 'red' }}>{orderItem.payStatus}</Text>
                             </View>
                             <View className='flex-row justify-between items-center mt-2'>
                                 <Text className='color-slate-700 dark:color-slate-300'>Delivery Type</Text>
@@ -205,7 +204,7 @@ const ReportOrder = () => {
             </ScrollView>
             <TouchableOpacity
                 activeOpacity={0.8}
-                className='bg-orange-700 py-3 rounded-lg justify-center items-center mx-4'
+                className='bg-orange-700 py-3 rounded-lg justify-center bottom-5 items-center mx-4'
                 onPress={() => nav.navigate('Home')}
             >
                 <Text className='color-white font-bold'>Go Home</Text>

@@ -328,7 +328,7 @@ const ReviewPayment = () => {
 
     return (
         <View className='flex-1 dark:bg-black'>
-            <Animated.ScrollView className='p-4' onScroll={Animated.event(
+            <Animated.ScrollView showsVerticalScrollIndicator={false} className='p-4' onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                 { useNativeDriver: true }
             )}>
@@ -362,12 +362,33 @@ const ReviewPayment = () => {
                 </Pressable>
 
                 <Animated.Text className='text-lg font-bold dark:color-slate-50 color-slate-900' style={animatedStyle}>Summary Cart</Animated.Text>
-                <Animated.View className='mt-2 mb-4 bg-white dark:bg-white/10 p-4 rounded-lg' style={animatedStyle}>
-                    {data.map((item, index) => (
-                        <View key={index} className='flex-row justify-between items-center mb-2'>
-                            <Text className='color-slate-700 dark:color-slate-300'>{locale == 'en' ? item.itemNameEn : item.itemNameKh} ({item.qty} x ${item.priceAfterDis})</Text>
-                            <Text className='color-slate-800 dark:color-slate-100 font-medium'>${item.total}</Text>
-                        </View>))}
+                <Animated.View className='mt-2 mb-4' style={animatedStyle}>
+                    {data.map((item, index) => {
+                        const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item.image}`
+                        return (<View key={index} className='flex-row mb-4  rounded items-center '>
+                            <View className=' dark:bg-white/10 bg-black/10 ml-2 rounded justify-center items-center' style={{ width: 60, height: 65 }}>
+                                <Image
+                                    source={{ uri: image }}
+                                    style={{ width: '90%', height: '90%', objectFit: 'contain', borderRadius: 8, overflow: 'hidden' }}
+                                />
+                            </View>
+                            <View className='ml-5 flex-col justify-between'>
+                                <Text className='dark:color-white font-bold' numberOfLines={1}>{locale == 'en' ? item.itemNameEn : item.itemNameKh}</Text>
+                                <View className='flex-row items-center justify-between' style={{ width: '90%' }}>
+                                    <View className='flex-row items-center'>
+                                        <Text className='font-bold color-orange-600'>{item.priceAfterDis}$</Text>
+                                        {/* <Text className='font-bold color-slate-500 text-sm ml-3 line-through'>{item.total}$</Text> */}
+                                    </View>
+                                    <View className='justify-center items-center' style={{ width: 20, height: 20, borderRadius: 50, marginRight: 20, marginVertical: 5, backgroundColor: '#ea580c', overflow: 'hidden' }}>
+                                        <Text className='color-white font-bold text-sm'>{item.qty}</Text>
+                                    </View>
+                                </View>
+                                <Text className='dark:color-white text-sm mb-3 font-semibold'>{item.additionalName !== " " ? item.additionalName : 'No description'}</Text>
+                            </View>
+                        </View>)
+                    })}
+
+
                 </Animated.View>
 
                 <Animated.Text className='text-lg font-bold dark:color-slate-50 color-slate-900' style={animatedStyle}>Summary</Animated.Text>
@@ -441,11 +462,11 @@ const ReviewPayment = () => {
                 <View style={{ height: 20 }} />
             </Animated.ScrollView>
 
-            <View style={{ height: 80, backgroundColor: theme.background }}>
+            <View style={{ height: 50, backgroundColor: theme.background }}>
                 <TouchableOpacity
                     onPress={payAction}
                     disabled={loading}
-                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
+                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
                     {loading || isPeding ?
                         <Loader barColor='#FFF' /> :
                         <Text className='font-bold text-lg color-slate-50'>Place Order</Text>}
@@ -478,7 +499,6 @@ const ReviewPayment = () => {
                             </TouchableOpacity>
                         )}
                     />
-                    <View style={{ height: 30 }} />
                 </View>
             </ModalSheetBottom>
 
@@ -525,7 +545,6 @@ const ReviewPayment = () => {
                             <Text className='color-slate-800 dark:color-slate-100 font-semibold ms-3'>Add Location</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: 50 }} />
                 </View>
             </ModalSheetBottom>
 
@@ -561,7 +580,7 @@ const ReviewPayment = () => {
                             </TouchableOpacity>
                         )}
                     />
-                    <View style={{ height: 30 }} />
+
                 </View>
             </ModalSheetBottom>
 

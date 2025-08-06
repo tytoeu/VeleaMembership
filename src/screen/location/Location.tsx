@@ -260,7 +260,7 @@ const LocationScreen = () => {
                 <TouchableOpacity
                     disabled={postAddressMutation.isPending}
                     onPress={savedAddress}
-                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-10 h-14 items-center justify-center rounded-xl'>
+                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
                     {postAddressMutation.isPending ? <ActivityIndicator size={'small'} color={'#999'} /> : <Text className='font-bold text-lg color-slate-50'>Save</Text>}
                 </TouchableOpacity>
             </View>

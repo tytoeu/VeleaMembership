@@ -1,9 +1,9 @@
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { useAppSelector } from '../hooks'
+import { useAppNavigation, useAppSelector } from '../hooks'
 import MultiCheckbox from '../components/MultiCheckbox'
-import { Layout, Loader, Size } from '../components'
+import { AlertBox, Layout, Loader, Size } from '../components'
 import { TextInput } from 'react-native-paper'
 import styles from '../util/style/Style'
 import i18n from '../localization'
@@ -40,6 +40,11 @@ const ItemDetail = () => {
     const { qty, total, increment, decrement, selectSize, selectedPrice } = useItemQuantity(item.itemPrices);
     const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item?.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item?.image}`
     const { postAddToCartMutation, listCartInfiniteQuery } = useMenu()
+    const [state, setState] = useState({
+        isAlert: false
+    })
+
+    const nav = useAppNavigation()
 
     const AddToCardAction = () => {
         const dataJson: IItemAdd = {
@@ -65,7 +70,7 @@ const ItemDetail = () => {
             onSuccess: (data) => {
                 if (data?.status) {
                     listCartInfiniteQuery.refetch();
-                    ToastMessage('Item added to cart successfully!');
+                    setState({ ...state, isAlert: true })
                 } else {
                     ToastMessage('Failed to add item to cart: ' + data?.message);
                 }
@@ -78,7 +83,23 @@ const ItemDetail = () => {
     }
 
     return (
-        <View className='flex-1 dark:bg-black'>
+        <View className='flex-1 dark:bg-black bg-white'>
+            <AlertBox
+                visible={state.isAlert}
+                onPress={() => {
+                    setState({ ...state, isAlert: false })
+                    nav.navigate('cart-list')
+                }}
+                onReject={() => {
+                    setState({ ...state, isAlert: false })
+                    nav.navigate('Menu')
+                }}
+                onClose={() => setState({ ...state, isAlert: false })}
+                message='Do you want to shopping or place now?'
+                bottonText='Continue'
+                rejectText='Shopping'
+                title='Success'
+            />
             <Layout>
                 <View className='w-96 h-96 self-center items-center relative mb-3'>
                     {item.image ? <Image
@@ -163,7 +184,7 @@ const ItemDetail = () => {
             <TouchableOpacity
                 onPress={AddToCardAction}
                 disabled={postAddToCartMutation.isPending}
-                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
+                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
                 {postAddToCartMutation.isPending ?
                     <Loader barColor='#FFF' />
                     :

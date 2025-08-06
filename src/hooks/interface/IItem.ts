@@ -59,6 +59,8 @@ export interface ITeamOrder {
     deliveryName: string;
     phoneNumber: string;
     orderNo: string;
+    statusNumber: number;
+    statusText: string;
     itemDetail: ItemDetail[]
 }
 

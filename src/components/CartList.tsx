@@ -23,11 +23,11 @@ const CartList: React.FC<IProp> = ({
     const image = item?.package == 1 ? `${assets.config.prxxy}${assets.config.imagePath}item-package/${item.image}` : `${assets.config.prxxy}${assets.config.imagePath}item/${item.image}`
 
     return (
-        <View style={[styles.item_card, { backgroundColor: theme.bgDark }]}>
+        <View style={[styles.item_card]}>
             <View style={{
                 width: 90,
                 height: 80,
-                backgroundColor: '#f1f1f1',
+                backgroundColor: theme.bgDark,
                 borderRadius: 8,
                 justifyContent: 'center',
                 alignItems: 'center'

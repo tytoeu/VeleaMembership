@@ -35,7 +35,7 @@ const useOrder = (data: IItemInCart[]) => {
         return (tax + deliveryFee + totalSub) - discountAmount;
     }
 
-    const subTotalItemNotDiscount = () => {
+    const subTotalItemNotDiscount = (): number => {
         return data.reduce((total, item) => {
             // If itemDisType is not 'None', skip this item
             if (item.itemDisType !== 'None') {
@@ -157,7 +157,6 @@ const useOrder = (data: IItemInCart[]) => {
     const fetchSummery = async ({ addressId }: { addressId: number }) => {
         const url = `${appConfig.api}order/get-summary?addressId=${addressId}&membershipId=${auth?.id}&subTotal=${subTotal().toFixed(2)}`;
         const response = await fetch(url, { method: 'GET', headers: headerOptions });
-        console.log(url)
         return await response.json();
     };
 

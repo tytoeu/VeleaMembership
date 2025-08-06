@@ -46,7 +46,10 @@ const useLocation = () => {
 
         modalRef.current?.close()
 
-        let location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.High,
+            timeInterval: 5000
+        });
         goTo(location.coords.latitude, location.coords.longitude)
 
         setRegion({

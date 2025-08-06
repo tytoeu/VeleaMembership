@@ -21,8 +21,11 @@ export default function MapTracking() {
             const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') return;
 
-            console.log('loading')
-            const loc = await Location.getCurrentPositionAsync({});
+            const loc = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.High,
+                timeInterval: 5000
+            });
+            console.log(loc)
             setCustomerLoc({
                 latitude: loc.coords.latitude,
                 longitude: loc.coords.longitude,

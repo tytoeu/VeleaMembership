@@ -1,8 +1,8 @@
 import { View, FlatList, Dimensions, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import React from 'react'
 import { useAppNavigation, useAppSelector } from '../hooks';
 const WIDTH = Dimensions.get('screen').width;
-const CARD_WIDTH = WIDTH - 40;
+const CARD_WIDTH = Math.floor(WIDTH - 40);
+import React from 'react'
 
 interface IProp {
     data: Item[]
@@ -23,25 +23,31 @@ interface Item {
 const SlidePromotion = (prop: IProp) => {
     const { theme } = useAppSelector(state => state.cache)
     const nav = useAppNavigation()
+    const centerIndex = Math.floor(prop.data.length / 2);
     return (
         <View>
             <FlatList
                 horizontal
                 pagingEnabled
-                snapToInterval={CARD_WIDTH + 10}
                 decelerationRate="fast"
+                snapToInterval={CARD_WIDTH + 10}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 20 }}
-                ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-                data={prop.data}
+                contentContainerStyle={{ paddingHorizontal: 20, gap: 10 }}
                 keyExtractor={(item, index) => index.toString()}
+                data={prop.data}
+                initialScrollIndex={centerIndex}
+                getItemLayout={(data, index) => ({
+                    length: CARD_WIDTH,
+                    offset: CARD_WIDTH * index,
+                    index,
+                })}
                 renderItem={({ item, index }) => {
                     return (<TouchableOpacity
                         onPress={() => nav.navigate('promotion', { item })}
                         activeOpacity={0.8} style={[styles.card_container, { backgroundColor: theme.bgDark }]}>
                         <Image
-                            source={{ uri: item.slide }}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            source={{ uri: item.slide }} // size 1113px X 600px
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                     </TouchableOpacity>)
                 }}
@@ -51,12 +57,6 @@ const SlidePromotion = (prop: IProp) => {
 }
 
 const styles = StyleSheet.create({
-    card_body: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        height: '100%'
-    },
     card_container: {
         height: 200,
         borderRadius: 12,

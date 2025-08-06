@@ -26,7 +26,7 @@ const ItemLayout: FC<IProp> = ({ data }) => {
     const nav = useAppNavigation()
 
     return (
-        <View className='mx-5 mt-3'>
+        <View className='mt-3'>
             <FlatList
                 data={data}
                 renderItem={({ item, index }) => {
@@ -61,6 +61,8 @@ const ItemLayout: FC<IProp> = ({ data }) => {
                 }}
                 horizontal
                 showsHorizontalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View style={{ width: 0 }} />}
+                contentContainerStyle={{ paddingHorizontal: 10 }}
             />
         </View>
     )

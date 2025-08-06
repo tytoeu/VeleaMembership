@@ -112,22 +112,25 @@ const CartListScreen = () => {
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={listCartInfiniteQuery.isRefetching} />}
                 ListEmptyComponent={ListEmptyComponent}
             />
-            <View style={{ height: 150, backgroundColor: theme.bgDark }}>
-                <View className=' w-[27.5rem] self-center justify-between rounded-xl flex-row mt-3 px-3'>
-                    <Text className='text-[14px] -tracking-wide color-slate-950 dark:color-slate-300 font-medium'>{i18n.t('total-cart')}</Text>
-                    <View>
-                        <Text className='text-lg font-bold text-right dark:color-slate-50' style={{ textAlign: 'right' }}>${totalPricesAfterDiscount.toFixed(2)}</Text>
-                        {discount && <Text className='text-sm font-normal dark:color-slate-300' style={{ textDecorationLine: 'line-through', textAlign: 'right' }}>${totalPrices.toFixed(2)}</Text>}
+            {data?.length ? (<>
+                <View style={{ height: 150, backgroundColor: theme.bgDark }}>
+                    <View className=' w-[27.5rem] self-center justify-between rounded-xl flex-row mt-3 px-3'>
+                        <Text className='text-[14px] -tracking-wide color-slate-950 dark:color-slate-300 font-medium'>{i18n.t('total-cart')}</Text>
+                        <View>
+                            <Text className='text-lg font-bold text-right dark:color-slate-50' style={{ textAlign: 'right' }}>${totalPricesAfterDiscount.toFixed(2)}</Text>
+                            {discount && <Text className='text-sm font-normal dark:color-slate-300' style={{ textDecorationLine: 'line-through', textAlign: 'right' }}>${totalPrices.toFixed(2)}</Text>}
+                        </View>
                     </View>
                 </View>
-            </View>
-            <TouchableOpacity
-                onPress={reviewPayment}
-                disabled={methodPaymentMutation.isPending}
-                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
-                {methodPaymentMutation.isPending ? <Loader barColor='#FFF' /> :
-                    <Text className='font-bold text-lg color-slate-50'>{i18n.t('Review & Pay')}</Text>}
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={reviewPayment}
+                    disabled={methodPaymentMutation.isPending}
+                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
+                    {methodPaymentMutation.isPending ? <Loader barColor='#FFF' /> :
+                        <Text className='font-bold text-lg color-slate-50'>{i18n.t('Review & Pay')}</Text>}
+                </TouchableOpacity>
+            </>) : undefined}
+
         </View>
     )
 }

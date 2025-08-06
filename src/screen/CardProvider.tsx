@@ -128,14 +128,14 @@ const CardProvider = () => {
                     fillStyle={{ borderRadius: 8 }}
                 />
 
-                <Text style={{ marginTop: 8, fontSize: 14, color: theme.color, marginBottom: 20 }}>
+                <View style={{ marginTop: 8, marginBottom: 20 }}>
                     <RenderHTML
                         contentWidth={WIDTH}
                         source={{ html: activeItem.description }}
                         tagsStyles={tagsStyles}
                         renderersProps={{ a: { onPress: (_event, href) => Linking.openURL(href) } }}
                     />
-                </Text>
+                </View>
 
             </View>
 

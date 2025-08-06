@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
     },
     item_card: {
         width: '92%',
-        backgroundColor: 'red',
         marginHorizontal: 'auto',
         marginBottom: 16,
         borderRadius: 8,

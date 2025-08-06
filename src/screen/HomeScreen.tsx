@@ -1,7 +1,7 @@
-import { Linking, Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { actionStoreTempAuth, locationSeleted, setBottomSheetRef } from '../redux/temp'
 import ModalSheetBottom, { ModalSheetBottomRef } from '../components/ModalSheetBottom'
-import { ItemLayout, Loading, MyIconComponent, SlidePromotion } from '../components'
+import { EventSlider, ItemLayout, Loading, MyIconComponent, SlidePromotion } from '../components'
 import { useAppDispatch, useAppNavigation, useAppSelector } from '../hooks'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { ILocation } from '../hooks/interface/IAddress'
@@ -11,7 +11,6 @@ import useLocation from '../hooks/useLocation'
 import useAddress from '../hooks/useAddress'
 import { StatusBar } from 'expo-status-bar'
 import MapView from 'react-native-maps'
-import useDeepLinking from '../hooks/useDeepLinking'
 
 const shadow = {
     shadowColor: "#000",
@@ -37,7 +36,8 @@ const HomeScreen = () => {
     const { data } = fetchMemberInfoMutation
 
     const { homefiniteQuery } = useDashbaord()
-    const { data: dataDeepLink } = useDeepLinking()
+    const visableTitle = homefiniteQuery.data?.items?.length ? false : true;
+    const visableEvent = homefiniteQuery.data?.events?.length ? false : true;
 
     // reload data
     const onRefresh = useCallback(() => {
@@ -96,7 +96,8 @@ const HomeScreen = () => {
         }
     }, [location, auth])
 
-    const ThemeTitle = ({ title }: { title: string }) => {
+    const ThemeTitle = ({ title, visable }: { title: string, visable: boolean }) => {
+        if (visable) return null;
         return (<View className='flex-row justify-between items-center mx-5 mt-5'>
             <Text className='color-slate-900 dark:color-slate-100 font-semibold text-xl tracking-wider'>{title}</Text>
             <Pressable>
@@ -108,7 +109,7 @@ const HomeScreen = () => {
     const SearchButton = () => {
         return (<Pressable
             onPress={() => nav.navigate('search-item')}
-            className='flex-row h-14 bg-white/60 dark:bg-white/10 items-center mb-6 mx-6 mt-3 rounded-lg px-4'>
+            className='flex-row h-14 bg-white/60 dark:bg-white/10 items-center mb-6 mx-3 mt-3 rounded-lg px-4'>
             <Ionicons name='search-outline' color={theme.colorText} size={22} />
             <Text className='ms-3 color-slate-500 dark:color-slate-400 font-medium text-sm'>Search...</Text>
         </Pressable>)
@@ -118,19 +119,23 @@ const HomeScreen = () => {
 
     return (
         <View className='flex-1 dark:bg-black'>
+            <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
             <ScrollView
                 refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={homefiniteQuery.isRefetching} />}
                 contentContainerStyle={{ backgroundColor: theme.background }} showsVerticalScrollIndicator={false}>
-                <StatusBar style={currentTheme == 'light' ? 'dark' : 'light'} />
-
                 <SearchButton />
 
                 {/* Slide */}
                 <SlidePromotion data={homefiniteQuery.data?.data} />
 
                 {/* item */}
-                <ThemeTitle title={homefiniteQuery.data?.item_title} />
+                <View style={{ height: 25 }} />
+                <ThemeTitle title={homefiniteQuery.data?.item_title} visable={visableTitle} />
                 <ItemLayout data={homefiniteQuery.data?.items} />
+
+                <View style={{ height: 30 }} />
+                <ThemeTitle title={'Event'} visable={visableEvent} />
+                <EventSlider data={homefiniteQuery.data?.events} />
 
                 <View style={{ height: 20 }} />
             </ScrollView>

@@ -1,34 +1,50 @@
-{
-    "additionals": [],
-    "barcode": "",
-    "categoryName": "Promotion",
-    "description": "Corona Extra 6+3",
-    "discountRat": 0,
-    "image": null,
-    "itemCode": "PK166",
-    "itemDisType": "Promotion",
-    "itemId": 249,
-    "itemNameEn": "Corona Extra 6+3",
-    "itemNameKh": "Corona Extra 6+3",
-    "itemPrices": [
+ Order Item: {
+    "applyType": "",
+    "deliveryFee": 0,
+    "deliveryName": "Pozz Ly KPC",
+    "deliveryType": "Delivery",
+    "discount": 0,
+    "grandTotal": 14.9,
+    "itemDetail": [
         {
-            "discountRat": 0,
-            "id": 249,
-            "itemDisType": "Promotion",
-            "price": 23.4,
-            "priceAfterDis": 23.4,
-            "remarkDiscount": "Promotion",
-            "size": "Bottle",
-            "skuSap": "PK166",
-            "typeDis": ""
+            "additionalName": " ",
+            "image": "abkg1vpoc54.jpg",
+            "itemNameEn": "Raw Beef Salad",
+            "itemNameKh": "ភ្លាសាច់គោស្រស់",
+            "priceAfterDiscount": 5.9,
+            "qty": 1,
+            "size": "M",
+            "total": 5.9
+        },
+        {
+            "additionalName": " ",
+            "image": "4wkf41fuu4d.png",
+            "itemNameEn": "Banana Blossom Salad with Beef Intestine",
+            "itemNameKh": "ញាំពោះគោត្រយ៉ូងចេក",
+            "priceAfterDiscount": 4,
+            "qty": 1,
+            "size": "M",
+            "total": 4
+        },
+        {
+            "additionalName": "",
+            "image": "z1hxwmv04ce.jpg",
+            "itemNameEn": "VELEA Khnong Jet",
+            "itemNameKh": "VELEA Khnong Jet",
+            "priceAfterDiscount": 5,
+            "qty": 1,
+            "size": "Glass",
+            "total": 5
         }
     ],
-    "package": 1,
-    "price": 23.4,
-    "priceAfterDis": 23.4,
-    "priceId": 249,
-    "size": "Bottle",
-    "skuSap": "PK166",
-    "subCategoryName": "Promotion",
-    "typeDis": ""
+    "orderDate": "2025-08-04 11: 25",
+    "orderNo": "MBSO25-00018",
+    "orderStatus": "Pending",
+    "payStatus": "Paid",
+    "phoneNumber": "0888449315",
+    "shipAddress": "88 Saint 488",
+    "statusNumber": 0,
+    "statusText": "Panding,Processing,Delivery,Completed",
+    "subTotal": 14.9,
+    "taxRate": 0
 }
