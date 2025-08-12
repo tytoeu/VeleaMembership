@@ -204,7 +204,7 @@ const ReportOrder = () => {
             </ScrollView>
             <TouchableOpacity
                 activeOpacity={0.8}
-                className='bg-orange-700 py-3 rounded-lg justify-center bottom-5 items-center mx-4'
+                className='bg-orange-700 py-3 rounded-lg justify-center bottom-0 items-center mx-4'
                 onPress={() => nav.navigate('Home')}
             >
                 <Text className='color-white font-bold'>Go Home</Text>

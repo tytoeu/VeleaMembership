@@ -64,7 +64,6 @@ const ReserveForm = () => {
 
             postBookingMutation.mutateAsync(jsonData, {
                 onSuccess: (response => {
-                    console.log(response)
                     if (response?.status) {
                         ToastMessage(response?.message)
                         usedItemsInfiniteQuery.refetch()

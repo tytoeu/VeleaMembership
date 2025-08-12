@@ -66,14 +66,21 @@ const useNotification = () => {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': ``
+                    'Authorization': appConfig.token
                 },
                 body: JSON.stringify({ "token": token, id: auth?.id ?? null })
             }
 
             const resposne = await fetch(`${appConfig.api}member/update-token`, options);
 
-            console.log(await resposne.json())
+            if (!resposne.ok) {
+                throw new Error('Failed to update token');
+            }
+            const data = await resposne.json();
+            if (data.status !== 200) {
+                throw new Error(data.message || 'Failed to update token');
+            }
+            return data;
         }
     }
 

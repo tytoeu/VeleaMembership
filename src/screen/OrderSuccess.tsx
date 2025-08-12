@@ -18,7 +18,6 @@ interface IProp {
 export default function OrderSuccess() {
     const router = useRoute()
     const { orderId, status } = router.params as IProp
-    console.log(orderId, status)
     const { } = useBackHandler()
     const { theme } = useAppSelector(state => state.cache)
     const { fetchOrderDetailMutation } = useHistoryTransaction('purchase')

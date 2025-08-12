@@ -25,7 +25,6 @@ export default function MapTracking() {
                 accuracy: Location.Accuracy.High,
                 timeInterval: 5000
             });
-            console.log(loc)
             setCustomerLoc({
                 latitude: loc.coords.latitude,
                 longitude: loc.coords.longitude,

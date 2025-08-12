@@ -1,16 +1,14 @@
-import { View, Text, FlatList, TouchableOpacity, RefreshControl, Image, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, RefreshControl } from 'react-native'
 import { useAppNavigation, useAppSelector } from '../hooks'
-import { CartList, Loader, Loading } from '../components'
+import { CartList, Loader } from '../components'
 import React, { useCallback, useState } from 'react'
 import i18n from '../localization'
 import useMenu from '../hooks/useMenu'
 import { IItemInCart, IItemInCartUpdate } from '../hooks/interface/IMenu'
 import { ToastMessage } from '../components/ToastMessage'
-import { assets } from '../../assets'
 import { Ionicons } from '@expo/vector-icons'
 
 type LoadingAction = { index: number; symbol: '+' | '-' } | null;
-const img = assets.img
 
 const CartListScreen = () => {
     const { theme } = useAppSelector(state => state.cache)
@@ -19,7 +17,6 @@ const CartListScreen = () => {
     const { listCartInfiniteQuery, updateQualityMutation, methodPaymentMutation } = useMenu();
 
     const [loadingAction, setLoadingAction] = useState<LoadingAction>(null);
-    console.log(listCartInfiniteQuery.data)
 
     const handleQtyChange = async (index: number, symbol: '+' | '-', item: IItemInCart) => {
         if (loadingAction !== null) return;
@@ -113,7 +110,7 @@ const CartListScreen = () => {
                 ListEmptyComponent={ListEmptyComponent}
             />
             {data?.length ? (<>
-                <View style={{ height: 150, backgroundColor: theme.bgDark }}>
+                <View style={{ height: 120, backgroundColor: theme.bgDark }}>
                     <View className=' w-[27.5rem] self-center justify-between rounded-xl flex-row mt-3 px-3'>
                         <Text className='text-[14px] -tracking-wide color-slate-950 dark:color-slate-300 font-medium'>{i18n.t('total-cart')}</Text>
                         <View>
@@ -125,7 +122,7 @@ const CartListScreen = () => {
                 <TouchableOpacity
                     onPress={reviewPayment}
                     disabled={methodPaymentMutation.isPending}
-                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
+                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
                     {methodPaymentMutation.isPending ? <Loader barColor='#FFF' /> :
                         <Text className='font-bold text-lg color-slate-50'>{i18n.t('Review & Pay')}</Text>}
                 </TouchableOpacity>

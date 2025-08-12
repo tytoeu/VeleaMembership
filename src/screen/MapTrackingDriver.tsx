@@ -34,7 +34,6 @@ const MapTracking = () => {
             longitude: loc.longitude,
         });
 
-        console.log(loc)
     }, [loc]);
 
     return (

@@ -105,8 +105,6 @@ const TopupScreen = () => {
             amount: data[state.isPacket]?.name ?? state.amount,
             payment: dataPayment[state.isPayment].name
         }
-
-        console.log('Topup Action:', jsonData);
     }
 
     const isComingSoon = false

@@ -1,7 +1,7 @@
 import { View, Text, Modal, Dimensions, TouchableOpacity } from 'react-native'
 import React, { FC } from 'react'
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { Easing, FadeIn } from 'react-native-reanimated';
+import Animated, { Easing, FadeInDown } from 'react-native-reanimated';
 
 interface AlertBoxProps {
     visible?: boolean;
@@ -31,7 +31,7 @@ const AlertBox: FC<AlertBoxProps> = ({
         <Modal backdropColor={'rgba(0, 0, 0, 0.3)'} visible={visible} onRequestClose={onClose ? () => onClose() : undefined}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Animated.View
-                    entering={FadeIn.duration(800).delay(100).easing(Easing.ease)}
+                    entering={FadeInDown.duration(300).delay(30).easing(Easing.ease)}
                     className='bg-white dark:bg-gray-800 pt-5 pb-2 rounded-lg shadow-lg'
                     style={{ width: BOX_WIDTH }}>
                     <TouchableOpacity onPress={onClose ? () => onClose() : undefined} style={{ position: 'absolute', right: 0, top: 0, padding: 10, zIndex: 5 }}>

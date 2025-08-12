@@ -133,9 +133,9 @@ const ReviewPayment = () => {
     })
 
     const payAction = async () => {
-        // if (!summeryData.isopen) {
-        //     return ToastMessage('Sorry! Currently our store not opened yet.')
-        // }
+        if (!summeryData.isopen) {
+            return ToastMessage('Sorry! Currently our store not opened yet.')
+        }
         setPeding(true)
 
         const { type, data: paramQuery } = await handlePay()
@@ -466,7 +466,7 @@ const ReviewPayment = () => {
                 <TouchableOpacity
                     onPress={payAction}
                     disabled={loading}
-                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
+                    className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
                     {loading || isPeding ?
                         <Loader barColor='#FFF' /> :
                         <Text className='font-bold text-lg color-slate-50'>Place Order</Text>}

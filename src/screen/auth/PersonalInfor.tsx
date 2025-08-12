@@ -104,7 +104,6 @@ const PersonalInfor = () => {
 
         deleteAccountMutation.mutateAsync(dataJson, {
             onSuccess: (data) => {
-                console.log(data)
                 if (data?.status) {
                     nav.goBack()
                     dispatch(loginAction(null))

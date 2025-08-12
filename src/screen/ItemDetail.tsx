@@ -184,7 +184,7 @@ const ItemDetail = () => {
             <TouchableOpacity
                 onPress={AddToCardAction}
                 disabled={postAddToCartMutation.isPending}
-                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-5 h-14 items-center justify-center rounded-xl'>
+                className='bg-orange-800 absolute w-[27.5rem] self-center bottom-0 h-14 items-center justify-center rounded-xl'>
                 {postAddToCartMutation.isPending ?
                     <Loader barColor='#FFF' />
                     :

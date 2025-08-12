@@ -15,10 +15,15 @@ const useRedeem = () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${auth?.access_token!}`
     };
+    const headerOptionBasic = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': appConfig.token
+    };
 
     const fetchRedeemItems = async ({ page = 1 }: { page: number }) => {
         const url = `${appConfig.api}redeem-point/fetch?id=${auth?.id}&page=${page}`;
-        const response = await fetch(url, { method: 'GET', headers: headerOptions });
+        const response = await fetch(url, { method: 'GET', headers: headerOptionBasic });
         return await response.json();
     };
 

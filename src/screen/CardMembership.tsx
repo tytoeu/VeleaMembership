@@ -1,4 +1,4 @@
-import { CriditCard, MemberCard, MenuTransaction, Promotion, PromotionCard } from '../components'
+import { CriditCard, MemberCard, MenuTransaction, PromotionCard } from '../components'
 import { useAppSelector, useBackHandler } from '../hooks'
 import home_style from '../util/style/HomeStyle'
 import { StatusBar } from 'expo-status-bar'
@@ -9,7 +9,6 @@ import styles from '../util/style/Style'
 import { ICard } from '../hooks/interface/IDashboard'
 import { useDispatch } from 'react-redux'
 import { actionStoreTempAuth } from '../redux/temp'
-import useNotification from '../hooks/useNotification'
 
 const cardObject: ICard = {
     id: 0,
@@ -28,7 +27,6 @@ const CardMembership = () => {
     const { personalChange } = useAppSelector(state => state.temp)
     const backAction = useBackHandler()
     const { fetchMemberInfoMutation, infiniteQuery } = useDashbaord()
-    const { } = useNotification()
     const dispatch = useDispatch()
 
     //extract data
@@ -63,7 +61,6 @@ const CardMembership = () => {
         infiniteQuery.refetch()
         fetchMemberInfoMutation.mutate()
         if (data?.membership) {
-            console.log('data', data?.membership)
             dispatch(actionStoreTempAuth({
                 name: data?.membership?.name ?? 'Guest',
                 phone: data?.membership?.phone!,

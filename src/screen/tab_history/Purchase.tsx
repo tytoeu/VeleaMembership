@@ -24,7 +24,6 @@ const Purchase = () => {
     const onRefresh = useCallback(() => { infiniteQuery.refetch() }, []);
 
     const fetchOrderDetail = (id: number) => {
-        console.log(id)
         if (id == null) return ToastMessage('This purchase not exist detail!')
 
         fetchOrderDetailMutation.mutateAsync({ id }, {

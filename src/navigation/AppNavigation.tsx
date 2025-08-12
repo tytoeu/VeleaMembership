@@ -1,10 +1,10 @@
-import StackNavigation from './StackNavigation'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import i18n from '../localization'
-import * as Notifications from 'expo-notifications';
-import { useEffect, useRef } from 'react';
 import { setNotificationCount } from '../redux/cache';
+import * as Notifications from 'expo-notifications';
+import StackNavigation from './StackNavigation'
 import { useColorScheme } from 'nativewind';
+import { useEffect, useRef } from 'react';
+import i18n from '../localization'
 
 const AppNavigation = () => {
   const { setColorScheme } = useColorScheme();

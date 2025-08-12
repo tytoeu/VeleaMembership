@@ -24,7 +24,6 @@ const ProcessLinkCard = () => {
         if (isRegisterCard) {
             checkCardInfoMutation.mutateAsync(data.card_number, {
                 onSuccess(response) {
-                    console.log('response', response)
                     if (response?.status) {
                         // go to type password for login
                         setTimeout(() => {
@@ -38,7 +37,6 @@ const ProcessLinkCard = () => {
                     } else {
                         // go to register card
                         setTimeout(() => {
-                            console.log(response)
                             if (response?.data?.status == true) {
                                 nav.navigate('information-card', { cardInfor: response?.data })
                             } else {

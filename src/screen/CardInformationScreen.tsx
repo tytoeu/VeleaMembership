@@ -65,7 +65,6 @@ const CardInformationScreen = () => {
 
             linkCardMutation.mutateAsync(dataJson, {
                 onSuccess(data) {
-                    console.log('Link card response:', data)
                     if (data?.status) {
                         nav.navigate('BottomTab')
                         ToastMessage(data.message)

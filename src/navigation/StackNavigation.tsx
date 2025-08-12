@@ -4,6 +4,7 @@ import {
     CardProvider,
     CartListScreen,
     Desposit,
+    EventBooking,
     ItemDetail,
     Location,
     MapTracking,
@@ -22,6 +23,7 @@ import {
     ReserveScreen,
     ReviewPayment,
     SearchItemScreen,
+    TableMapScreen,
     TopupScreen
 } from '../screen'
 import {
@@ -164,6 +166,14 @@ const StackNavigation = () => {
             <Stack.Screen name='map-tracking' component={MapTracking} options={{
                 title: i18n.t('Location'),
                 headerShown: false
+            }} />
+            <Stack.Screen name='event-booking' component={EventBooking} options={{
+                title: 'Event Booking',
+                headerShown: true
+            }} />
+            <Stack.Screen name='table-map' component={TableMapScreen} options={{
+                title: 'Event Booking',
+                headerShown: true
             }} />
 
             {/* authorization */}

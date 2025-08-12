@@ -7,6 +7,7 @@ import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { ILocation } from '../hooks/interface/IAddress'
 import { useCallback, useEffect, useRef } from 'react'
 import useDashbaord from '../hooks/useDashbaord'
+import useNotification from '../hooks/useNotification'
 import useLocation from '../hooks/useLocation'
 import useAddress from '../hooks/useAddress'
 import { StatusBar } from 'expo-status-bar'
@@ -28,6 +29,7 @@ const HomeScreen = () => {
     const { addressSeleted } = useAppSelector((state) => state.temp)
     const modalRef = useRef<ModalSheetBottomRef>(null)
     const nav = useAppNavigation()
+    const { } = useNotification()
     const dispatch = useAppDispatch()
     const { fetchMemberInfoMutation } = useDashbaord()
     const { fetchLocationInfiniteQuery } = useAddress();
@@ -36,8 +38,8 @@ const HomeScreen = () => {
     const { data } = fetchMemberInfoMutation
 
     const { homefiniteQuery } = useDashbaord()
-    const visableTitle = homefiniteQuery.data?.items?.length ? false : true;
-    const visableEvent = homefiniteQuery.data?.events?.length ? false : true;
+    const visableTitle = (homefiniteQuery.data?.items != undefined && homefiniteQuery.data?.items?.length) ? false : true;
+    const visableEvent = (homefiniteQuery.data?.events != undefined && homefiniteQuery.data?.events?.length) ? false : true;
 
     // reload data
     const onRefresh = useCallback(() => {
@@ -130,15 +132,16 @@ const HomeScreen = () => {
 
                 {/* item */}
                 <View style={{ height: 25 }} />
-                <ThemeTitle title={homefiniteQuery.data?.item_title} visable={visableTitle} />
-                <ItemLayout data={homefiniteQuery.data?.items} />
-
-                <View style={{ height: 30 }} />
                 <ThemeTitle title={'Event'} visable={visableEvent} />
                 <EventSlider data={homefiniteQuery.data?.events} />
 
+                <View style={{ height: 30 }} />
+                <ThemeTitle title={homefiniteQuery.data?.item_title} visable={visableTitle} />
+                <ItemLayout data={homefiniteQuery.data?.items} />
+
                 <View style={{ height: 20 }} />
             </ScrollView>
+
             <ModalSheetBottom
                 snapPoint={['50%']}
                 ref={modalRef}

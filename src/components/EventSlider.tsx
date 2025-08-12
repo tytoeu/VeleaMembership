@@ -1,5 +1,6 @@
 import { View, Text, Dimensions, StyleSheet, Image, TouchableOpacity, Alert, Animated } from 'react-native'
 import React, { useRef } from 'react'
+import { useAppNavigation } from '../hooks';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -16,6 +17,7 @@ interface Item {
 
 const EventSlider = ({ data }: { data: Item[] }) => {
     const scrollX = useRef(new Animated.Value(0)).current;
+    const nav = useAppNavigation();
 
     const scrollHandler = Animated.event(
         [{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -71,7 +73,7 @@ const EventSlider = ({ data }: { data: Item[] }) => {
                                 />
                             </View>
                             <TouchableOpacity
-                                onPress={() => Alert.alert('Warning', 'Booking not now !')}
+                                onPress={() => nav.navigate('table-map', { item })}
                                 className='bg-orange-700 rounded-lg p-2 mt-2'
                                 style={styles.button_booking}>
                                 <Text className='font-bold'>Booking Now</Text>

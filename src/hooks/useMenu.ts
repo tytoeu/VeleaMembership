@@ -28,7 +28,6 @@ const useMenu = () => {
     const fetchMenu = async ({ cateId, subId, page = 1, search }: { cateId?: number; subId?: number; page?: number, search: string | null }) => {
         const url = `${apiConfig.api}fetch-menu-list?cateId=${cateId}&subId=${subId}&page=${page}&search=${search}`;
         const response = await fetch(url, { method: 'GET', headers: headerOptionNonAuth });
-        console.log(url)
         return await response.json();
     };
 

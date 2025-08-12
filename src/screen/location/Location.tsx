@@ -86,7 +86,6 @@ const LocationScreen = () => {
 
         postAddressMutation.mutateAsync(jsonData, {
             onSuccess: (res) => {
-                console.log(res)
                 if (res?.status) {
                     nav.goBack()
                     fetchLocationInfiniteQuery.refetch()

@@ -44,8 +44,6 @@ const ResetPassword = () => {
                 otp_code: opt_code,
                 password: input?.password!
             }
-
-            console.log('DATA', data)
             resetPasswordMutation.mutateAsync(data, {
                 onSuccess: (data) => {
                     if (data?.status) {
